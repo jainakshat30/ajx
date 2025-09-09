@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Home, User, Briefcase, FolderOpen, Award, Mail } from "lucide-react";
+import { Home, Briefcase, FolderOpen, Award, Mail } from "lucide-react";
 
 const dockItems = [
   { icon: Home, label: "About", href: "#about" },
