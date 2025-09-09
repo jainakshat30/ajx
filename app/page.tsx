@@ -11,7 +11,6 @@ import { Dock } from "@/components/dock";
 import { SkillsDraggable } from "@/components/skills-draggable";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
-  ScrollAnimation,
   FadeInText,
   SlideUp,
   SlideInLeft,
@@ -64,7 +63,7 @@ export default function Page() {
             <SlideUp>
               <header id="about" className="space-y-2 section-lines p-4">
                 <FadeInText delay={0.1}>
-                  <p className="text-xs text-neutral-500">hi there 😊, I'm</p>
+                  <p className="text-xs text-neutral-500">hi there 😊, I&apos;m</p>
                 </FadeInText>
                 <SlideInLeft delay={0.2}>
                   <div className="flex items-center gap-3">
