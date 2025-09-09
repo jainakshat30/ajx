@@ -352,7 +352,7 @@ export default function Page() {
               <section className="mt-8 text-center p-6 border border-neutral-200 dark:border-neutral-800 rounded-lg bg-white dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition-shadow">
                 <FadeInText delay={0.1}>
                   <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
-                    {"Let's work together."}
+                    {"Lets work together."}
                   </h2>
                 </FadeInText>
                 <FadeInText delay={0.1}>
