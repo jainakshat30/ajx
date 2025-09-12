@@ -5,7 +5,7 @@ import { motion, Reorder } from "framer-motion";
 
 const skills = [
   "JavaScript", "TypeScript", "React", "Next.js", "Node.js", 
-  "Python", "PostgreSQL", "MongoDB", "AWS", "Docker", 
+  "Python", "PostgreSQL", "MongoDB", "Docker", 
   "Git", "Tailwind CSS", "Firebase", "Supabase"
 ];
 

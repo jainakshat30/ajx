@@ -69,7 +69,7 @@ export default function Page() {
                   <div className="flex items-center gap-3">
                     <Avatar className="h-16 w-16 ring-2 ring-neutral-200 dark:ring-neutral-900">
                       <AvatarImage
-                        src="/avatar.jpg"
+                        src="/avatar_1.jpeg"
                         alt="Akshat"
                       />
                       <AvatarFallback>A</AvatarFallback>
