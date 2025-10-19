@@ -16,6 +16,7 @@ import {
   SlideInLeft,
   SlideInRight,
 } from "@/components/scroll-animation";
+import SpotifyNowPlaying from "@/components/spotify-now-playing";
 
 export default function Page() {
   return (
@@ -164,6 +165,11 @@ export default function Page() {
                     </Button>
                   </div>
                 </SlideInRight>
+                <FadeInText delay={0.5}>
+                  <div className="mt-4">
+                    <SpotifyNowPlaying />
+                  </div>
+                </FadeInText>
               </header>
             </SlideUp>
 
