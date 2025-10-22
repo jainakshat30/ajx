@@ -47,7 +47,7 @@ export function SpotifyNowPlaying() {
   const display = data && data.playing ? data : lastTrack || data
   const isLive = Boolean(data && data.playing)
 
-  if (!display || !display.title) return <div className="text-xs text-neutral-500">Not playing</div>
+  if (!display || !display.title) return <div className="text-xs text-neutral-500">akshat is not listening to any songs right now</div>
 
   return (
     <div className="w-full">
