@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 type NowPlaying = {
   playing: boolean
@@ -16,15 +17,31 @@ export function SpotifyNowPlaying() {
   const [data, setData] = useState<NowPlaying | null>(null)
   const [loading, setLoading] = useState(true)
   const [lastTrack, setLastTrack] = useState<NowPlaying | null>(null)
-
+  
+  // Load persisted last track from localStorage (so it survives reloads)
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('spotify_last_track')
+      if (raw) {
+        setLastTrack(JSON.parse(raw))
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, [])
   async function fetchNow() {
     try {
-      const res = await fetch('/api/spotify/now-playing')
-      const json = await res.json()
+      const res = await axios.get('/api/spotify/now-playing')
+      const json = res.data
       setData(json)
       // If the API returned a track (title present), update lastTrack
       if (json && json.title) {
         setLastTrack(json)
+        try {
+          localStorage.setItem('spotify_last_track', JSON.stringify(json))
+        } catch (e) {
+          // ignore
+        }
       }
     } catch (e) {
       console.error(e)
