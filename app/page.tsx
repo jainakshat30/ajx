@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { Github, Linkedin, Twitter, Mail } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -69,10 +68,7 @@ export default function Page() {
                 <SlideInLeft delay={0.2}>
                   <div className="flex items-center gap-3">
                     <Avatar className="h-16 w-16 ring-2 ring-neutral-200 dark:ring-neutral-900">
-                      <AvatarImage
-                        src="/avatar_1.jpeg"
-                        alt="Akshat"
-                      />
+                      <AvatarImage src="/avatar_1.jpeg" alt="Akshat" />
                       <AvatarFallback>A</AvatarFallback>
                     </Avatar>
                     <h1 className="text-2xl md:text-3xl font-medium tracking-tight text-neutral-900 dark:text-neutral-50">
@@ -97,7 +93,7 @@ export default function Page() {
                       className="h-6 w-20 rounded-sm bg-neutral-900 px-4 text-white shadow-sm hover:bg-neutral-900/90 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200"
                     >
                       <a
-                        href="https://drive.google.com/file/d/14qUViGOy522UWowivl-GNz8Mezpmx0TV/view?usp=drive_link"
+                        href="https://drive.google.com/file/d/16itjg1rK8bUvKLChrNT7jxFk645Gotat/view?usp=drive_link"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="View Resume"
@@ -182,7 +178,8 @@ export default function Page() {
                     efficient, scalable, and intuitive applications.
                   </span>{" "}
                   With over a year of hands-on experience, I previously worked
-                  at a Indian-based startup and am now looking for new opportunities.
+                  at a Indian-based startup and am now looking for new
+                  opportunities.
                 </p>
               </section>
             </FadeInText>
@@ -237,7 +234,13 @@ export default function Page() {
                         "Developed a real-time Streamlit interface with session management, combining backend logic with an interactive frontend to improve developer experience.",
                         "Built scalable pipelines for repo cloning, parsing, and PDF/Markdown export, applying clean software design and deployment practices to deliver a production-ready tool.",
                       ]}
-                      tags={["Python", "StreamLit", "OpenRouter API", "GitHub API", "Regex"]}
+                      tags={[
+                        "Python",
+                        "StreamLit",
+                        "OpenRouter API",
+                        "GitHub API",
+                        "Regex",
+                      ]}
                     />
                   </SlideInLeft>
                   <SlideInRight delay={0.1}>
@@ -270,6 +273,45 @@ export default function Page() {
                       ]}
                     />
                   </SlideInRight>
+
+                  <SlideInLeft delay={0.1}>
+                    <ProjectListItem
+                      title="StageLink"
+                      links={[
+                        {
+                          label: "live preview ↗",
+                          href: "https://stagelink-tau.vercel.app/",
+                        },
+                        {
+                          label: "github ↗",
+                          href: "https://github.com/jainakshat30/stagelink",
+                        },
+                      ]}
+                      bullets={[
+                        "Developed a full-stack, SSR-ready Next.js (App Router) web application using React + TypeScript with server/client component separation and a responsive, theme-aware UI powered by Tailwind CSS and next-themes.",
+                        "Integrated Firebase Auth and Firestore for secure authentication and real-time data handling, and implemented Cloudinary for optimized media management with client-side compression and CDN caching.",
+                        "Engineered performance and scalability improvements via code-splitting, Suspense, and lazy client components; architected a migration path to Socket.IO + Redis pub/sub for high-scale real-time messaging.",
+                      ]}
+                      tags={[
+                        "Next.js (App Router)",
+                        "React",
+                        "TypeScript",
+                        "Tailwind CSS",
+                        "Zustand",
+                        "React Hook Form",
+                        "Zod",
+                        "Firebase (Auth, Firestore)",
+                        "Cloudinary",
+                        "Framer Motion",
+                        "Sonner",
+                        "dnd-kit",
+                        "React Dropzone",
+                        "ESLint",
+                        "Prettier",
+                        "Vercel",
+                      ]}
+                    />
+                  </SlideInLeft>
                 </div>
                 <FadeInText delay={0.2}>
                   <div className="mt-3 flex justify-center">
