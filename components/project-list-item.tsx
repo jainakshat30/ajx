@@ -14,7 +14,7 @@ interface ProjectListItemProps {
 
 export function ProjectListItem({ title, links, bullets, tags }: ProjectListItemProps) {
   return (
-    <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg bg-white dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition-shadow">
+    <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-2xl bg-white dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-2">
         <h4 className="text-sm font-medium text-neutral-900 dark:text-neutral-50">
           {title}
@@ -47,7 +47,7 @@ export function ProjectListItem({ title, links, bullets, tags }: ProjectListItem
         {tags.map((tag, index) => (
           <span
             key={index}
-            className="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-medium bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300"
+            className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300"
           >
             {tag}
           </span>

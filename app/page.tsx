@@ -90,7 +90,7 @@ export default function Page() {
                     <Button
                       size="sm"
                       asChild
-                      className="h-6 w-20 rounded-sm bg-neutral-900 px-4 text-white shadow-sm hover:bg-neutral-900/90 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200"
+                      className="h-6 w-20 rounded-full bg-neutral-900 px-4 text-white shadow-sm hover:bg-neutral-900/90 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200"
                     >
                       <a
                         href="https://drive.google.com/file/d/16itjg1rK8bUvKLChrNT7jxFk645Gotat/view?usp=drive_link"
@@ -105,7 +105,7 @@ export default function Page() {
                       size="sm"
                       variant="ghost"
                       asChild
-                      className="h-6 w-6 rounded-sm border border-neutral-200 p-0 text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
+                      className="h-6 w-6 rounded-full border border-neutral-200 p-0 text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
                     >
                       <a
                         href="mailto:akshatdotjain@gmail.com"
@@ -118,7 +118,7 @@ export default function Page() {
                       size="sm"
                       variant="ghost"
                       asChild
-                      className="h-6 w-6 rounded-sm border border-neutral-200 p-0 text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
+                      className="h-6 w-6 rounded-full border border-neutral-200 p-0 text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
                     >
                       <a
                         href="https://twitter.com/akshatdotjain"
@@ -133,7 +133,7 @@ export default function Page() {
                       size="sm"
                       variant="ghost"
                       asChild
-                      className="h-6 w-6 rounded-sm border border-neutral-200 p-0 text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
+                      className="h-6 w-6 rounded-full border border-neutral-200 p-0 text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
                     >
                       <a
                         href="https://github.com/jainakshat30"
@@ -148,7 +148,7 @@ export default function Page() {
                       size="sm"
                       variant="ghost"
                       asChild
-                      className="h-6 w-6 rounded-sm border border-neutral-200 p-0 text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
+                      className="h-6 w-6 rounded-full border border-neutral-200 p-0 text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
                     >
                       <a
                         href="https://www.linkedin.com/in/jainakshat30/"
@@ -171,7 +171,7 @@ export default function Page() {
 
             {/* Bio */}
             <FadeInText delay={0.5}>
-              <section className="mt-4 p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg bg-white dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition-shadow text-[13px] leading-6 text-neutral-600 dark:text-neutral-300">
+              <section className="mt-4 p-4 border border-neutral-200 dark:border-neutral-800 rounded-2xl bg-white dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition-shadow text-[13px] leading-6 text-neutral-600 dark:text-neutral-300">
                 <p>
                   A 21 year-old developer from India who loves building{" "}
                   <span className="rounded bg-yellow-200 px-1.5 py-0.5 text-[12px] font-medium text-neutral-900">
@@ -196,11 +196,34 @@ export default function Page() {
                   <SlideInLeft delay={0.1}>
                     <WorkItem
                       icon="shield"
+                      company="Qyupe"
+                      role="User Story Engineer"
+                      period="Jan 2026 - Present"
+                      summary="Worked on developing petiton wizard which renders the forms UI using the basic TOML configuration, that makes the user time in filling the forms reduced by 80%."
+                      logoUrl="/qyupe_logo.jpeg"
+                      location="Remote"
+                    />
+                  </SlideInLeft>
+                  <SlideInLeft delay={0.1}>
+                    <WorkItem
+                      icon="shield"
+                      company="ConviSaaS Inc."
+                      role="User Story Engineer"
+                      period="Jan 2026 - Present"
+                      summary="Worked on developing petiton wizard which renders the forms UI using the basic TOML configuration, that makes the user time in filling the forms reduced by 80%."
+                      logoUrl="/convisaas_logo.jpeg"
+                      location="Remote"
+                    />
+                  </SlideInLeft>
+                  <SlideInLeft delay={0.2}>
+                    <WorkItem
+                      icon="shield"
                       company="BlissMet"
                       role="Founding BackEnd Engineer"
-                      period="June 2025 – Present"
+                      period="June 2025 – Dec 2025"
                       summary="Built the backend from scratch and architected a scalable, production-ready platform, implementing robust development workflows and optimized system architecture."
                       logoUrl="/blissmet.jpeg"
+                      location="Delhi"
                     />
                   </SlideInLeft>
                 </div>
@@ -317,7 +340,7 @@ export default function Page() {
                   <div className="mt-3 flex justify-center">
                     <a
                       href="https://github.com/jainakshat30?tab=repositories"
-                      className="inline-flex items-center gap-1 rounded-sm border border-neutral-200 px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
+                      className="inline-flex items-center gap-1 rounded-full border border-neutral-200 px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
                     >
                       View all projects →
                     </a>
@@ -397,7 +420,7 @@ export default function Page() {
 
             {/* Get in Touch */}
             <SlideUp delay={0.3}>
-              <section className="mt-8 text-center p-6 border border-neutral-200 dark:border-neutral-800 rounded-lg bg-white dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition-shadow">
+              <section className="mt-8 text-center p-6 border border-neutral-200 dark:border-neutral-800 rounded-2xl bg-white dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition-shadow">
                 <FadeInText delay={0.1}>
                   <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
                     {"Lets work together."}
@@ -417,7 +440,7 @@ export default function Page() {
                     <Button
                       size="sm"
                       asChild
-                      className="h-9 rounded-md bg-neutral-900 px-4 text-white shadow-sm hover:bg-neutral-900/90 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200"
+                      className="h-9 rounded-full bg-neutral-900 px-4 text-white shadow-sm hover:bg-neutral-900/90 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200"
                     >
                       <a
                         href="mailto:akshatdotjain@gmail.com"
@@ -440,7 +463,7 @@ export default function Page() {
                       target="_blank"
                       rel="noreferrer"
                       aria-label="Twitter"
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-neutral-200 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900"
                     >
                       <Twitter className="h-4 w-4" />
                     </a>
@@ -449,14 +472,14 @@ export default function Page() {
                       target="_blank"
                       rel="noreferrer"
                       aria-label="GitHub"
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-neutral-200 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900"
                     >
                       <Github className="h-4 w-4" />
                     </a>
                     <a
                       href="https://www.linkedin.com/in/jainakshat30/"
                       aria-label="Open LinkedIn"
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-neutral-200 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900"
                     >
                       <Linkedin className="h-4 w-4" />
                     </a>

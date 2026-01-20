@@ -7,13 +7,14 @@ interface WorkItemProps {
   period: string;
   summary: string;
   logoUrl?: string;
+  location?: string;
 }
 
-export function WorkItem({ icon, company, role, period, summary, logoUrl }: WorkItemProps) {
+export function WorkItem({ icon, company, role, period, summary, logoUrl,location }: WorkItemProps) {
   const IconComponent = icon === "shield" ? Shield : Building;
   
   return (
-    <div className="flex items-start gap-3 p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg bg-white dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition-shadow">
+    <div className="flex items-start gap-3 p-4 border border-neutral-200 dark:border-neutral-800 rounded-2xl bg-white dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex-shrink-0">
         {logoUrl ? (
           <img 
@@ -32,9 +33,10 @@ export function WorkItem({ icon, company, role, period, summary, logoUrl }: Work
           <h4 className="text-sm font-medium text-neutral-900 dark:text-neutral-50">
             {company}
           </h4>
-          <span className="text-xs text-neutral-500 dark:text-neutral-400">
-            {period}
-          </span>
+          <div className="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400">
+            <span>{location}</span>
+            <span>{period}</span>
+          </div>
         </div>
         <p className="text-sm text-neutral-600 dark:text-neutral-300 mb-1">
           {role}

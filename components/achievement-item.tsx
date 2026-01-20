@@ -6,7 +6,7 @@ interface AchievementItemProps {
 
 export function AchievementItem({ title, date, description }: AchievementItemProps) {
   return (
-    <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg bg-white dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition-shadow">
+    <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-2xl bg-white dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-1">
         <h4 className="text-sm font-medium text-neutral-900 dark:text-neutral-50">
           {title}
