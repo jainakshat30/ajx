@@ -42,6 +42,10 @@ export default function ProjectsPage() {
                   title="SyncCanvas"
                   links={[
                     {
+                      label: "live preview ↗",
+                      href: "https://whiteboard-web-1.vercel.app/",
+                    },
+                    {
                       label: "github ↗",
                       href: "#",
                     },
