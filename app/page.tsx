@@ -78,7 +78,7 @@ export default function Page() {
                 </SlideInLeft>
                 <FadeInText delay={0.3}>
                   <div className="flex flex-wrap items-center mt-3 gap-2 sm:gap-4 text-xs text-neutral-600 dark:text-neutral-300">
-                    <span>21, he/him</span>
+                    <span>22, he/him</span>
                     <span className="hidden sm:inline">{"||"}</span>
                     <span className="max-w-[38ch]">
                       Full Stack Developer from India.
@@ -93,7 +93,7 @@ export default function Page() {
                       className="h-6 w-20 rounded-full bg-neutral-900 px-4 text-white shadow-sm hover:bg-neutral-900/90 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200"
                     >
                       <a
-                        href="https://drive.google.com/file/d/16itjg1rK8bUvKLChrNT7jxFk645Gotat/view?usp=drive_link"
+                        href="https://drive.google.com/file/d/1dx9-7m9U5smmfuV-ioSmGqJnnUKlT_1G/view?usp=sharing"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="View Resume"
@@ -169,13 +169,7 @@ export default function Page() {
             <FadeInText delay={0.5}>
               <section className="mt-4 p-4 border border-neutral-200 dark:border-neutral-800 rounded-2xl bg-white dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition-shadow text-[13px] leading-6 text-neutral-600 dark:text-neutral-300">
                 <p>
-                  A 21 year-old developer from India who loves building{" "}
-                  <span className="rounded bg-yellow-200 px-1.5 py-0.5 text-[12px] font-medium text-neutral-900">
-                    efficient, scalable, and intuitive applications.
-                  </span>{" "}
-                  With over a year of hands-on experience, I previously worked
-                  at a Indian-based startup and am now looking for new
-                  opportunities.
+                  21-year-old developer from India who enjoys turning random ideas into things that actually work. I've spent the last year building everything from full-stack applications to AI-powered and real-time systems, and I've had the chance to learn a lot through internships and side projects. Currently building, breaking, fixing, and occasionally wondering why the code worked five minutes ago.
                 </p>
               </section>
             </FadeInText>
@@ -193,7 +187,7 @@ export default function Page() {
                     <WorkItem
                       icon="shield"
                       company="Qyupe"
-                      role="User Story Engineer"
+                      role="Platform Engineer"
                       period="Jan 2026 - Present"
                       summary="Worked on developing petiton wizard which renders the forms UI using the basic TOML configuration, that makes the user time in filling the forms reduced by 80%."
                       logoUrl="/qyupe_logo.jpeg"
@@ -204,7 +198,7 @@ export default function Page() {
                     <WorkItem
                       icon="shield"
                       company="ConviSaaS Inc."
-                      role="User Story Engineer"
+                      role="Platform Engineer"
                       period="Jan 2026 - Present"
                       summary="Worked on developing petiton wizard which renders the forms UI using the basic TOML configuration, that makes the user time in filling the forms reduced by 80%."
                       logoUrl="/convisaas_logo.jpeg"
@@ -237,6 +231,33 @@ export default function Page() {
                 <div className="space-y-2">
                   <SlideInLeft delay={0.1}>
                     <ProjectListItem
+                      title="SyncCanvas"
+                      links={[
+                        {
+                          label: "github ↗",
+                          href: "#",
+                        },
+                      ]}
+                      bullets={[
+                        "Engineered real-time WebSocket synchronization supporting sub-second CRDT propagation.",
+                        "Implemented robust persistence pipeline serializing binary CRDT state to PostgreSQL.",
+                        "Built end-to-end latency benchmarking tool to measure p95 WebSocket RTT and CRDT sync times.",
+                      ]}
+                      tags={[
+                        "Next.js",
+                        "Yjs",
+                        "Hocuspocus",
+                        "WebSockets",
+                        "PostgreSQL",
+                        "Neon",
+                        "Prisma",
+                        "Railway",
+                        "Gemini AI"
+                      ]}
+                    />
+                  </SlideInLeft>
+                  <SlideInRight delay={0.1}>
+                    <ProjectListItem
                       title="AutoDocs"
                       links={[
                         {
@@ -259,36 +280,6 @@ export default function Page() {
                         "OpenRouter API",
                         "GitHub API",
                         "Regex",
-                      ]}
-                    />
-                  </SlideInLeft>
-                  <SlideInRight delay={0.1}>
-                    <ProjectListItem
-                      title="Finzo"
-                      links={[
-                        {
-                          label: "live preview ↗",
-                          href: "https://finzo-two.vercel.app/",
-                        },
-                        {
-                          label: "github ↗",
-                          href: "https://github.com/jainakshat30/finzo",
-                        },
-                      ]}
-                      bullets={[
-                        "Architected a full-stack financial platform with Next.js, PostgreSQL, Prisma, and Supabase, showcasing strong skills in backend design, database modeling, and scalable system development.",
-                        "Integrated AI workflows with Google Gemini and OCR to deliver smart financial insights.",
-                        "Built a secure and polished user experience with Clerk authentication, role-based access, and ArcJet rate limiting, combining modern security practices with seamless frontend design.",
-                      ]}
-                      tags={[
-                        "Next.js",
-                        "TypeScript",
-                        "PostgreSQL",
-                        "Google Gemini Pro",
-                        "Supabase",
-                        "Clerk",
-                        "Prisma",
-                        "TailwindCSS",
                       ]}
                     />
                   </SlideInRight>
@@ -334,12 +325,12 @@ export default function Page() {
                 </div>
                 <FadeInText delay={0.2}>
                   <div className="mt-3 flex justify-center">
-                    <a
-                      href="https://github.com/jainakshat30?tab=repositories"
+                    <Link
+                      href="/projects"
                       className="inline-flex items-center gap-1 rounded-full border border-neutral-200 px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
                     >
                       View all projects →
-                    </a>
+                    </Link>
                   </div>
                 </FadeInText>
               </section>
