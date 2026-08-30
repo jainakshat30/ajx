@@ -218,25 +218,14 @@ export default async function Page() {
             </div>
           </div>
 
-          <div style={{ border: "1px solid oklch(0.32 0.006 255)", borderRadius: 8, overflow: "hidden", background: "oklch(0.18 0.004 255)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "9px 12px", borderBottom: "1px solid oklch(0.28 0.006 255)" }}>
-              <span style={{ width: 9, height: 9, borderRadius: "50%", background: "oklch(0.4 0.006 255)" }} />
-              <span style={{ width: 9, height: 9, borderRadius: "50%", background: "oklch(0.5 0.006 255)" }} />
-              <span style={{ width: 9, height: 9, borderRadius: "50%", background: "oklch(0.6 0.006 255)" }} />
-              <span style={{ marginLeft: 6, fontSize: 11, color: "oklch(0.55 0.006 255)" }}>avatar.jpeg</span>
-            </div>
-            <Image
-              src="/avatar_1.jpeg"
-              alt="Akshat Jain"
-              width={400}
-              height={400}
-              priority
-              style={{ display: "block", width: "100%", height: "auto", aspectRatio: "1/1", objectFit: "cover", filter: "grayscale(0.5) contrast(1.02)" }}
-            />
-            <div style={{ padding: "8px 12px", fontSize: 11, color: "oklch(0.5 0.006 255)", borderTop: "1px solid oklch(0.28 0.006 255)" }}>
-              status: <span style={{ color: accent }}>open to work</span>
-            </div>
-          </div>
+          <Image
+            src="/me-modified.jpg"
+            alt="Akshat Jain"
+            width={1130}
+            height={980}
+            priority
+            style={{ display: "block", width: "100%", height: "auto", borderRadius: 8 }}
+          />
         </section>
 
         {/* contributions heatmap */}
