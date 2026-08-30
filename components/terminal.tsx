@@ -132,7 +132,6 @@ export function Terminal({ accent }: { accent: string }) {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={onKeyDown}
-            autoFocus
             spellCheck={false}
             style={{
               flex: 1,
