@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { Terminal } from "@/components/terminal";
 import { ContactForm } from "@/components/contact-form";
-import { getContributions, LEVEL_COLORS } from "@/lib/github-contributions";
+import { getContributions } from "@/lib/github-contributions";
+import { ContributionGraph } from "@/components/contribution-graph";
 
 const accent = "#a9b9cc";
 
@@ -231,51 +232,13 @@ export default async function Page() {
         {/* contributions heatmap */}
         <section style={{ ...sectionStyle, paddingTop: 30 }}>
           <p style={sectionLabel}>$ cat contributions.log</p>
-          <div style={{ border: "1px solid oklch(0.28 0.006 255)", borderRadius: 8, padding: "20px 22px", background: "oklch(0.17 0.004 255)", overflowX: "auto" }}>
-            {contrib ? (
-              <>
-                <div style={{ display: "flex", gap: 3, fontSize: 10, color: "oklch(0.5 0.006 255)", marginBottom: 6, paddingLeft: 2 }}>
-                  {contrib.weeks.map((week, wi) => (
-                    <span key={wi} style={{ width: 10, flexShrink: 0, whiteSpace: "nowrap", overflow: "visible" }}>
-                      {week.month ?? ""}
-                    </span>
-                  ))}
-                </div>
-                <div style={{ display: "flex", gap: 3 }}>
-                  {contrib.weeks.map((week, wi) => (
-                    <div key={wi} style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                      {week.days.map((day, di) => (
-                        <div
-                          key={di}
-                          title={day ? `${day.count} on ${day.date}` : undefined}
-                          style={{
-                            width: 10,
-                            height: 10,
-                            borderRadius: 2,
-                            background: day ? LEVEL_COLORS[day.level] : "transparent",
-                          }}
-                        />
-                      ))}
-                    </div>
-                  ))}
-                </div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 12, fontSize: 11, color: "oklch(0.55 0.006 255)", flexWrap: "wrap", gap: 8 }}>
-                  <span>{contrib.total} contributions in the last year</span>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <span>Less</span>
-                    {LEVEL_COLORS.map((c) => (
-                      <div key={c} style={{ width: 10, height: 10, borderRadius: 2, background: c }} />
-                    ))}
-                    <span>More</span>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <p style={{ margin: 0, fontSize: 12, color: "oklch(0.55 0.006 255)" }}>
-                // contribution graph temporarily unavailable
-              </p>
-            )}
-          </div>
+          {contrib ? (
+            <ContributionGraph data={contrib} />
+          ) : (
+            <p style={{ margin: 0, fontSize: 12, color: "oklch(0.55 0.006 255)" }}>
+              // contribution graph temporarily unavailable
+            </p>
+          )}
         </section>
 
         {/* experience — git log */}
