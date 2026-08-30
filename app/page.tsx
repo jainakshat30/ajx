@@ -1,503 +1,467 @@
-import Link from "next/link";
-import { Github, Linkedin, Twitter, Mail } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { Terminal } from "@/components/terminal";
+import { ContactForm } from "@/components/contact-form";
+import { getContributions, LEVEL_COLORS } from "@/lib/github-contributions";
 
-import { WorkItem } from "@/components/work-item";
-import { ProjectListItem } from "@/components/project-list-item";
-import { AchievementItem } from "@/components/achievement-item";
-import { Dock } from "@/components/dock";
-import { SkillsDraggable } from "@/components/skills-draggable";
-import { ThemeToggle } from "@/components/theme-toggle";
-import {
-  FadeInText,
-  SlideUp,
-  SlideInLeft,
-  SlideInRight,
-} from "@/components/scroll-animation";
+const accent = "#a9b9cc";
 
+const work = [
+  {
+    hash: "a1f9c3d",
+    company: "Qyupe",
+    role: "Platform Engineer",
+    period: "Jan 2026 – Present",
+    location: "Remote",
+    summary:
+      "Built a petition wizard that renders form UIs from plain TOML config, cutting user form-fill time by 80%.",
+  },
+  {
+    hash: "7e2b81a",
+    company: "ConviSaaS Inc.",
+    role: "Platform Engineer",
+    period: "Jan 2026 – Present",
+    location: "Remote",
+    summary:
+      "Built a petition wizard that renders form UIs from plain TOML config, cutting user form-fill time by 80%.",
+  },
+  {
+    hash: "3c04f6e",
+    company: "BlissMet",
+    role: "Founding Backend Engineer",
+    period: "Jun 2025 – Dec 2025",
+    location: "Delhi",
+    summary:
+      "Built the backend from scratch and architected a scalable, production-ready platform with robust workflows.",
+  },
+];
 
-export default function Page() {
+const skills = [
+  "JavaScript",
+  "TypeScript",
+  "React",
+  "Next.js",
+  "Node.js",
+  "Python",
+  "PostgreSQL",
+  "MongoDB",
+  "Docker",
+  "Git",
+  "Tailwind CSS",
+  "Firebase",
+  "Supabase",
+];
+
+const projects = [
+  {
+    title: "SyncCanvas",
+    desc: "Real-time collaborative whiteboard with sub-second CRDT sync over WebSockets, persisted to Postgres.",
+    tags: ["Next.js", "Yjs", "WebSockets"],
+    live: "https://whiteboard-web-1.vercel.app/",
+    repo: "#",
+  },
+  {
+    title: "AutoDocs",
+    desc: "AI tool that auto-generates documentation for 12+ languages, with repo cloning and PDF/Markdown export.",
+    tags: ["Python", "Streamlit", "LLM"],
+    live: "https://getautodocs.streamlit.app/",
+    repo: "https://github.com/jainakshat30/AutoDocs",
+  },
+  {
+    title: "StageLink",
+    desc: "SSR Next.js app with Firebase auth, Cloudinary media pipeline, and a path to Redis pub/sub messaging.",
+    tags: ["Next.js", "Firebase", "TypeScript"],
+    live: "https://stagelink-tau.vercel.app/",
+    repo: "https://github.com/jainakshat30/stagelink",
+  },
+];
+
+const achievements = [
+  {
+    title: "SemiFinalist – HackWithMait 5.0, MAIT",
+    date: "Oct 2024",
+    description:
+      "Built & deployed NyayNari, bridging legal complexity and everyday understanding for women across India.",
+  },
+  {
+    title: "Member, CSI-Innowave",
+    date: "Aug 2024 – Present",
+    description: "Led and coordinated technical club events including a college-level hackathon.",
+  },
+];
+
+const education = [
+  {
+    title: "Maharaja Agrasen Institute of Technology",
+    date: "2023 – 2027",
+    description: "B.Tech in ECE",
+  },
+  {
+    title: "Maheshwari Public School",
+    date: "2021 – 2023",
+    description: "Class XII (CBSE)",
+  },
+];
+
+const navLinks = [
+  { href: "#about", label: "./about" },
+  { href: "#log", label: "./log" },
+  { href: "#projects", label: "./projects" },
+  { href: "#notes", label: "./notes" },
+  { href: "#contact", label: "./contact" },
+];
+
+const socialLinks = [
+  { href: "mailto:akshatdotjain@gmail.com", label: "mail" },
+  { href: "https://twitter.com/akshatdotjain", label: "x.com" },
+  { href: "https://github.com/jainakshat30", label: "github" },
+  { href: "https://www.linkedin.com/in/jainakshat30/", label: "linkedin" },
+];
+
+const sectionLabel: React.CSSProperties = {
+  margin: "0 0 16px 0",
+  fontSize: 13,
+  color: "oklch(0.55 0.006 255)",
+};
+
+const sectionStyle: React.CSSProperties = {
+  padding: "30px 0",
+  borderTop: "1px solid oklch(0.28 0.006 255)",
+};
+
+export default async function Page() {
+  const contrib = await getContributions();
+
   return (
-    <main className="min-h-dvh bg-gradient-to-br from-gray-50 to-gray-100 dark:from-neutral-900 dark:to-neutral-950 pb-32 pt-6">
-      <FadeInText>
-        <nav className="mx-auto mb-4 flex w-full max-w-xl items-center justify-between px-4 md:px-6 lg:px-8 text-xs text-neutral-600 dark:text-neutral-300">
-          <Link
-            href="#"
-            className="font-semibold text-neutral-900 dark:text-neutral-50"
-          >
-            akshat.
-          </Link>
-          <div className="flex items-center gap-2 sm:gap-4">
-            <a
-              href="#experience"
-              className="hover:text-neutral-900 dark:hover:text-neutral-50 text-xs sm:text-xs"
-            >
-              experience
-            </a>
-            <a
-              href="#projects"
-              className="hover:text-neutral-900 dark:hover:text-neutral-50 text-xs sm:text-xs"
-            >
-              projects
-            </a>
-            <a
-              href="#achievements"
-              className="hover:text-neutral-900 dark:hover:text-neutral-50 text-xs sm:text-xs"
-            >
-              achievements
-            </a>
-            <ThemeToggle />
+    <main
+      style={{
+        minHeight: "100dvh",
+        background: "oklch(0.12 0.004 255)",
+        color: "oklch(0.9 0.004 255)",
+        fontFamily: "var(--font-jetbrains-mono), ui-monospace, Menlo, monospace",
+        padding: "40px 20px 60px 20px",
+      }}
+    >
+      <div style={{ maxWidth: 960, margin: "0 auto" }}>
+        {/* nav */}
+        <nav
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: 12,
+            padding: "24px 0 18px 0",
+            borderBottom: "1px solid oklch(0.28 0.006 255)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, color: "oklch(0.85 0.006 255)" }}>
+            <span style={{ fontWeight: 700 }}>akshat@portfolio</span>
+            <span style={{ color: "oklch(0.5 0.006 255)" }}>~%</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 22, fontSize: 12, color: "oklch(0.6 0.006 255)" }}>
+            {navLinks.map((l, i) => (
+              <a
+                key={l.href}
+                href={l.href}
+                style={
+                  i === 0
+                    ? { borderBottom: `2px solid ${accent}`, color: "oklch(0.9 0.004 255)", paddingBottom: 2 }
+                    : undefined
+                }
+              >
+                {l.label}
+              </a>
+            ))}
           </div>
         </nav>
-      </FadeInText>
 
-      <div className="mx-auto max-w-xl px-4 md:px-6 lg:px-8">
-        <article
-          aria-label="Portfolio"
-          className="relative rounded-2xl border border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-950"
-        >
-          <div className="p-4 md:p-6 lg:p-6">
-            {/* Header */}
+        {/* about — $ whoami */}
+        <section id="about" className="tr-cols-about" style={{ padding: "44px 0 36px 0" }}>
+          <div>
+            <p style={{ margin: "0 0 10px 0", fontSize: 13, color: "oklch(0.55 0.006 255)" }}>$ whoami</p>
+            <h1 style={{ margin: 0, fontSize: 44, fontWeight: 800, letterSpacing: "-0.02em", color: "oklch(0.96 0.004 255)" }}>
+              Akshat Jain
+              <span className="caret" style={{ color: accent }}>
+                _
+              </span>
+            </h1>
+            <p style={{ margin: "10px 0 0 0", fontSize: 14, color: "oklch(0.68 0.006 255)" }}>
+              22 · he/him · Full-Stack Developer, India
+            </p>
+            <p style={{ margin: "18px 0 0 0", fontSize: 14, lineHeight: 1.75, color: "oklch(0.75 0.006 255)", maxWidth: "56ch" }}>
+              21-year-old developer from India who enjoys turning random ideas into things that
+              actually work. Spent the last year building full-stack, AI-powered, and real-time
+              systems &mdash; currently building, breaking, fixing, and occasionally wondering why the
+              code worked five minutes ago.
+            </p>
 
-            <SlideUp>
-              <header id="about" className="space-y-2 section-lines p-4">
-                <FadeInText delay={0.1}>
-                  <p className="text-xs text-neutral-500">hi there 😊, I am</p>
-                </FadeInText>
-                <SlideInLeft delay={0.2}>
-                  <div className="flex items-center gap-3">
-                    <Avatar className="h-16 w-16 ring-2 ring-neutral-200 dark:ring-neutral-900">
-                      <AvatarImage src="/avatar_1.jpeg" alt="Akshat" />
-                      <AvatarFallback>A</AvatarFallback>
-                    </Avatar>
-                    <h1 className="text-2xl md:text-3xl font-medium tracking-tight text-neutral-900 dark:text-neutral-50">
-                      Akshat Jain
-                    </h1>
+            <div style={{ marginTop: 26, display: "flex", flexWrap: "wrap", gap: 10 }}>
+              <a
+                href="https://drive.google.com/file/d/1dx9-7m9U5smmfuV-ioSmGqJnnUKlT_1G/view?usp=sharing"
+                target="_blank"
+                rel="noreferrer"
+                style={{ fontSize: 13, fontWeight: 600, padding: "9px 18px", borderRadius: 4, background: accent, color: "oklch(0.14 0.006 255)" }}
+              >
+                ./resume.pdf
+              </a>
+              {socialLinks.map((l) => (
+                <a
+                  key={l.label}
+                  href={l.href}
+                  target={l.href.startsWith("http") ? "_blank" : undefined}
+                  rel={l.href.startsWith("http") ? "noreferrer" : undefined}
+                  style={{ fontSize: 13, padding: "9px 16px", borderRadius: 4, border: "1px solid oklch(0.32 0.006 255)", color: "oklch(0.8 0.006 255)" }}
+                >
+                  {l.label}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ border: "1px solid oklch(0.32 0.006 255)", borderRadius: 8, overflow: "hidden", background: "oklch(0.18 0.004 255)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "9px 12px", borderBottom: "1px solid oklch(0.28 0.006 255)" }}>
+              <span style={{ width: 9, height: 9, borderRadius: "50%", background: "oklch(0.4 0.006 255)" }} />
+              <span style={{ width: 9, height: 9, borderRadius: "50%", background: "oklch(0.5 0.006 255)" }} />
+              <span style={{ width: 9, height: 9, borderRadius: "50%", background: "oklch(0.6 0.006 255)" }} />
+              <span style={{ marginLeft: 6, fontSize: 11, color: "oklch(0.55 0.006 255)" }}>avatar.jpeg</span>
+            </div>
+            <Image
+              src="/avatar_1.jpeg"
+              alt="Akshat Jain"
+              width={400}
+              height={400}
+              priority
+              style={{ display: "block", width: "100%", height: "auto", aspectRatio: "1/1", objectFit: "cover", filter: "grayscale(0.5) contrast(1.02)" }}
+            />
+            <div style={{ padding: "8px 12px", fontSize: 11, color: "oklch(0.5 0.006 255)", borderTop: "1px solid oklch(0.28 0.006 255)" }}>
+              status: <span style={{ color: accent }}>open to work</span>
+            </div>
+          </div>
+        </section>
+
+        {/* contributions heatmap */}
+        <section style={{ ...sectionStyle, paddingTop: 30 }}>
+          <p style={sectionLabel}>$ cat contributions.log</p>
+          <div style={{ border: "1px solid oklch(0.28 0.006 255)", borderRadius: 8, padding: "20px 22px", background: "oklch(0.17 0.004 255)", overflowX: "auto" }}>
+            {contrib ? (
+              <>
+                <div style={{ display: "flex", gap: 3, fontSize: 10, color: "oklch(0.5 0.006 255)", marginBottom: 6, paddingLeft: 2 }}>
+                  {contrib.weeks.map((week, wi) => (
+                    <span key={wi} style={{ width: 10, flexShrink: 0, whiteSpace: "nowrap", overflow: "visible" }}>
+                      {week.month ?? ""}
+                    </span>
+                  ))}
+                </div>
+                <div style={{ display: "flex", gap: 3 }}>
+                  {contrib.weeks.map((week, wi) => (
+                    <div key={wi} style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                      {week.days.map((day, di) => (
+                        <div
+                          key={di}
+                          title={day ? `${day.count} on ${day.date}` : undefined}
+                          style={{
+                            width: 10,
+                            height: 10,
+                            borderRadius: 2,
+                            background: day ? LEVEL_COLORS[day.level] : "transparent",
+                          }}
+                        />
+                      ))}
+                    </div>
+                  ))}
+                </div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 12, fontSize: 11, color: "oklch(0.55 0.006 255)", flexWrap: "wrap", gap: 8 }}>
+                  <span>{contrib.total} contributions in the last year</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <span>Less</span>
+                    {LEVEL_COLORS.map((c) => (
+                      <div key={c} style={{ width: 10, height: 10, borderRadius: 2, background: c }} />
+                    ))}
+                    <span>More</span>
                   </div>
-                </SlideInLeft>
-                <FadeInText delay={0.3}>
-                  <div className="flex flex-wrap items-center mt-3 gap-2 sm:gap-4 text-xs text-neutral-600 dark:text-neutral-300">
-                    <span>22, he/him</span>
-                    <span className="hidden sm:inline">{"||"}</span>
-                    <span className="max-w-[38ch]">
-                      Full Stack Developer from India.
+                </div>
+              </>
+            ) : (
+              <p style={{ margin: 0, fontSize: 12, color: "oklch(0.55 0.006 255)" }}>
+                // contribution graph temporarily unavailable
+              </p>
+            )}
+          </div>
+        </section>
+
+        {/* experience — git log */}
+        <section id="log" style={sectionStyle}>
+          <p style={{ ...sectionLabel, marginBottom: 18 }}>$ git log --oneline --graph experience</p>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {work.map((w) => (
+              <div key={w.hash} style={{ display: "grid", gridTemplateColumns: "20px 1fr", gap: 14, padding: "16px 0", borderBottom: "1px solid oklch(0.24 0.006 255)" }}>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <span style={{ width: 9, height: 9, borderRadius: "50%", background: accent, flexShrink: 0, marginTop: 5 }} />
+                  <span style={{ flex: 1, width: 1, background: "oklch(0.3 0.006 255)", marginTop: 4 }} />
+                </div>
+                <div>
+                  <div style={{ display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: 10 }}>
+                    <span style={{ fontSize: 11, color: "oklch(0.6 0.006 255)", fontWeight: 600 }}>{w.hash}</span>
+                    <h4 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "oklch(0.94 0.004 255)" }}>
+                      {w.role} @ {w.company}
+                    </h4>
+                    <span style={{ fontSize: 11, color: "oklch(0.5 0.006 255)", marginLeft: "auto" }}>
+                      {w.period} · {w.location}
                     </span>
                   </div>
-                </FadeInText>
-                <SlideInRight delay={0.4}>
-                  <div className="mt-5 flex flex-wrap items-center gap-2 sm:gap-4">
-                    <Button
-                      size="sm"
-                      asChild
-                      className="h-6 w-20 rounded-full bg-neutral-900 px-4 text-white shadow-sm hover:bg-neutral-900/90 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200"
-                    >
-                      <a
-                        href="https://drive.google.com/file/d/1dx9-7m9U5smmfuV-ioSmGqJnnUKlT_1G/view?usp=sharing"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="View Resume"
-                      >
-                        Resume
-                      </a>
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      asChild
-                      className="h-6 w-6 rounded-full border border-neutral-200 p-0 text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
-                    >
-                      <a
-                        href="mailto:akshatdotjain@gmail.com"
-                        aria-label="Send email"
-                      >
-                        <Mail className="h-4 w-4" />
-                      </a>
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      asChild
-                      className="h-6 w-6 rounded-full border border-neutral-200 p-0 text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
-                    >
-                      <a
-                        href="https://twitter.com/akshatdotjain"
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label="Open Twitter"
-                      >
-                        <Twitter className="h-4 w-4" />
-                      </a>
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      asChild
-                      className="h-6 w-6 rounded-full border border-neutral-200 p-0 text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
-                    >
-                      <a
-                        href="https://github.com/jainakshat30"
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label="Open GitHub"
-                      >
-                        <Github className="h-4 w-4" />
-                      </a>
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      asChild
-                      className="h-6 w-6 rounded-full border border-neutral-200 p-0 text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
-                    >
-                      <a
-                        href="https://www.linkedin.com/in/jainakshat30/"
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label="Open LinkedIn"
-                      >
-                        <Linkedin className="h-4 w-4" />
-                      </a>
-                    </Button>
-                  </div>
-                </SlideInRight>
-
-              </header>
-            </SlideUp>
-
-            {/* Bio */}
-            <FadeInText delay={0.5}>
-              <section className="mt-4 p-4 border border-neutral-200 dark:border-neutral-800 rounded-2xl bg-white dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition-shadow text-[13px] leading-6 text-neutral-600 dark:text-neutral-300">
-                <p>
-                  21-year-old developer from India who enjoys turning random ideas into things that actually work. I've spent the last year building everything from full-stack applications to AI-powered and real-time systems, and I've had the chance to learn a lot through internships and side projects. Currently building, breaking, fixing, and occasionally wondering why the code worked five minutes ago.
-                </p>
-              </section>
-            </FadeInText>
-
-            {/* Work Experience */}
-            <SlideUp delay={0.5}>
-              <section id="experience" className="mt-6 section-lines p-4">
-                <FadeInText delay={0.1}>
-                  <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-50">
-                    Work Experience.
-                  </h3>
-                </FadeInText>
-                <div className="mt-3 space-y-3">
-                  <SlideInLeft delay={0.1}>
-                    <WorkItem
-                      icon="shield"
-                      company="Qyupe"
-                      role="Platform Engineer"
-                      period="Jan 2026 - Present"
-                      summary="Worked on developing petiton wizard which renders the forms UI using the basic TOML configuration, that makes the user time in filling the forms reduced by 80%."
-                      logoUrl="/qyupe_logo.jpeg"
-                      location="Remote"
-                    />
-                  </SlideInLeft>
-                  <SlideInLeft delay={0.1}>
-                    <WorkItem
-                      icon="shield"
-                      company="ConviSaaS Inc."
-                      role="Platform Engineer"
-                      period="Jan 2026 - Present"
-                      summary="Worked on developing petiton wizard which renders the forms UI using the basic TOML configuration, that makes the user time in filling the forms reduced by 80%."
-                      logoUrl="/convisaas_logo.jpeg"
-                      location="Remote"
-                    />
-                  </SlideInLeft>
-                  <SlideInLeft delay={0.2}>
-                    <WorkItem
-                      icon="shield"
-                      company="BlissMet"
-                      role="Founding BackEnd Engineer"
-                      period="June 2025 – Dec 2025"
-                      summary="Built the backend from scratch and architected a scalable, production-ready platform, implementing robust development workflows and optimized system architecture."
-                      logoUrl="/blissmet.jpeg"
-                      location="Delhi"
-                    />
-                  </SlideInLeft>
+                  <p style={{ margin: "8px 0 0 0", fontSize: 13, lineHeight: 1.65, color: "oklch(0.7 0.006 255)", maxWidth: "70ch" }}>
+                    {w.summary}
+                  </p>
                 </div>
-              </section>
-            </SlideUp>
-
-            {/* Projects */}
-            <SlideUp delay={0.2}>
-              <section id="projects" className="mt-8 section-lines p-4">
-                <FadeInText delay={0.1}>
-                  <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-50 mb-4">
-                    Projects.
-                  </h3>
-                </FadeInText>
-                <div className="space-y-2">
-                  <SlideInLeft delay={0.1}>
-                    <ProjectListItem
-                      title="SyncCanvas"
-                      links={[
-                        {
-                          label: "live preview ↗",
-                          href: "https://whiteboard-web-1.vercel.app/",
-                        },
-                        {
-                          label: "github ↗",
-                          href: "#",
-                        },
-                      ]}
-                      bullets={[
-                        "Engineered real-time WebSocket synchronization supporting sub-second CRDT propagation.",
-                        "Implemented robust persistence pipeline serializing binary CRDT state to PostgreSQL.",
-                        "Built end-to-end latency benchmarking tool to measure p95 WebSocket RTT and CRDT sync times.",
-                      ]}
-                      tags={[
-                        "Next.js",
-                        "Yjs",
-                        "Hocuspocus",
-                        "WebSockets",
-                        "PostgreSQL",
-                        "Neon",
-                        "Prisma",
-                        "Railway",
-                        "Gemini AI"
-                      ]}
-                    />
-                  </SlideInLeft>
-                  <SlideInRight delay={0.1}>
-                    <ProjectListItem
-                      title="AutoDocs"
-                      links={[
-                        {
-                          label: "live preview ↗",
-                          href: "https://getautodocs.streamlit.app/",
-                        },
-                        {
-                          label: "github ↗",
-                          href: "https://github.com/jainakshat30/AutoDocs",
-                        },
-                      ]}
-                      bullets={[
-                        "Built an AI tool that auto-generates documentation for 12+ programming languages with GitHub repo support.",
-                        "Developed a real-time Streamlit interface with session management, combining backend logic with an interactive frontend to improve developer experience.",
-                        "Built scalable pipelines for repo cloning, parsing, and PDF/Markdown export, applying clean software design and deployment practices to deliver a production-ready tool.",
-                      ]}
-                      tags={[
-                        "Python",
-                        "StreamLit",
-                        "OpenRouter API",
-                        "GitHub API",
-                        "Regex",
-                      ]}
-                    />
-                  </SlideInRight>
-
-                  <SlideInLeft delay={0.1}>
-                    <ProjectListItem
-                      title="StageLink"
-                      links={[
-                        {
-                          label: "live preview ↗",
-                          href: "https://stagelink-tau.vercel.app/",
-                        },
-                        {
-                          label: "github ↗",
-                          href: "https://github.com/jainakshat30/stagelink",
-                        },
-                      ]}
-                      bullets={[
-                        "Developed a full-stack, SSR-ready Next.js (App Router) web application using React + TypeScript with server/client component separation and a responsive, theme-aware UI powered by Tailwind CSS and next-themes.",
-                        "Integrated Firebase Auth and Firestore for secure authentication and real-time data handling, and implemented Cloudinary for optimized media management with client-side compression and CDN caching.",
-                        "Engineered performance and scalability improvements via code-splitting, Suspense, and lazy client components; architected a migration path to Socket.IO + Redis pub/sub for high-scale real-time messaging.",
-                      ]}
-                      tags={[
-                        "Next.js (App Router)",
-                        "React",
-                        "TypeScript",
-                        "Tailwind CSS",
-                        "Zustand",
-                        "React Hook Form",
-                        "Zod",
-                        "Firebase (Auth, Firestore)",
-                        "Cloudinary",
-                        "Framer Motion",
-                        "Sonner",
-                        "dnd-kit",
-                        "React Dropzone",
-                        "ESLint",
-                        "Prettier",
-                        "Vercel",
-                      ]}
-                    />
-                  </SlideInLeft>
-                </div>
-                <FadeInText delay={0.2}>
-                  <div className="mt-3 flex justify-center">
-                    <Link
-                      href="/projects"
-                      className="inline-flex items-center gap-1 rounded-full border border-neutral-200 px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
-                    >
-                      View all projects →
-                    </Link>
-                  </div>
-                </FadeInText>
-              </section>
-            </SlideUp>
-
-            <SlideUp delay={0.3}>
-              <section id="achievements" className="mt-8 section-lines p-4">
-                <FadeInText delay={0.1}>
-                  <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-50 mb-4">
-                    Achievements.
-                  </h3>
-                </FadeInText>
-                <ul className="space-y-2">
-                  <SlideInLeft delay={0.1}>
-                    <li>
-                      <AchievementItem
-                        title="SemiFinalist – HackWithMait 5.0 Hackathon, MAIT"
-                        date="October 2024"
-                        description="Build and Deployed NyayNari that bridges the gap between legal complexity and everyday understanding,
-                        empowering women across India to know and assert their rights.."
-                      />
-                    </li>
-                  </SlideInLeft>
-                  <SlideInRight delay={0.1}>
-                    <li>
-                      <AchievementItem
-                        title="Member at CSI-Innowave"
-                        date="August 2024 - Present"
-                        description="Led and coordinated multiple technical club events, including organizing a college-level hackathon and gaming
-                        competition, ensuring smooth execution and high engagement."
-                      />
-                    </li>
-                  </SlideInRight>
-                </ul>
-              </section>
-            </SlideUp>
-            {/* Skills */}
-            <SlideUp delay={0.3}>
-              <section className="mt-5 section-lines p-4">
-                <SkillsDraggable />
-              </section>
-            </SlideUp>
-
-            {/* Education */}
-            <SlideUp delay={0.3}>
-              <section className="mt-8 section-lines p-4">
-                <FadeInText delay={0.1}>
-                  <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-50 mb-4">
-                    Education.
-                  </h3>
-                </FadeInText>
-                <ul className="space-y-2">
-                  <SlideInLeft delay={0.1}>
-                    <li>
-                      <AchievementItem
-                        title="Maharaja Agrasen Institute of Technology"
-                        date="2023 – 2027"
-                        description="B.Tech in ECE"
-                      />
-                    </li>
-                  </SlideInLeft>
-                  <SlideInRight delay={0.1}>
-                    <li>
-                      <AchievementItem
-                        title="Maheshwari Public School"
-                        date="2021 – 2023"
-                        description="Class XII (CBSE)"
-                      />
-                    </li>
-                  </SlideInRight>
-                </ul>
-              </section>
-            </SlideUp>
-
-            {/* Get in Touch */}
-            <SlideUp delay={0.3}>
-              <section className="mt-8 text-center p-6 border border-neutral-200 dark:border-neutral-800 rounded-2xl bg-white dark:bg-neutral-900/50 shadow-sm hover:shadow-md transition-shadow">
-                <FadeInText delay={0.1}>
-                  <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
-                    {"Lets work together."}
-                  </h2>
-                </FadeInText>
-                <FadeInText delay={0.1}>
-                  <p className="mx-auto mt-2 max-w-xl text-xs text-neutral-500 dark:text-neutral-400">
-                    {
-                      "I'm always interested in new opportunities and exciting projects. Whether you have a project in mind or just want to chat about tech, I'd love to hear from you."
-                    }
-                  </p>
-                </FadeInText>
-
-                {/* CTAs */}
-                <SlideInLeft delay={0.1}>
-                  <div className="mt-4 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-                    <Button
-                      size="sm"
-                      asChild
-                      className="h-9 rounded-full bg-neutral-900 px-4 text-white shadow-sm hover:bg-neutral-900/90 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200"
-                    >
-                      <a
-                        href="mailto:akshatdotjain@gmail.com"
-                        aria-label="Get in touch via email"
-                      >
-                        <span className="inline-flex items-center gap-2">
-                          <Mail className="h-4 w-4" />
-                          <span>Get in touch</span>
-                        </span>
-                      </a>
-                    </Button>
-                  </div>
-                </SlideInLeft>
-
-                {/* Social row */}
-                <SlideInRight delay={0.1}>
-                  <div className="mt-4 flex items-center justify-center gap-2 sm:gap-4 text-neutral-600 dark:text-neutral-300">
-                    <a
-                      href="https://twitter.com/akshatdotjain"
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label="Twitter"
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900"
-                    >
-                      <Twitter className="h-4 w-4" />
-                    </a>
-                    <a
-                      href="https://github.com/jainakshat30"
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label="GitHub"
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900"
-                    >
-                      <Github className="h-4 w-4" />
-                    </a>
-                    <a
-                      href="https://www.linkedin.com/in/jainakshat30/"
-                      aria-label="Open LinkedIn"
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900"
-                    >
-                      <Linkedin className="h-4 w-4" />
-                    </a>
-                  </div>
-                </SlideInRight>
-
-                {/* Availability + response time */}
-                <FadeInText delay={0.1}>
-                  <p className="mt-4 text-xs text-neutral-500 dark:text-neutral-400">
-                    Currently available for freelance work and full‑time
-                    opportunities
-                  </p>
-                  <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
-                    Response time: Usually within 24 hours
-                  </p>
-                </FadeInText>
-
-                {/* Divider before footer */}
-              </section>
-            </SlideUp>
+              </div>
+            ))}
           </div>
-        </article>
+        </section>
+
+        {/* skills.json */}
+        <section style={sectionStyle}>
+          <p style={sectionLabel}>$ cat skills.json</p>
+          <div style={{ border: "1px solid oklch(0.28 0.006 255)", borderRadius: 8, padding: "18px 20px", background: "oklch(0.17 0.004 255)", fontSize: 13, lineHeight: 1.9 }}>
+            <div>
+              <span style={{ color: "oklch(0.55 0.006 255)" }}>{"{"}</span>
+            </div>
+            <div style={{ paddingLeft: 20 }}>
+              <span style={{ color: "oklch(0.68 0.006 255)" }}>&quot;stack&quot;</span>
+              <span style={{ color: "oklch(0.55 0.006 255)" }}>: [</span>
+            </div>
+            <div style={{ paddingLeft: 40, display: "flex", flexWrap: "wrap" }}>
+              {skills.map((s) => (
+                <span key={s} style={{ color: accent, whiteSpace: "nowrap", display: "inline-block" }}>
+                  &quot;{s}&quot;<span style={{ color: "oklch(0.55 0.006 255)" }}>,&nbsp;</span>
+                </span>
+              ))}
+            </div>
+            <div style={{ paddingLeft: 20 }}>
+              <span style={{ color: "oklch(0.55 0.006 255)" }}>]</span>
+            </div>
+            <div>
+              <span style={{ color: "oklch(0.55 0.006 255)" }}>{"}"}</span>
+            </div>
+          </div>
+        </section>
+
+        {/* projects — ls -la */}
+        <section id="projects" style={sectionStyle}>
+          <p style={{ ...sectionLabel, marginBottom: 18 }}>$ ls -la ./projects</p>
+          <div className="tr-cols-projects">
+            {projects.map((p) => (
+              <div key={p.title} style={{ border: "1px solid oklch(0.28 0.006 255)", borderRadius: 8, overflow: "hidden", background: "oklch(0.17 0.004 255)", display: "flex", flexDirection: "column" }}>
+                <div
+                  style={{
+                    height: 120,
+                    background:
+                      "repeating-linear-gradient(135deg, oklch(0.2 0.006 255), oklch(0.2 0.006 255) 10px, oklch(0.185 0.006 255) 10px, oklch(0.185 0.006 255) 20px)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderBottom: "1px solid oklch(0.28 0.006 255)",
+                  }}
+                >
+                  <span style={{ fontSize: 11, color: "oklch(0.5 0.006 255)" }}>// {p.title} preview</span>
+                </div>
+                <div style={{ padding: 16, display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
+                  <h4 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "oklch(0.94 0.004 255)" }}>{p.title}</h4>
+                  <p style={{ margin: 0, fontSize: 12, lineHeight: 1.6, color: "oklch(0.68 0.006 255)" }}>{p.desc}</p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    {p.tags.map((t) => (
+                      <span key={t} style={{ fontSize: 10, padding: "2px 8px", borderRadius: 3, background: "oklch(0.24 0.006 255)", color: "oklch(0.72 0.01 240)" }}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  <div style={{ marginTop: "auto", display: "flex", gap: 14, paddingTop: 8, borderTop: "1px solid oklch(0.26 0.006 255)" }}>
+                    <a href={p.live} target="_blank" rel="noreferrer" style={{ fontSize: 11, color: accent }}>
+                      --live
+                    </a>
+                    <a href={p.repo} target="_blank" rel="noreferrer" style={{ fontSize: 11, color: "oklch(0.6 0.006 255)" }}>
+                      --source
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* notes — achievements + education */}
+        <section id="notes" className="tr-cols-2" style={sectionStyle}>
+          <div>
+            <p style={sectionLabel}>$ cat achievements.log</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {achievements.map((a) => (
+                <div key={a.title}>
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: 10 }}>
+                    <h5 style={{ margin: 0, fontSize: 13, fontWeight: 600, color: "oklch(0.9 0.004 255)" }}>{a.title}</h5>
+                    <span style={{ fontSize: 11, color: "oklch(0.5 0.006 255)", flexShrink: 0 }}>{a.date}</span>
+                  </div>
+                  <p style={{ margin: "6px 0 0 0", fontSize: 12, color: "oklch(0.65 0.006 255)", lineHeight: 1.6 }}>{a.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p style={sectionLabel}>$ cat education.log</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {education.map((e) => (
+                <div key={e.title}>
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: 10 }}>
+                    <h5 style={{ margin: 0, fontSize: 13, fontWeight: 600, color: "oklch(0.9 0.004 255)" }}>{e.title}</h5>
+                    <span style={{ fontSize: 11, color: "oklch(0.5 0.006 255)", flexShrink: 0 }}>{e.date}</span>
+                  </div>
+                  <p style={{ margin: "6px 0 0 0", fontSize: 12, color: "oklch(0.65 0.006 255)" }}>{e.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* interactive terminal */}
+        <section id="terminal" style={sectionStyle}>
+          <p style={sectionLabel}>
+            $ open interactive-terminal &mdash; try:{" "}
+            <span style={{ color: "oklch(0.68 0.006 255)" }}>help</span>, whoami, skills, projects,
+            experience, contact, clear
+          </p>
+          <Terminal accent={accent} />
+        </section>
+
+        {/* contact */}
+        <section id="contact" style={{ ...sectionStyle, padding: "34px 0" }}>
+          <p style={{ ...sectionLabel, marginBottom: 18 }}>$ ./send-message --interactive</p>
+          <ContactForm accent={accent} />
+        </section>
+
+        {/* footer */}
+        <footer
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: 12,
+            padding: "16px 0",
+            borderTop: "1px solid oklch(0.28 0.006 255)",
+            color: "oklch(0.55 0.006 255)",
+            fontSize: 11,
+            fontWeight: 600,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <span>⎇ main</span>
+            <span>UTF-8</span>
+            <span>Prettier</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <span>© 2026 Akshat Jain</span>
+            <span>Ln 1, Col 1</span>
+          </div>
+        </footer>
       </div>
-
-      {/* Floating Dock */}
-
-      <Dock />
     </main>
   );
 }
