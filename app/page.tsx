@@ -1,10 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Terminal } from "@/components/terminal";
 import { ContactForm } from "@/components/contact-form";
 import { getContributions } from "@/lib/github-contributions";
 import { ContributionGraph } from "@/components/contribution-graph";
+import { ProjectCard } from "@/components/project-card";
+import { featuredProjects } from "@/lib/projects";
 
-const accent = "#a9b9cc";
+const accent = "var(--accent)";
 
 const work = [
   {
@@ -52,30 +55,6 @@ const skills = [
   "Supabase",
 ];
 
-const projects = [
-  {
-    title: "SyncCanvas",
-    desc: "Real-time collaborative whiteboard with sub-second CRDT sync over WebSockets, persisted to Postgres.",
-    tags: ["Next.js", "Yjs", "WebSockets"],
-    live: "https://whiteboard-web-1.vercel.app/",
-    repo: "#",
-  },
-  {
-    title: "AutoDocs",
-    desc: "AI tool that auto-generates documentation for 12+ languages, with repo cloning and PDF/Markdown export.",
-    tags: ["Python", "Streamlit", "LLM"],
-    live: "https://getautodocs.streamlit.app/",
-    repo: "https://github.com/jainakshat30/AutoDocs",
-  },
-  {
-    title: "StageLink",
-    desc: "SSR Next.js app with Firebase auth, Cloudinary media pipeline, and a path to Redis pub/sub messaging.",
-    tags: ["Next.js", "Firebase", "TypeScript"],
-    live: "https://stagelink-tau.vercel.app/",
-    repo: "https://github.com/jainakshat30/stagelink",
-  },
-];
-
 const achievements = [
   {
     title: "SemiFinalist – HackWithMait 5.0, MAIT",
@@ -106,7 +85,7 @@ const education = [
 const navLinks = [
   { href: "#about", label: "./about" },
   { href: "#log", label: "./log" },
-  { href: "#projects", label: "./projects" },
+  { href: "/projects", label: "./projects" },
   { href: "#notes", label: "./notes" },
   { href: "#contact", label: "./contact" },
 ];
@@ -160,19 +139,21 @@ export default async function Page() {
             <span style={{ color: "oklch(0.5 0.006 255)" }}>~%</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 22, fontSize: 12, color: "oklch(0.6 0.006 255)" }}>
-            {navLinks.map((l, i) => (
-              <a
-                key={l.href}
-                href={l.href}
-                style={
-                  i === 0
-                    ? { borderBottom: `2px solid ${accent}`, color: "oklch(0.9 0.004 255)", paddingBottom: 2 }
-                    : undefined
-                }
-              >
-                {l.label}
-              </a>
-            ))}
+            {navLinks.map((l, i) => {
+              const style =
+                i === 0
+                  ? { borderBottom: `2px solid ${accent}`, color: "oklch(0.9 0.004 255)", paddingBottom: 2 }
+                  : undefined;
+              return l.href.startsWith("/") ? (
+                <Link key={l.href} href={l.href} style={style}>
+                  {l.label}
+                </Link>
+              ) : (
+                <a key={l.href} href={l.href} style={style}>
+                  {l.label}
+                </a>
+              );
+            })}
           </div>
         </nav>
 
@@ -301,43 +282,16 @@ export default async function Page() {
         <section id="projects" style={sectionStyle}>
           <p style={{ ...sectionLabel, marginBottom: 18 }}>$ ls -la ./projects</p>
           <div className="tr-cols-projects">
-            {projects.map((p) => (
-              <div key={p.title} style={{ border: "1px solid oklch(0.28 0.006 255)", borderRadius: 8, overflow: "hidden", background: "oklch(0.17 0.004 255)", display: "flex", flexDirection: "column" }}>
-                <div
-                  style={{
-                    height: 120,
-                    background:
-                      "repeating-linear-gradient(135deg, oklch(0.2 0.006 255), oklch(0.2 0.006 255) 10px, oklch(0.185 0.006 255) 10px, oklch(0.185 0.006 255) 20px)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderBottom: "1px solid oklch(0.28 0.006 255)",
-                  }}
-                >
-                  <span style={{ fontSize: 11, color: "oklch(0.5 0.006 255)" }}>// {p.title} preview</span>
-                </div>
-                <div style={{ padding: 16, display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
-                  <h4 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "oklch(0.94 0.004 255)" }}>{p.title}</h4>
-                  <p style={{ margin: 0, fontSize: 12, lineHeight: 1.6, color: "oklch(0.68 0.006 255)" }}>{p.desc}</p>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                    {p.tags.map((t) => (
-                      <span key={t} style={{ fontSize: 10, padding: "2px 8px", borderRadius: 3, background: "oklch(0.24 0.006 255)", color: "oklch(0.72 0.01 240)" }}>
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                  <div style={{ marginTop: "auto", display: "flex", gap: 14, paddingTop: 8, borderTop: "1px solid oklch(0.26 0.006 255)" }}>
-                    <a href={p.live} target="_blank" rel="noreferrer" style={{ fontSize: 11, color: accent }}>
-                      --live
-                    </a>
-                    <a href={p.repo} target="_blank" rel="noreferrer" style={{ fontSize: 11, color: "oklch(0.6 0.006 255)" }}>
-                      --source
-                    </a>
-                  </div>
-                </div>
-              </div>
+            {featuredProjects.map((p) => (
+              <ProjectCard key={p.title} project={p} />
             ))}
           </div>
+          <Link
+            href="/projects"
+            style={{ display: "inline-block", marginTop: 16, fontSize: 12, color: accent }}
+          >
+            $ ls ~/projects --all →
+          </Link>
         </section>
 
         {/* notes — achievements + education */}
@@ -379,13 +333,13 @@ export default async function Page() {
             <span style={{ color: "oklch(0.68 0.006 255)" }}>help</span>, whoami, skills, projects,
             experience, contact, clear
           </p>
-          <Terminal accent={accent} />
+          <Terminal />
         </section>
 
         {/* contact */}
         <section id="contact" style={{ ...sectionStyle, padding: "34px 0" }}>
           <p style={{ ...sectionLabel, marginBottom: 18 }}>$ ./send-message --interactive</p>
-          <ContactForm accent={accent} />
+          <ContactForm />
         </section>
 
         {/* footer */}

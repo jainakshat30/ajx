@@ -49,7 +49,7 @@ function getOutput(raw: string): string[] {
   );
 }
 
-export function Terminal({ accent }: { accent: string }) {
+export function Terminal() {
   const [inputValue, setInputValue] = useState("");
   const [history, setHistory] = useState<HistoryEntry[]>([
     {
@@ -112,7 +112,7 @@ export function Terminal({ accent }: { accent: string }) {
           <div key={i} style={{ marginBottom: 8 }}>
             {h.showPrompt && (
               <div>
-                <span style={{ color: accent }}>akshat@portfolio</span>
+                <span style={{ color: "var(--accent)" }}>akshat@portfolio</span>
                 <span style={{ color: "oklch(0.5 0.006 255)" }}> ~ % </span>
                 <span style={{ color: "oklch(0.9 0.004 255)" }}>{h.cmd}</span>
               </div>
@@ -125,7 +125,7 @@ export function Terminal({ accent }: { accent: string }) {
           </div>
         ))}
         <div style={{ display: "flex", alignItems: "center" }}>
-          <span style={{ color: accent }}>akshat@portfolio</span>
+          <span style={{ color: "var(--accent)" }}>akshat@portfolio</span>
           <span style={{ color: "oklch(0.5 0.006 255)" }}>&nbsp;~ %&nbsp;</span>
           <input
             ref={inputRef}
@@ -143,7 +143,7 @@ export function Terminal({ accent }: { accent: string }) {
               fontSize: 13,
             }}
           />
-          <span className="caret" style={{ color: accent }}>
+          <span className="caret" style={{ color: "var(--accent)" }}>
             ▍
           </span>
         </div>

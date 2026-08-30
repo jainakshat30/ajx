@@ -14,7 +14,7 @@ const inputStyle: React.CSSProperties = {
 
 const labelStyle: React.CSSProperties = { fontSize: 11, color: "oklch(0.55 0.006 255)" };
 
-export function ContactForm({ accent }: { accent: string }) {
+export function ContactForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -39,7 +39,7 @@ export function ContactForm({ accent }: { accent: string }) {
     >
       <div style={{ gridColumn: "1/-1", fontSize: 13, color: "oklch(0.7 0.006 255)", marginBottom: 4 }}>
         Have a project or just want to talk tech? Reach me at{" "}
-        <span style={{ color: accent }}>akshatdotjain@gmail.com</span> — reply time is usually under
+        <span style={{ color: "var(--accent)" }}>akshatdotjain@gmail.com</span> — reply time is usually under
         24h.
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -83,7 +83,7 @@ export function ContactForm({ accent }: { accent: string }) {
           padding: "10px 22px",
           borderRadius: 4,
           border: "none",
-          background: accent,
+          background: "var(--accent)",
           color: "oklch(0.14 0.006 255)",
           cursor: "pointer",
         }}
