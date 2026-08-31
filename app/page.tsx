@@ -145,11 +145,11 @@ export default async function Page() {
                   ? { borderBottom: `2px solid ${accent}`, color: "oklch(0.9 0.004 255)", paddingBottom: 2 }
                   : undefined;
               return l.href.startsWith("/") ? (
-                <Link key={l.href} href={l.href} style={style}>
+                <Link key={l.href} href={l.href} style={style} data-robot="navigation">
                   {l.label}
                 </Link>
               ) : (
-                <a key={l.href} href={l.href} style={style}>
+                <a key={l.href} href={l.href} style={style} data-robot="navigation">
                   {l.label}
                 </a>
               );
@@ -182,6 +182,7 @@ export default async function Page() {
                 href="https://drive.google.com/file/d/1dx9-7m9U5smmfuV-ioSmGqJnnUKlT_1G/view?usp=sharing"
                 target="_blank"
                 rel="noreferrer"
+                data-robot="primary"
                 style={{ fontSize: 13, fontWeight: 600, padding: "9px 18px", borderRadius: 4, background: accent, color: "oklch(0.14 0.006 255)" }}
               >
                 ./resume.pdf
@@ -192,6 +193,7 @@ export default async function Page() {
                   href={l.href}
                   target={l.href.startsWith("http") ? "_blank" : undefined}
                   rel={l.href.startsWith("http") ? "noreferrer" : undefined}
+                  data-robot="social"
                   style={{ fontSize: 13, padding: "9px 16px", borderRadius: 4, border: "1px solid oklch(0.32 0.006 255)", color: "oklch(0.8 0.006 255)" }}
                 >
                   {l.label}
