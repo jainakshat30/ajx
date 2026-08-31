@@ -4,6 +4,7 @@ export type Project = {
   tags: string[];
   live?: string;
   repo?: string;
+  image?: string;
   featured?: boolean;
 };
 
@@ -13,6 +14,7 @@ export const projects: Project[] = [
     desc: "Real-time collaborative whiteboard with sub-second CRDT sync over WebSockets, persisted to Postgres.",
     tags: ["Next.js", "Yjs", "WebSockets", "PostgreSQL", "Prisma"],
     live: "https://whiteboard-web-1.vercel.app/",
+    image: "/whiteBoard.png",
     featured: true,
   },
   {
@@ -21,6 +23,7 @@ export const projects: Project[] = [
     tags: ["Python", "Streamlit", "LLM", "GitHub API"],
     live: "https://getautodocs.streamlit.app/",
     repo: "https://github.com/jainakshat30/AutoDocs",
+    image: "/autoDocsPreview.png",
     featured: true,
   },
   {
@@ -29,6 +32,7 @@ export const projects: Project[] = [
     tags: ["Next.js", "TypeScript", "Firebase", "Cloudinary", "Zustand"],
     live: "https://stagelink-tau.vercel.app/",
     repo: "https://github.com/jainakshat30/stagelink",
+    image: "/stageLink.png",
     featured: true,
   },
   {
@@ -37,6 +41,8 @@ export const projects: Project[] = [
     tags: ["Next.js", "PostgreSQL", "Prisma", "Google Gemini", "Supabase", "Clerk"],
     live: "https://finzo-two.vercel.app/",
     repo: "https://github.com/jainakshat30/finzo",
+    image: "/finzoPreview.png",
+    featured: true,
   },
 ];
 

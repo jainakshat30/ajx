@@ -109,6 +109,30 @@ textarea::placeholder {
   overflow: hidden;
 }
 
+.robot-bubble {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 3px);
+  transform: translate(-50%, 4px);
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: oklch(0.19 0.004 255);
+  border: 1px solid oklch(0.34 0.006 255);
+  color: oklch(0.84 0.006 255);
+  font-family: var(--font-jetbrains-mono), ui-monospace, Menlo, monospace;
+  font-size: 10px;
+  line-height: 1.4;
+  white-space: nowrap;
+  opacity: 0;
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+.robot-bot[data-say="true"] .robot-bubble {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
 .robot-cursor,
 .robot-bot {
   position: absolute;
