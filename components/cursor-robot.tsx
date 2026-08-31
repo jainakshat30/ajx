@@ -4,10 +4,12 @@ import { useEffect, useRef, useState } from "react";
 
 // All tunable values live here — tune visually against the live site.
 const CONFIG = {
-  follow: 0.055, // base robot lerp per frame when it's right on the cursor
-  followExcited: 0.09, // ...a little quicker when excited
-  followPerPx: 0.0012, // added to follow per px of distance — far away = catches up faster
-  followMax: 0.34, // hard cap on the follow factor
+  follow: 0.05, // base ease toward target when it's right on the cursor
+  followExcited: 0.08, // ...a little quicker when excited
+  followPerPx: 0.0004, // extra ease per px of distance — gentle, just enough to lean in
+  followMax: 0.16, // cap on the ease factor
+  maxStep: 7.5, // px/frame hard speed cap — this is what makes it chase, not teleport
+  maxStepExcited: 12, // ...when excited it sprints a little
   cursorSmooth: 0.4, // glowing target lerp toward real pointer (stays responsive)
   velScale: 2.6, // how far the robot trails behind along velocity
   velClamp: 52, // px cap on that trailing offset
@@ -20,23 +22,14 @@ const CONFIG = {
   trailMinSpeed: 0.5, // px/frame before footprints appear
   trailGap: 55, // ms between footprints
   fastSpeak: 32, // pointer px/frame that counts as "too fast"
-  sayMs: 2600, // how long a speech bubble stays up
-  sayCooldown: 4200, // min ms between bubbles
+  sayMs: 2800, // how long a speech bubble stays up
+  sayCooldown: 2200, // min ms between bubbles
   cursorSize: 24,
   robotSize: 44,
 };
 
-const LINES: Record<string, string[]> = {
-  hello: ["hello 👋", "hi there!", "oh, hey", "there you are"],
-  fast: ["heyyyy slow down!", "woah, too fast!", "slow down for me!", "i can't keep up 😵"],
-  excited: ["ooh, a project!", "check this one out", "this one's cool", "nice pick"],
-  interactive: ["go on, click it", "that one?", "ooh what's this"],
-  sleep: ["zzz…", "just resting my eyes", "wake me if you need me"],
-  idle: ["still here", "take your time", "just vibing", "…"],
-  click: ["boop", "nice", "click!", "got it"],
-};
-
-const pick = (k: string) => LINES[k][(Math.random() * LINES[k].length) | 0];
+const FAST = ["heyyyy slow down!", "woah, too fast!", "slow down for me!", "i can't keep up 😵"];
+const pickFast = () => FAST[(Math.random() * FAST.length) | 0];
 
 const HIT = 'a,button,input,textarea,select,[role="button"],[data-robot]';
 
@@ -83,6 +76,7 @@ export function CursorRobot() {
     let excitedUntil = 0;
     let hoverType: string | null = null;
     let lastHoverEl: Element | null = null;
+    let lastSection: Element | null = null;
     let state = "";
     let raf = 0;
 
@@ -92,10 +86,10 @@ export function CursorRobot() {
 
     const clamp = (v: number, m: number) => Math.max(-m, Math.min(m, v));
 
-    const say = (kind: string, gap = CONFIG.sayCooldown) => {
+    const say = (text: string, gap = CONFIG.sayCooldown) => {
       const now = performance.now();
       if (now < sayCooldownUntil) return;
-      bubbleEl.textContent = pick(kind);
+      bubbleEl.textContent = text;
       botEl.dataset.say = "true";
       sayUntil = now + CONFIG.sayMs;
       sayCooldownUntil = now + gap;
@@ -110,25 +104,26 @@ export function CursorRobot() {
         dot.x = prevDot.x = bot.x = prevBot.x = pointer.x;
         dot.y = prevDot.y = bot.y = prevBot.y = pointer.y;
         layer.dataset.visible = "true";
-        say("hello", 0);
       }
     };
     const onDown = () => {
       clickUntil = performance.now() + CONFIG.clickMs;
-      if (Math.random() < 0.5) say("click", 5000);
     };
     const onOver = (e: PointerEvent) => {
-      const el = (e.target as Element)?.closest?.(HIT) as HTMLElement | null;
+      const target = e.target as Element | null;
+      const el = target?.closest?.(HIT) as HTMLElement | null;
       hoverType = el ? el.dataset.robot || "interactive" : null;
-      if (el && el !== lastHoverEl) {
-        if (hoverType === "project" || hoverType === "primary") {
-          excitedUntil = performance.now() + CONFIG.excitedMs;
-          say("excited", 6000);
-        } else if (Math.random() < 0.35) {
-          say("interactive", 7000);
-        }
+      if (el && el !== lastHoverEl && (hoverType === "project" || hoverType === "primary")) {
+        excitedUntil = performance.now() + CONFIG.excitedMs;
       }
       lastHoverEl = el;
+
+      const sec = (target?.closest?.("[data-robot-section]") as HTMLElement | null) ?? null;
+      if (sec !== lastSection) {
+        if (sec?.dataset.robotSection) say(sec.dataset.robotSection);
+        botEl.dataset.bubble = sec?.dataset.robotBubble || "above";
+        lastSection = sec;
+      }
     };
     const hide = () => {
       layer.dataset.visible = "false";
@@ -159,14 +154,17 @@ export function CursorRobot() {
 
       const tx = pointer.x - clamp(vel.x * CONFIG.velScale, CONFIG.velClamp);
       const ty = pointer.y - clamp(vel.y * CONFIG.velScale, CONFIG.velClamp) + CONFIG.offsetY;
-      const dist = Math.hypot(tx - bot.x, ty - bot.y);
+      const dx = tx - bot.x;
+      const dy = ty - bot.y;
+      const dist = Math.hypot(dx, dy) || 1;
       const base = excited ? CONFIG.followExcited : CONFIG.follow;
       const f = Math.min(CONFIG.followMax, base + dist * CONFIG.followPerPx);
-      bot.x += (tx - bot.x) * f;
-      bot.y += (ty - bot.y) * f;
+      const step = Math.min(dist * f, excited ? CONFIG.maxStepExcited : CONFIG.maxStep);
+      bot.x += (dx / dist) * step;
+      bot.y += (dy / dist) * step;
 
       if (Math.hypot(vel.x, vel.y) > CONFIG.fastSpeak && now > fastQuietUntil) {
-        say("fast", 5000);
+        say(pickFast(), 5000);
         fastQuietUntil = now + 9000;
       }
 
@@ -204,8 +202,6 @@ export function CursorRobot() {
       else if (now - lastMove > CONFIG.idleDelay) s = "idle";
       else s = "following";
       if (s !== state) {
-        if (s === "sleeping") say("sleep", 6000);
-        else if (s === "idle" && state === "following" && Math.random() < 0.4) say("idle", 8000);
         state = s;
         botEl.dataset.state = s;
       }
@@ -269,7 +265,7 @@ export function CursorRobot() {
         ))}
       </div>
 
-      <div ref={botRef} className="robot-bot" data-state="following" data-say="false">
+      <div ref={botRef} className="robot-bot" data-state="following" data-say="false" data-bubble="above">
         <div ref={bubbleRef} className="robot-bubble" />
         <div ref={leanRef} className="robot-lean">
           <div className="robot-scale">

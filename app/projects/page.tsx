@@ -40,7 +40,7 @@ export default function ProjectsPage() {
           </Link>
         </nav>
 
-        <section style={{ padding: "44px 0 36px 0" }}>
+        <section data-robot-section="oh — all of Akshat's projects" style={{ padding: "44px 0 36px 0" }}>
           <p style={{ margin: "0 0 18px 0", fontSize: 13, color: "oklch(0.55 0.006 255)" }}>$ ls -la ~/projects</p>
           <div className="tr-cols-projects">
             {projects.map((p) => (

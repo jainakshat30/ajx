@@ -132,6 +132,14 @@ textarea::placeholder {
   opacity: 1;
   transform: translate(-50%, 0);
 }
+.robot-bot[data-bubble="below"] .robot-bubble {
+  bottom: auto;
+  top: calc(100% + 3px);
+  transform: translate(-50%, -4px);
+}
+.robot-bot[data-bubble="below"][data-say="true"] .robot-bubble {
+  transform: translate(-50%, 0);
+}
 
 .robot-cursor,
 .robot-bot {

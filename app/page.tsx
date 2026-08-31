@@ -158,7 +158,12 @@ export default async function Page() {
         </nav>
 
         {/* about — $ whoami */}
-        <section id="about" className="tr-cols-about" style={{ padding: "44px 0 36px 0" }}>
+        <section
+          id="about"
+          className="tr-cols-about"
+          data-robot-section="oh — this is Akshat"
+          style={{ padding: "44px 0 36px 0" }}
+        >
           <div>
             <p style={{ margin: "0 0 10px 0", fontSize: 13, color: "oklch(0.55 0.006 255)" }}>$ whoami</p>
             <h1 style={{ margin: 0, fontSize: 44, fontWeight: 800, letterSpacing: "-0.02em", color: "oklch(0.96 0.004 255)" }}>
@@ -213,7 +218,11 @@ export default async function Page() {
         </section>
 
         {/* contributions heatmap */}
-        <section style={{ ...sectionStyle, paddingTop: 30 }}>
+        <section
+          data-robot-section="oh — Akshat's contribution graph"
+          data-robot-bubble="below"
+          style={{ ...sectionStyle, paddingTop: 30 }}
+        >
           <p style={sectionLabel}>$ cat contributions.log</p>
           {contrib ? (
             <ContributionGraph data={contrib} />
@@ -225,7 +234,7 @@ export default async function Page() {
         </section>
 
         {/* experience — git log */}
-        <section id="log" style={sectionStyle}>
+        <section id="log" data-robot-section="oh — Akshat's experience" style={sectionStyle}>
           <p style={{ ...sectionLabel, marginBottom: 18 }}>$ git log --oneline --graph experience</p>
           <div style={{ display: "flex", flexDirection: "column" }}>
             {work.map((w) => (
@@ -254,7 +263,7 @@ export default async function Page() {
         </section>
 
         {/* skills.json */}
-        <section style={sectionStyle}>
+        <section data-robot-section="oh — Akshat's skill set" style={sectionStyle}>
           <p style={sectionLabel}>$ cat skills.json</p>
           <div style={{ border: "1px solid oklch(0.28 0.006 255)", borderRadius: 8, padding: "18px 20px", background: "oklch(0.17 0.004 255)", fontSize: 13, lineHeight: 1.9 }}>
             <div>
@@ -281,7 +290,7 @@ export default async function Page() {
         </section>
 
         {/* projects — ls -la */}
-        <section id="projects" style={sectionStyle}>
+        <section id="projects" data-robot-section="oh — Akshat's projects" style={sectionStyle}>
           <p style={{ ...sectionLabel, marginBottom: 18 }}>$ ls -la ./projects</p>
           <div className="tr-cols-projects">
             {featuredProjects.map((p) => (
@@ -297,7 +306,12 @@ export default async function Page() {
         </section>
 
         {/* notes — achievements + education */}
-        <section id="notes" className="tr-cols-2" style={sectionStyle}>
+        <section
+          id="notes"
+          className="tr-cols-2"
+          data-robot-section="oh — Akshat's achievements & education"
+          style={sectionStyle}
+        >
           <div>
             <p style={sectionLabel}>$ cat achievements.log</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -329,7 +343,7 @@ export default async function Page() {
         </section>
 
         {/* interactive terminal */}
-        <section id="terminal" style={sectionStyle}>
+        <section id="terminal" data-robot-section="ooh — a real terminal, try it" style={sectionStyle}>
           <p style={sectionLabel}>
             $ open interactive-terminal &mdash; try:{" "}
             <span style={{ color: "oklch(0.68 0.006 255)" }}>help</span>, whoami, skills, projects,
@@ -339,7 +353,11 @@ export default async function Page() {
         </section>
 
         {/* contact */}
-        <section id="contact" style={{ ...sectionStyle, padding: "34px 0" }}>
+        <section
+          id="contact"
+          data-robot-section="oh — say hi to Akshat here"
+          style={{ ...sectionStyle, padding: "34px 0" }}
+        >
           <p style={{ ...sectionLabel, marginBottom: 18 }}>$ ./send-message --interactive</p>
           <ContactForm />
         </section>
