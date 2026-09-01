@@ -176,7 +176,7 @@ export default async function Page() {
               22 · he/him · Full-Stack Developer, India
             </p>
             <p style={{ margin: "18px 0 0 0", fontSize: 14, lineHeight: 1.75, color: "oklch(0.75 0.006 255)", maxWidth: "56ch" }}>
-              21-year-old developer from India who enjoys turning random ideas into things that
+              22-year-old developer from India who enjoys turning random ideas into things that
               actually work. Spent the last year building full-stack, AI-powered, and real-time
               systems &mdash; currently building, breaking, fixing, and occasionally wondering why the
               code worked five minutes ago.
@@ -208,7 +208,7 @@ export default async function Page() {
           </div>
 
           <Image
-            src="/me-modified.jpg"
+            src="/me-modified.png"
             alt="Akshat Jain"
             width={1130}
             height={980}
