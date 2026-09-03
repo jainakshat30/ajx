@@ -134,10 +134,16 @@ export function Terminal() {
             onKeyDown={onKeyDown}
             spellCheck={false}
             style={{
-              flex: 1,
+              // sized to its content so the block caret below sits right after
+              // the text — flex:1 pinned it to the far right of the row
+              // ...but never zero-width, or there's nothing left to click or focus
+              width: `${inputValue.length || 1}ch`,
+              maxWidth: "100%",
+              padding: 0, // the UA default would eat 4px out of that exact width
               background: "transparent",
               border: "none",
               outline: "none",
+              caretColor: "transparent", // the block caret is the only one we show
               color: "oklch(0.94 0.004 255)",
               fontFamily: "inherit",
               fontSize: 13,
