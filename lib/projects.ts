@@ -2,7 +2,7 @@ export type Project = {
   title: string;
   desc: string;
   tags: string[];
-  live?: string;
+  live: string;
   repo?: string;
   image: string;
 };

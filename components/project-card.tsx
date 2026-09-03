@@ -47,20 +47,16 @@ export function ProjectCard({ project: p }: { project: Project }) {
             </span>
           ))}
         </div>
-        {(p.live || p.repo) && (
-          <div style={{ marginTop: "auto", display: "flex", gap: 14, paddingTop: 8, borderTop: "1px solid oklch(0.26 0.006 255)" }}>
-            {p.live && (
-              <a href={p.live} target="_blank" rel="noreferrer" style={{ fontSize: 11, color: "var(--accent)" }}>
-                --live
-              </a>
-            )}
-            {p.repo && (
-              <a href={p.repo} target="_blank" rel="noreferrer" style={{ fontSize: 11, color: "oklch(0.6 0.006 255)" }}>
-                --source
-              </a>
-            )}
-          </div>
-        )}
+        <div style={{ marginTop: "auto", display: "flex", gap: 14, paddingTop: 8, borderTop: "1px solid oklch(0.26 0.006 255)" }}>
+          <a href={p.live} target="_blank" rel="noreferrer" style={{ fontSize: 11, color: "var(--accent)" }}>
+            --live
+          </a>
+          {p.repo && (
+            <a href={p.repo} target="_blank" rel="noreferrer" style={{ fontSize: 11, color: "oklch(0.6 0.006 255)" }}>
+              --source
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );
