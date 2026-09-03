@@ -30,7 +30,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={jetbrainsMono.variable}>
-        {children}
+        <main
+          style={{
+            minHeight: "100dvh",
+            background: "oklch(0.12 0.004 255)",
+            color: "oklch(0.9 0.004 255)",
+            fontFamily: "var(--font-jetbrains-mono), ui-monospace, Menlo, monospace",
+            padding: "40px 20px 60px 20px",
+          }}
+        >
+          <div style={{ maxWidth: 960, margin: "0 auto" }}>{children}</div>
+        </main>
         <CursorRobot />
       </body>
     </html>
