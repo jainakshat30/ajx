@@ -105,13 +105,13 @@ textarea::placeholder {
   }
 }
 
-/* ---- cursor robot (decorative, desktop pointer only) ---- */
-.robot-active,
-.robot-active * {
+/* ---- cursor cat (decorative, desktop pointer only) ---- */
+.cat-active,
+.cat-active * {
   cursor: none !important;
 }
 
-.robot-layer {
+.cat-layer {
   position: fixed;
   inset: 0;
   z-index: 40;
@@ -119,10 +119,11 @@ textarea::placeholder {
   overflow: hidden;
 }
 
-.robot-bubble {
+.cat-bubble {
   position: absolute;
   left: 50%;
-  bottom: calc(100% + 3px);
+  /* clears the food bowl, which sits above the cat by CONFIG.offsetY */
+  bottom: calc(100% + 26px);
   transform: translate(-50%, 4px);
   padding: 3px 8px;
   border-radius: 8px;
@@ -138,21 +139,21 @@ textarea::placeholder {
     opacity 200ms ease,
     transform 200ms ease;
 }
-.robot-bot[data-say="true"] .robot-bubble {
+.cat-sprite[data-say="true"] .cat-bubble {
   opacity: 1;
   transform: translate(-50%, 0);
 }
-.robot-bot[data-bubble="below"] .robot-bubble {
+.cat-sprite[data-bubble="below"] .cat-bubble {
   bottom: auto;
   top: calc(100% + 3px);
   transform: translate(-50%, -4px);
 }
-.robot-bot[data-bubble="below"][data-say="true"] .robot-bubble {
+.cat-sprite[data-bubble="below"][data-say="true"] .cat-bubble {
   transform: translate(-50%, 0);
 }
 
-.robot-cursor,
-.robot-bot {
+.cat-cursor,
+.cat-sprite {
   position: absolute;
   top: 0;
   left: 0;
@@ -161,27 +162,27 @@ textarea::placeholder {
   transition: opacity 260ms ease;
 }
 
-.robot-layer[data-visible="true"] .robot-cursor,
-.robot-layer[data-visible="true"] .robot-bot {
+.cat-layer[data-visible="true"] .cat-cursor,
+.cat-layer[data-visible="true"] .cat-sprite {
   opacity: 1;
 }
 
-.robot-cursor {
-  width: var(--robot-cursor-size);
-  height: var(--robot-cursor-size);
-  margin-top: calc(var(--robot-cursor-size) / -2);
-  margin-left: calc(var(--robot-cursor-size) / -2);
+.cat-cursor {
+  width: var(--cat-cursor-size);
+  height: var(--cat-cursor-size);
+  margin-top: calc(var(--cat-cursor-size) / -2);
+  margin-left: calc(var(--cat-cursor-size) / -2);
   filter: drop-shadow(0 0 4px color-mix(in oklab, var(--accent) 55%, transparent));
 }
 
-.robot-bot {
-  width: var(--robot-size);
-  height: var(--robot-size);
-  margin-top: calc(var(--robot-size) / -2);
-  margin-left: calc(var(--robot-size) / -2);
+.cat-sprite {
+  width: var(--cat-size);
+  height: var(--cat-size);
+  margin-top: calc(var(--cat-size) / -2);
+  margin-left: calc(var(--cat-size) / -2);
 }
 
-.robot-trail-dot {
+.cat-trail-dot {
   position: absolute;
   top: 0;
   left: 0;
@@ -193,10 +194,10 @@ textarea::placeholder {
   opacity: 0;
   will-change: transform, opacity;
 }
-.robot-trail-dot.on {
-  animation: robot-trail 560ms ease-out forwards;
+.cat-trail-dot.on {
+  animation: cat-trail 560ms ease-out forwards;
 }
-@keyframes robot-trail {
+@keyframes cat-trail {
   from {
     opacity: 0.3;
     transform: translate3d(var(--tx), var(--ty), 0) scale(1);
@@ -207,27 +208,32 @@ textarea::placeholder {
   }
 }
 
-.robot-lean,
-.robot-scale,
-.robot-bob {
+.cat-lean,
+.cat-scale,
+.cat-bob {
   display: block;
+  width: 100%;
+  height: 100%;
   transform-origin: 50% 85%;
 }
 
-.robot-scale {
+.cat-scale {
   transition: transform 260ms ease;
 }
 
-.robot-glow {
-  opacity: 0.2;
-  transition: opacity 260ms ease;
+/* the lottie canvas is much larger than the cat drawn inside it — blow it up
+   and centre it on the 44px sprite box so only the cat lands on the cursor. */
+.cat-lottie {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--cat-canvas);
+  height: calc(var(--cat-canvas) * 0.75);
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 1px 6px oklch(0 0 0 / 0.55));
 }
 
-.robot-eyes {
-  transition: opacity 300ms ease;
-}
-
-@keyframes robot-bob {
+@keyframes cat-bob {
   0%,
   100% {
     transform: translateY(0);
@@ -236,7 +242,7 @@ textarea::placeholder {
     transform: translateY(-2px);
   }
 }
-@keyframes robot-bob-idle {
+@keyframes cat-bob-idle {
   0%,
   100% {
     transform: translateY(0);
@@ -245,7 +251,7 @@ textarea::placeholder {
     transform: translateY(-1px);
   }
 }
-@keyframes robot-excited {
+@keyframes cat-excited {
   0%,
   100% {
     transform: translateY(0);
@@ -258,34 +264,27 @@ textarea::placeholder {
   }
 }
 
-.robot-bob {
-  animation: robot-bob 2.6s ease-in-out infinite;
+.cat-bob {
+  animation: cat-bob 2.6s ease-in-out infinite;
 }
-.robot-bot[data-state="idle"] .robot-bob {
-  animation: robot-bob-idle 3.4s ease-in-out infinite;
+.cat-sprite[data-state="idle"] .cat-bob {
+  animation: cat-bob-idle 3.4s ease-in-out infinite;
 }
-.robot-bot[data-state="excited"] .robot-bob {
-  animation: robot-excited 620ms ease-in-out;
+.cat-sprite[data-state="excited"] .cat-bob {
+  animation: cat-excited 620ms ease-in-out;
 }
-.robot-bot[data-state="click"] .robot-bob {
+.cat-sprite[data-state="click"] .cat-bob {
   animation: none;
   transform: scaleY(0.82) translateY(2px);
 }
-.robot-bot[data-state="sleeping"] .robot-bob {
+.cat-sprite[data-state="sleeping"] .cat-bob {
   animation: none;
   transform: translateY(3px);
 }
-.robot-bot[data-state="sleeping"] {
+.cat-sprite[data-state="sleeping"] {
   filter: brightness(0.72) saturate(0.7);
 }
-.robot-bot[data-state="sleeping"] .robot-eyes {
-  opacity: 0.35;
-}
-.robot-bot[data-state="hover"] .robot-scale,
-.robot-bot[data-state="excited"] .robot-scale {
+.cat-sprite[data-state="hover"] .cat-scale,
+.cat-sprite[data-state="excited"] .cat-scale {
   transform: scale(1.12);
-}
-.robot-bot[data-state="hover"] .robot-glow,
-.robot-bot[data-state="excited"] .robot-glow {
-  opacity: 0.5;
 }

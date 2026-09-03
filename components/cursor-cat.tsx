@@ -1,6 +1,10 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
+
+// desktop-pointer-only decoration — keep the lottie engine out of everyone else's bundle
+const Lottie = dynamic(() => import("lottie-react").then((m) => m.LottieLight), { ssr: false });
 
 // All tunable values live here — tune visually against the live site.
 const CONFIG = {
@@ -11,35 +15,39 @@ const CONFIG = {
   maxStep: 7.5, // px/frame hard speed cap — this is what makes it chase, not teleport
   maxStepExcited: 12, // ...when excited it sprints a little
   cursorSmooth: 0.4, // glowing target lerp toward real pointer (stays responsive)
-  velScale: 2.6, // how far the robot trails behind along velocity
+  velScale: 2.6, // how far the cat trails behind along velocity
   velClamp: 52, // px cap on that trailing offset
   maxLean: 14, // deg
-  offsetY: 12, // robot rests slightly below the cursor, never under it
+  offsetY: 34, // cat trails below the bowl, looking up at it — never under the cursor
   idleDelay: 1500, // ms still -> IDLE
   sleepDelay: 3800, // ms still -> SLEEPING
   excitedMs: 650, // EXCITED reaction length
   clickMs: 200, // CLICKING reaction length
-  trailMinSpeed: 0.5, // px/frame before footprints appear
-  trailGap: 55, // ms between footprints
+  trailMinSpeed: 0.5, // px/frame before pawprints appear
+  trailGap: 55, // ms between pawprints
   fastSpeak: 32, // pointer px/frame that counts as "too fast"
   sayMs: 2800, // how long a speech bubble stays up
   sayCooldown: 2200, // min ms between bubbles
-  cursorSize: 24,
-  robotSize: 44,
+  cursorSize: 30,
+  catSize: 44, // rendered cat height; the lottie canvas is scaled around it
+  catCanvas: 3.7, // the cat fills ~1/3.7 of its 400x300 lottie canvas
+  speed: { following: 1, idle: 0.55, hover: 1.5, excited: 1.9, click: 1.5, sleeping: 0.25 },
 };
 
-const FAST = ["heyyyy slow down!", "woah, too fast!", "slow down for me!", "i can't keep up 😵"];
+const FAST = ["heyyyy slow down!", "woah, too fast!", "slow down for me!", "i can't keep up 😿"];
 const pickFast = () => FAST[(Math.random() * FAST.length) | 0];
 
-const HIT = 'a,button,input,textarea,select,[role="button"],[data-robot]';
+const HIT = 'a,button,input,textarea,select,[role="button"],[data-cat]';
 
-export function CursorRobot() {
+type State = keyof typeof CONFIG.speed;
+
+export function CursorCat() {
   const [enabled, setEnabled] = useState(false);
+  const [state, setState] = useState<State>("following");
   const layerRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
-  const botRef = useRef<HTMLDivElement>(null);
+  const catRef = useRef<HTMLDivElement>(null);
   const leanRef = useRef<HTMLDivElement>(null);
-  const eyesRef = useRef<SVGGElement>(null);
   const trailRef = useRef<HTMLDivElement>(null);
   const bubbleRef = useRef<HTMLDivElement>(null);
 
@@ -53,31 +61,30 @@ export function CursorRobot() {
     if (!enabled) return;
     const layer = layerRef.current!;
     const cursorEl = cursorRef.current!;
-    const botEl = botRef.current!;
+    const catEl = catRef.current!;
     const leanEl = leanRef.current!;
-    const eyesEl = eyesRef.current!;
     const trailEls = Array.from(trailRef.current!.children) as HTMLElement[];
     const bubbleEl = bubbleRef.current!;
 
-    document.documentElement.classList.add("robot-active");
+    document.documentElement.classList.add("cat-active");
 
     const pointer = { x: innerWidth / 2, y: innerHeight / 2 };
     const dot = { ...pointer };
     const prevDot = { ...pointer };
-    const bot = { ...pointer };
+    const cat = { ...pointer };
     const vel = { x: 0, y: 0 };
 
     let started = false;
     let lastMove = performance.now();
     let lastTrail = 0;
     let trailIdx = 0;
-    const prevBot = { ...bot };
+    const prevCat = { ...cat };
     let clickUntil = 0;
     let excitedUntil = 0;
     let hoverType: string | null = null;
     let lastHoverEl: Element | null = null;
     let lastSection: Element | null = null;
-    let state = "";
+    let current = "";
     let raf = 0;
 
     let sayUntil = 0;
@@ -90,7 +97,7 @@ export function CursorRobot() {
       const now = performance.now();
       if (now < sayCooldownUntil) return;
       bubbleEl.textContent = text;
-      botEl.dataset.say = "true";
+      catEl.dataset.say = "true";
       sayUntil = now + CONFIG.sayMs;
       sayCooldownUntil = now + gap;
     };
@@ -101,8 +108,8 @@ export function CursorRobot() {
       lastMove = performance.now();
       if (!started) {
         started = true;
-        dot.x = prevDot.x = bot.x = prevBot.x = pointer.x;
-        dot.y = prevDot.y = bot.y = prevBot.y = pointer.y;
+        dot.x = prevDot.x = cat.x = prevCat.x = pointer.x;
+        dot.y = prevDot.y = cat.y = prevCat.y = pointer.y;
         layer.dataset.visible = "true";
       }
     };
@@ -112,16 +119,16 @@ export function CursorRobot() {
     const onOver = (e: PointerEvent) => {
       const target = e.target as Element | null;
       const el = target?.closest?.(HIT) as HTMLElement | null;
-      hoverType = el ? el.dataset.robot || "interactive" : null;
+      hoverType = el ? el.dataset.cat || "interactive" : null;
       if (el && el !== lastHoverEl && (hoverType === "project" || hoverType === "primary")) {
         excitedUntil = performance.now() + CONFIG.excitedMs;
       }
       lastHoverEl = el;
 
-      const sec = (target?.closest?.("[data-robot-section]") as HTMLElement | null) ?? null;
+      const sec = (target?.closest?.("[data-cat-section]") as HTMLElement | null) ?? null;
       if (sec !== lastSection) {
-        if (sec?.dataset.robotSection) say(sec.dataset.robotSection);
-        botEl.dataset.bubble = sec?.dataset.robotBubble || "above";
+        if (sec?.dataset.catSection) say(sec.dataset.catSection);
+        catEl.dataset.bubble = sec?.dataset.catBubble || "above";
         lastSection = sec;
       }
     };
@@ -154,23 +161,23 @@ export function CursorRobot() {
 
       const tx = pointer.x - clamp(vel.x * CONFIG.velScale, CONFIG.velClamp);
       const ty = pointer.y - clamp(vel.y * CONFIG.velScale, CONFIG.velClamp) + CONFIG.offsetY;
-      const dx = tx - bot.x;
-      const dy = ty - bot.y;
+      const dx = tx - cat.x;
+      const dy = ty - cat.y;
       const dist = Math.hypot(dx, dy) || 1;
       const base = excited ? CONFIG.followExcited : CONFIG.follow;
       const f = Math.min(CONFIG.followMax, base + dist * CONFIG.followPerPx);
       const step = Math.min(dist * f, excited ? CONFIG.maxStepExcited : CONFIG.maxStep);
-      bot.x += (dx / dist) * step;
-      bot.y += (dy / dist) * step;
+      cat.x += (dx / dist) * step;
+      cat.y += (dy / dist) * step;
 
       if (Math.hypot(vel.x, vel.y) > CONFIG.fastSpeak && now > fastQuietUntil) {
         say(pickFast(), 5000);
         fastQuietUntil = now + 9000;
       }
 
-      const speed = Math.hypot(bot.x - prevBot.x, bot.y - prevBot.y);
-      prevBot.x = bot.x;
-      prevBot.y = bot.y;
+      const speed = Math.hypot(cat.x - prevCat.x, cat.y - prevCat.y);
+      prevCat.x = cat.x;
+      prevCat.y = cat.y;
       if (
         layer.dataset.visible === "true" &&
         speed > CONFIG.trailMinSpeed &&
@@ -179,34 +186,31 @@ export function CursorRobot() {
         lastTrail = now;
         const t = trailEls[trailIdx];
         trailIdx = (trailIdx + 1) % trailEls.length;
-        t.style.setProperty("--tx", `${bot.x}px`);
-        t.style.setProperty("--ty", `${bot.y + CONFIG.robotSize * 0.42}px`);
+        t.style.setProperty("--tx", `${cat.x}px`);
+        t.style.setProperty("--ty", `${cat.y + CONFIG.catSize * 0.42}px`);
         t.classList.remove("on");
         void t.offsetWidth;
         t.classList.add("on");
       }
 
       cursorEl.style.transform = `translate3d(${dot.x}px, ${dot.y}px, 0)`;
-      botEl.style.transform = `translate3d(${bot.x}px, ${bot.y}px, 0)`;
+      catEl.style.transform = `translate3d(${cat.x}px, ${cat.y}px, 0)`;
       leanEl.style.transform = `rotate(${clamp(vel.x * 1.1, CONFIG.maxLean)}deg)`;
-      eyesEl.style.transform = `translate(${clamp((pointer.x - bot.x) * 0.04, 2.4)}px, ${clamp(
-        (pointer.y - bot.y) * 0.04,
-        2.4,
-      )}px)`;
 
-      let s: string;
+      let s: State;
       if (now < clickUntil) s = "click";
       else if (excited) s = "excited";
       else if (hoverType) s = "hover";
       else if (now - lastMove > CONFIG.sleepDelay) s = "sleeping";
       else if (now - lastMove > CONFIG.idleDelay) s = "idle";
       else s = "following";
-      if (s !== state) {
-        state = s;
-        botEl.dataset.state = s;
+      if (s !== current) {
+        current = s;
+        catEl.dataset.state = s;
+        setState(s);
       }
 
-      if (botEl.dataset.say === "true" && now > sayUntil) botEl.dataset.say = "false";
+      if (catEl.dataset.say === "true" && now > sayUntil) catEl.dataset.say = "false";
 
       raf = requestAnimationFrame(loop);
     };
@@ -227,7 +231,7 @@ export function CursorRobot() {
       document.documentElement.removeEventListener("mouseleave", hide);
       document.documentElement.removeEventListener("mouseenter", show);
       document.removeEventListener("visibilitychange", onVis);
-      document.documentElement.classList.remove("robot-active");
+      document.documentElement.classList.remove("cat-active");
     };
   }, [enabled]);
 
@@ -236,70 +240,44 @@ export function CursorRobot() {
   return (
     <div
       ref={layerRef}
-      className="robot-layer"
+      className="cat-layer"
       aria-hidden="true"
       data-visible="false"
       style={
         {
-          "--robot-cursor-size": `${CONFIG.cursorSize}px`,
-          "--robot-size": `${CONFIG.robotSize}px`,
+          "--cat-cursor-size": `${CONFIG.cursorSize}px`,
+          "--cat-size": `${CONFIG.catSize}px`,
+          "--cat-canvas": `${CONFIG.catSize * CONFIG.catCanvas}px`,
         } as React.CSSProperties
       }
     >
-      <div ref={cursorRef} className="robot-cursor">
-        <svg viewBox="0 0 24 24" width="100%" height="100%">
-          <circle cx="12" cy="12" r="9" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.5" />
-          <circle cx="12" cy="12" r="2" fill="var(--accent)" />
-          <g stroke="var(--accent)" strokeWidth="1" opacity="0.6">
-            <line x1="12" y1="1.5" x2="12" y2="4.5" />
-            <line x1="12" y1="19.5" x2="12" y2="22.5" />
-            <line x1="1.5" y1="12" x2="4.5" y2="12" />
-            <line x1="19.5" y1="12" x2="22.5" y2="12" />
+      {/* cursor: a bowl of cat food */}
+      <div ref={cursorRef} className="cat-cursor">
+        <svg viewBox="0 0 26 26" width="100%" height="100%">
+          <ellipse cx="13" cy="19" rx="11" ry="4.2" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.5" />
+          <path d="M4 16.5 A9 9 0 0 0 22 16.5 Z" fill="oklch(0.24 0.006 255)" stroke="var(--accent)" strokeWidth="1" />
+          <g fill="var(--accent)">
+            <circle cx="9.5" cy="14.6" r="2" />
+            <circle cx="13.4" cy="13.2" r="2.2" />
+            <circle cx="17" cy="15" r="1.9" />
+            <circle cx="11.4" cy="11.6" r="1.7" />
+            <circle cx="15.4" cy="10.9" r="1.5" />
           </g>
         </svg>
       </div>
 
-      <div ref={trailRef} className="robot-trail">
+      <div ref={trailRef} className="cat-trail">
         {Array.from({ length: 9 }).map((_, i) => (
-          <span key={i} className="robot-trail-dot" />
+          <span key={i} className="cat-trail-dot" />
         ))}
       </div>
 
-      <div ref={botRef} className="robot-bot" data-state="following" data-say="false" data-bubble="above">
-        <div ref={bubbleRef} className="robot-bubble" />
-        <div ref={leanRef} className="robot-lean">
-          <div className="robot-scale">
-            <div className="robot-bob">
-              <svg viewBox="0 0 40 40" width={CONFIG.robotSize} height={CONFIG.robotSize}>
-                <ellipse className="robot-glow" cx="20" cy="34" rx="11" ry="3" fill="var(--accent)" />
-                <rect
-                  x="11"
-                  y="18"
-                  width="18"
-                  height="15"
-                  rx="6"
-                  fill="oklch(0.26 0.006 255)"
-                  stroke="oklch(0.42 0.01 240)"
-                  strokeWidth="1"
-                />
-                <rect
-                  x="9"
-                  y="7"
-                  width="22"
-                  height="16"
-                  rx="7"
-                  fill="oklch(0.22 0.006 255)"
-                  stroke="oklch(0.42 0.01 240)"
-                  strokeWidth="1"
-                />
-                <rect x="12" y="10" width="16" height="10" rx="5" fill="oklch(0.15 0.004 255)" />
-                <g ref={eyesRef} className="robot-eyes" fill="var(--accent)">
-                  <circle cx="16.5" cy="15" r="1.8" />
-                  <circle cx="23.5" cy="15" r="1.8" />
-                </g>
-                <line x1="20" y1="7" x2="20" y2="3" stroke="oklch(0.42 0.01 240)" strokeWidth="1" />
-                <circle cx="20" cy="2.5" r="1.4" fill="var(--accent)" />
-              </svg>
+      <div ref={catRef} className="cat-sprite" data-state="following" data-say="false" data-bubble="above">
+        <div ref={bubbleRef} className="cat-bubble" />
+        <div ref={leanRef} className="cat-lean">
+          <div className="cat-scale">
+            <div className="cat-bob">
+              <Lottie src="/cat.json" loop autoplay speed={CONFIG.speed[state]} className="cat-lottie" />
             </div>
           </div>
         </div>

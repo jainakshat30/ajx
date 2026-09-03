@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
-import { CursorRobot } from "@/components/cursor-robot";
+import { CursorCat } from "@/components/cursor-cat";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -34,7 +34,7 @@ export default function RootLayout({
         <main style={{ minHeight: "100dvh", maxWidth: 1000, margin: "0 auto", padding: "40px 20px 60px" }}>
           {children}
         </main>
-        <CursorRobot />
+        <CursorCat />
       </body>
     </html>
   );

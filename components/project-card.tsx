@@ -4,7 +4,7 @@ import type { Project } from "@/lib/projects";
 export function ProjectCard({ project: p }: { project: Project }) {
   return (
     <div
-      data-robot="project"
+      data-cat="project"
       style={{
         border: "1px solid oklch(0.28 0.006 255)",
         borderRadius: 8,

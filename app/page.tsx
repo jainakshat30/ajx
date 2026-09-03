@@ -136,11 +136,11 @@ export default async function Page() {
                 ? { borderBottom: `2px solid ${accent}`, color: "oklch(0.9 0.004 255)", paddingBottom: 2 }
                 : undefined;
             return l.href.startsWith("/") ? (
-              <Link key={l.href} href={l.href} style={style} data-robot="navigation">
+              <Link key={l.href} href={l.href} style={style} data-cat="navigation">
                 {l.label}
               </Link>
             ) : (
-              <a key={l.href} href={l.href} style={style} data-robot="navigation">
+              <a key={l.href} href={l.href} style={style} data-cat="navigation">
                 {l.label}
               </a>
             );
@@ -152,7 +152,7 @@ export default async function Page() {
       <section
         id="about"
         className="tr-cols-about"
-        data-robot-section="oh — this is Akshat"
+        data-cat-section="oh — this is Akshat"
         style={{ padding: "44px 0 36px 0" }}
       >
         <div>
@@ -178,7 +178,7 @@ export default async function Page() {
               href="https://drive.google.com/file/d/1dx9-7m9U5smmfuV-ioSmGqJnnUKlT_1G/view?usp=sharing"
               target="_blank"
               rel="noreferrer"
-              data-robot="primary"
+              data-cat="primary"
               style={{ fontSize: 13, fontWeight: 600, padding: "9px 18px", borderRadius: 4, background: accent, color: "oklch(0.14 0.006 255)" }}
             >
               ./resume.pdf
@@ -189,7 +189,7 @@ export default async function Page() {
                 href={l.href}
                 target={l.href.startsWith("http") ? "_blank" : undefined}
                 rel={l.href.startsWith("http") ? "noreferrer" : undefined}
-                data-robot="social"
+                data-cat="social"
                 style={{ fontSize: 13, padding: "9px 16px", borderRadius: 4, border: "1px solid oklch(0.32 0.006 255)", color: "oklch(0.8 0.006 255)" }}
               >
                 {l.label}
@@ -210,8 +210,8 @@ export default async function Page() {
 
       {/* contributions heatmap */}
       <section
-        data-robot-section="oh — Akshat's contribution graph"
-        data-robot-bubble="below"
+        data-cat-section="oh — Akshat's contribution graph"
+        data-cat-bubble="below"
         style={{ ...sectionStyle, paddingTop: 30 }}
       >
         <p style={sectionLabel}>$ cat contributions.log</p>
@@ -225,7 +225,7 @@ export default async function Page() {
       </section>
 
       {/* experience — git log */}
-      <section id="log" data-robot-section="oh — Akshat's experience" style={sectionStyle}>
+      <section id="log" data-cat-section="oh — Akshat's experience" style={sectionStyle}>
         <p style={{ ...sectionLabel, marginBottom: 18 }}>$ git log --oneline --graph experience</p>
         <div style={{ display: "flex", flexDirection: "column" }}>
           {work.map((w) => (
@@ -254,7 +254,7 @@ export default async function Page() {
       </section>
 
       {/* skills.json */}
-      <section data-robot-section="oh — Akshat's skill set" style={sectionStyle}>
+      <section data-cat-section="oh — Akshat's skill set" style={sectionStyle}>
         <p style={sectionLabel}>$ cat skills.json</p>
         <div style={{ border: "1px solid oklch(0.28 0.006 255)", borderRadius: 8, padding: "18px 20px", background: "oklch(0.17 0.004 255)", fontSize: 13, lineHeight: 1.9 }}>
           <div>
@@ -281,7 +281,7 @@ export default async function Page() {
       </section>
 
       {/* projects — ls -la */}
-      <section id="projects" data-robot-section="oh — Akshat's projects" style={sectionStyle}>
+      <section id="projects" data-cat-section="oh — Akshat's projects" style={sectionStyle}>
         <p style={{ ...sectionLabel, marginBottom: 18 }}>$ ls -la ./projects</p>
         <div className="tr-cols-projects">
           {projects.map((p) => (
@@ -300,7 +300,7 @@ export default async function Page() {
       <section
         id="notes"
         className="tr-cols-2"
-        data-robot-section="oh — Akshat's achievements & education"
+        data-cat-section="oh — Akshat's achievements & education"
         style={sectionStyle}
       >
         <div>
@@ -334,7 +334,7 @@ export default async function Page() {
       </section>
 
       {/* interactive terminal */}
-      <section id="terminal" data-robot-section="ooh — a real terminal, try it" style={sectionStyle}>
+      <section id="terminal" data-cat-section="ooh — a real terminal, try it" style={sectionStyle}>
         <p style={sectionLabel}>
           $ open interactive-terminal &mdash; try:{" "}
           <span style={{ color: "oklch(0.68 0.006 255)" }}>help</span>, whoami, skills, projects,
@@ -346,7 +346,7 @@ export default async function Page() {
       {/* contact */}
       <section
         id="contact"
-        data-robot-section="oh — say hi to Akshat here"
+        data-cat-section="oh — say hi to Akshat here"
         style={{ ...sectionStyle, padding: "34px 0" }}
       >
         <p style={{ ...sectionLabel, marginBottom: 18 }}>$ ./send-message --interactive</p>
