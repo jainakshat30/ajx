@@ -38,6 +38,7 @@ const CONFIG = {
   eatRange: 40, // px from the bowl before the cat actually tucks in
   eatSayMin: 2000, // a new line every 2-3s while it eats
   eatSayMax: 3000,
+  eatFullMs: 10000, // after this much eating he's had enough and wants a walk
   speed: { following: 1, idle: 0.55, hover: 1.5, excited: 1.9, click: 1.5, sleeping: 0.25, eating: 1.4 },
 };
 
@@ -58,6 +59,7 @@ const EAT = [
   "ok maybe ten more",
   "daemon is pleased",
 ];
+const FULL = "i'm full, let's go for a walk";
 
 // a bowl of kibble — the cursor, and the big one in the corner
 const Bowl = () => (
@@ -130,6 +132,8 @@ export function CursorCat() {
     let sayCooldownUntil = 0;
     let fastQuietUntil = 0;
     let eatIdx = 0;
+    let ateSince = 0; // when the current sitting started
+    let full = false; // stays true until the pointer leaves the bowl
 
     // the bowl is fixed, so its box only moves when the viewport does
     const feeder = { x: 0, y: 0, l: 0, r: 0, t: 0, b: 0 };
@@ -147,9 +151,9 @@ export function CursorCat() {
 
     const clamp = (v: number, m: number) => Math.max(-m, Math.min(m, v));
 
-    const say = (text: string, gap = CONFIG.sayCooldown) => {
+    const say = (text: string, gap = CONFIG.sayCooldown, force = false) => {
       const now = performance.now();
-      if (now < sayCooldownUntil) return;
+      if (!force && now < sayCooldownUntil) return;
       bubbleEl.textContent = text;
       catEl.dataset.say = "true";
       sayUntil = now + CONFIG.sayMs;
@@ -206,6 +210,13 @@ export function CursorCat() {
       const now = performance.now();
       const excited = now < excitedUntil;
 
+      if (ateSince && now - ateSince > CONFIG.eatFullMs) {
+        full = true;
+        ateSince = 0;
+        lastMove = now; // he just got up — don't let him say "walk" and doze off mid-sentence
+        say(FULL, CONFIG.sayCooldown, true);
+      }
+
       dot.x += (pointer.x - dot.x) * CONFIG.cursorSmooth;
       dot.y += (pointer.y - dot.y) * CONFIG.cursorSmooth;
       vel.x += (dot.x - prevDot.x - vel.x) * 0.3;
@@ -215,8 +226,10 @@ export function CursorCat() {
 
       const onFood =
         pointer.x > feeder.l && pointer.x < feeder.r && pointer.y > feeder.t && pointer.y < feeder.b;
-      const tx = onFood ? feeder.x : pointer.x - clamp(vel.x * CONFIG.velScale, CONFIG.velClamp);
-      const ty = onFood
+      if (!onFood) full = false; // step away from the bowl and he's hungry again
+      const wantsFood = onFood && !full;
+      const tx = wantsFood ? feeder.x : pointer.x - clamp(vel.x * CONFIG.velScale, CONFIG.velClamp);
+      const ty = wantsFood
         ? feeder.y
         : pointer.y - clamp(vel.y * CONFIG.velScale, CONFIG.velClamp) + CONFIG.offsetY;
       const dx = tx - cat.x;
@@ -228,7 +241,8 @@ export function CursorCat() {
       cat.x += (dx / dist) * step;
       cat.y += (dy / dist) * step;
 
-      const eating = onFood && dist < CONFIG.eatRange;
+      const eating = wantsFood && dist < CONFIG.eatRange;
+      ateSince = eating ? ateSince || now : 0;
       // same guard say() uses, so the line only advances when one actually lands
       if (eating && now > sayCooldownUntil) {
         say(EAT[eatIdx], CONFIG.eatSayMin + Math.random() * (CONFIG.eatSayMax - CONFIG.eatSayMin));
