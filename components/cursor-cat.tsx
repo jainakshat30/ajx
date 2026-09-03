@@ -31,11 +31,48 @@ const CONFIG = {
   cursorSize: 30,
   catSize: 44, // rendered cat height; the lottie canvas is scaled around it
   catCanvas: 3.7, // the cat fills ~1/3.7 of its 400x300 lottie canvas
-  speed: { following: 1, idle: 0.55, hover: 1.5, excited: 1.9, click: 1.5, sleeping: 0.25 },
+  feederSize: 104, // the big bowl parked in the bottom-right corner
+  feederRight: 30,
+  feederBottom: 30,
+  feederPad: 16, // how far outside the bowl still counts as "cursor is on the food"
+  eatRange: 40, // px from the bowl before the cat actually tucks in
+  eatSayMin: 2000, // a new line every 2-3s while it eats
+  eatSayMax: 3000,
+  speed: { following: 1, idle: 0.55, hover: 1.5, excited: 1.9, click: 1.5, sleeping: 0.25, eating: 1.4 },
 };
 
 const FAST = ["heyyyy slow down!", "woah, too fast!", "slow down for me!", "i can't keep up 😿"];
 const pickFast = () => FAST[(Math.random() * FAST.length) | 0];
+
+const NAME = "daemon"; // the cat's name — it also labels the bowl
+
+const EAT = [
+  "nom nom nom",
+  "*crunch crunch*",
+  "this is SO good",
+  "best human ever",
+  "10/10 would eat again",
+  "purrrrr",
+  "don't take it away",
+  "just five more bites",
+  "ok maybe ten more",
+  "daemon is pleased",
+];
+
+// a bowl of kibble — the cursor, and the big one in the corner
+const Bowl = () => (
+  <svg viewBox="0 0 26 26" width="100%" height="100%">
+    <ellipse cx="13" cy="19" rx="11" ry="4.2" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.5" />
+    <path d="M4 16.5 A9 9 0 0 0 22 16.5 Z" fill="oklch(0.24 0.006 255)" stroke="var(--accent)" strokeWidth="1" />
+    <g fill="var(--accent)">
+      <circle cx="9.5" cy="14.6" r="2" />
+      <circle cx="13.4" cy="13.2" r="2.2" />
+      <circle cx="17" cy="15" r="1.9" />
+      <circle cx="11.4" cy="11.6" r="1.7" />
+      <circle cx="15.4" cy="10.9" r="1.5" />
+    </g>
+  </svg>
+);
 
 const HIT = 'a,button,input,textarea,select,[role="button"],[data-cat]';
 
@@ -50,6 +87,7 @@ export function CursorCat() {
   const leanRef = useRef<HTMLDivElement>(null);
   const trailRef = useRef<HTMLDivElement>(null);
   const bubbleRef = useRef<HTMLDivElement>(null);
+  const feederRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -65,6 +103,7 @@ export function CursorCat() {
     const leanEl = leanRef.current!;
     const trailEls = Array.from(trailRef.current!.children) as HTMLElement[];
     const bubbleEl = bubbleRef.current!;
+    const feederEl = feederRef.current!;
 
     document.documentElement.classList.add("cat-active");
 
@@ -90,6 +129,21 @@ export function CursorCat() {
     let sayUntil = 0;
     let sayCooldownUntil = 0;
     let fastQuietUntil = 0;
+    let eatIdx = 0;
+
+    // the bowl is fixed, so its box only moves when the viewport does
+    const feeder = { x: 0, y: 0, l: 0, r: 0, t: 0, b: 0 };
+    const measure = () => {
+      const box = feederEl.getBoundingClientRect();
+      const p = CONFIG.feederPad;
+      feeder.x = box.left - CONFIG.catSize * 0.34; // the cat eats from the near rim
+      feeder.y = box.top + box.height * 0.6;
+      feeder.l = box.left - p;
+      feeder.r = box.right + p;
+      feeder.t = box.top - p;
+      feeder.b = box.bottom + p;
+    };
+    measure();
 
     const clamp = (v: number, m: number) => Math.max(-m, Math.min(m, v));
 
@@ -159,8 +213,12 @@ export function CursorCat() {
       prevDot.x = dot.x;
       prevDot.y = dot.y;
 
-      const tx = pointer.x - clamp(vel.x * CONFIG.velScale, CONFIG.velClamp);
-      const ty = pointer.y - clamp(vel.y * CONFIG.velScale, CONFIG.velClamp) + CONFIG.offsetY;
+      const onFood =
+        pointer.x > feeder.l && pointer.x < feeder.r && pointer.y > feeder.t && pointer.y < feeder.b;
+      const tx = onFood ? feeder.x : pointer.x - clamp(vel.x * CONFIG.velScale, CONFIG.velClamp);
+      const ty = onFood
+        ? feeder.y
+        : pointer.y - clamp(vel.y * CONFIG.velScale, CONFIG.velClamp) + CONFIG.offsetY;
       const dx = tx - cat.x;
       const dy = ty - cat.y;
       const dist = Math.hypot(dx, dy) || 1;
@@ -170,7 +228,14 @@ export function CursorCat() {
       cat.x += (dx / dist) * step;
       cat.y += (dy / dist) * step;
 
-      if (Math.hypot(vel.x, vel.y) > CONFIG.fastSpeak && now > fastQuietUntil) {
+      const eating = onFood && dist < CONFIG.eatRange;
+      // same guard say() uses, so the line only advances when one actually lands
+      if (eating && now > sayCooldownUntil) {
+        say(EAT[eatIdx], CONFIG.eatSayMin + Math.random() * (CONFIG.eatSayMax - CONFIG.eatSayMin));
+        eatIdx = (eatIdx + 1) % EAT.length;
+      }
+
+      if (!onFood && Math.hypot(vel.x, vel.y) > CONFIG.fastSpeak && now > fastQuietUntil) {
         say(pickFast(), 5000);
         fastQuietUntil = now + 9000;
       }
@@ -198,7 +263,8 @@ export function CursorCat() {
       leanEl.style.transform = `rotate(${clamp(vel.x * 1.1, CONFIG.maxLean)}deg)`;
 
       let s: State;
-      if (now < clickUntil) s = "click";
+      if (eating) s = "eating";
+      else if (now < clickUntil) s = "click";
       else if (excited) s = "excited";
       else if (hoverType) s = "hover";
       else if (now - lastMove > CONFIG.sleepDelay) s = "sleeping";
@@ -207,6 +273,7 @@ export function CursorCat() {
       if (s !== current) {
         current = s;
         catEl.dataset.state = s;
+        if (s === "eating") catEl.dataset.bubble = "above"; // the bowl is at the bottom
         setState(s);
       }
 
@@ -221,6 +288,7 @@ export function CursorCat() {
     document.documentElement.addEventListener("mouseleave", hide);
     document.documentElement.addEventListener("mouseenter", show);
     document.addEventListener("visibilitychange", onVis);
+    window.addEventListener("resize", measure, { passive: true });
     loop();
 
     return () => {
@@ -231,6 +299,7 @@ export function CursorCat() {
       document.documentElement.removeEventListener("mouseleave", hide);
       document.documentElement.removeEventListener("mouseenter", show);
       document.removeEventListener("visibilitychange", onVis);
+      window.removeEventListener("resize", measure);
       document.documentElement.classList.remove("cat-active");
     };
   }, [enabled]);
@@ -248,22 +317,26 @@ export function CursorCat() {
           "--cat-cursor-size": `${CONFIG.cursorSize}px`,
           "--cat-size": `${CONFIG.catSize}px`,
           "--cat-canvas": `${CONFIG.catSize * CONFIG.catCanvas}px`,
+          "--cat-feeder-size": `${CONFIG.feederSize}px`,
+          "--cat-feeder-right": `${CONFIG.feederRight}px`,
+          "--cat-feeder-bottom": `${CONFIG.feederBottom}px`,
         } as React.CSSProperties
       }
     >
+      {/* the big bowl, parked in the bottom-right corner */}
+      <div className="cat-feeder">
+        <div ref={feederRef} className="cat-feeder-bowl">
+          <Bowl />
+        </div>
+        <span className="cat-feeder-label">
+          <span className="cat-feeder-idle">$ feed {NAME}</span>
+          <span className="cat-feeder-busy">$ feeding {NAME}...</span>
+        </span>
+      </div>
+
       {/* cursor: a bowl of cat food */}
       <div ref={cursorRef} className="cat-cursor">
-        <svg viewBox="0 0 26 26" width="100%" height="100%">
-          <ellipse cx="13" cy="19" rx="11" ry="4.2" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.5" />
-          <path d="M4 16.5 A9 9 0 0 0 22 16.5 Z" fill="oklch(0.24 0.006 255)" stroke="var(--accent)" strokeWidth="1" />
-          <g fill="var(--accent)">
-            <circle cx="9.5" cy="14.6" r="2" />
-            <circle cx="13.4" cy="13.2" r="2.2" />
-            <circle cx="17" cy="15" r="1.9" />
-            <circle cx="11.4" cy="11.6" r="1.7" />
-            <circle cx="15.4" cy="10.9" r="1.5" />
-          </g>
-        </svg>
+        <Bowl />
       </div>
 
       <div ref={trailRef} className="cat-trail">

@@ -182,6 +182,55 @@ textarea::placeholder {
   margin-left: calc(var(--cat-size) / -2);
 }
 
+/* the big bowl of kibble, pinned to the bottom-right corner */
+.cat-feeder {
+  position: absolute;
+  right: var(--cat-feeder-right);
+  bottom: var(--cat-feeder-bottom);
+  width: var(--cat-feeder-size);
+  height: var(--cat-feeder-size);
+}
+
+/* the bowl itself is measured for the hit test, so the label stays outside it */
+.cat-feeder-bowl {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 3px 12px oklch(0 0 0 / 0.55));
+  transition: transform 260ms ease;
+}
+.cat-layer:has(.cat-sprite[data-state="eating"]) .cat-feeder-bowl {
+  transform: scale(1.04);
+}
+
+/* out of flow and right-anchored, so the longer "feeding" text can't nudge
+   the bowl sideways or spill past the viewport edge */
+.cat-feeder-label {
+  position: absolute;
+  top: calc(100% + 9px);
+  right: 0;
+  font-family: var(--font-jetbrains-mono), ui-monospace, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: oklch(0.76 0.006 255);
+  white-space: nowrap;
+  text-shadow: 0 1px 4px oklch(0.12 0.004 255);
+  transition: color 260ms ease;
+}
+
+.cat-feeder-busy {
+  display: none;
+}
+.cat-layer:has(.cat-sprite[data-state="eating"]) .cat-feeder-idle {
+  display: none;
+}
+.cat-layer:has(.cat-sprite[data-state="eating"]) .cat-feeder-busy {
+  display: inline;
+}
+.cat-layer:has(.cat-sprite[data-state="eating"]) .cat-feeder-label {
+  color: var(--accent);
+}
+
 .cat-trail-dot {
   position: absolute;
   top: 0;
@@ -251,6 +300,15 @@ textarea::placeholder {
     transform: translateY(-1px);
   }
 }
+@keyframes cat-eat {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
+  50% {
+    transform: translateY(4px) scaleY(0.93);
+  }
+}
 @keyframes cat-excited {
   0%,
   100% {
@@ -272,6 +330,9 @@ textarea::placeholder {
 }
 .cat-sprite[data-state="excited"] .cat-bob {
   animation: cat-excited 620ms ease-in-out;
+}
+.cat-sprite[data-state="eating"] .cat-bob {
+  animation: cat-eat 460ms ease-in-out infinite;
 }
 .cat-sprite[data-state="click"] .cat-bob {
   animation: none;
