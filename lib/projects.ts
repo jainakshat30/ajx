@@ -4,8 +4,7 @@ export type Project = {
   tags: string[];
   live?: string;
   repo?: string;
-  image?: string;
-  featured?: boolean;
+  image: string;
 };
 
 export const projects: Project[] = [
@@ -15,7 +14,6 @@ export const projects: Project[] = [
     tags: ["Next.js", "Yjs", "WebSockets", "PostgreSQL", "Prisma"],
     live: "https://whiteboard-web-1.vercel.app/",
     image: "/whiteBoard.png",
-    featured: true,
   },
   {
     title: "AutoDocs",
@@ -24,7 +22,6 @@ export const projects: Project[] = [
     live: "https://getautodocs.streamlit.app/",
     repo: "https://github.com/jainakshat30/AutoDocs",
     image: "/autoDocsPreview.png",
-    featured: true,
   },
   {
     title: "StageLink",
@@ -33,7 +30,6 @@ export const projects: Project[] = [
     live: "https://stagelink-tau.vercel.app/",
     repo: "https://github.com/jainakshat30/stagelink",
     image: "/stageLink.png",
-    featured: true,
   },
   {
     title: "Finzo",
@@ -42,8 +38,5 @@ export const projects: Project[] = [
     live: "https://finzo-two.vercel.app/",
     repo: "https://github.com/jainakshat30/finzo",
     image: "/finzoPreview.png",
-    featured: true,
   },
 ];
-
-export const featuredProjects = projects.filter((p) => p.featured);
