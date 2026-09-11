@@ -284,7 +284,7 @@ export default async function Page() {
       <section id="projects" data-cat-section="oh — Akshat's projects" style={sectionStyle}>
         <p style={{ ...sectionLabel, marginBottom: 18 }}>$ ls -la ./projects</p>
         <div className="tr-cols-projects">
-          {projects.map((p) => (
+          {projects.slice(0, 4).map((p) => (
             <ProjectCard key={p.title} project={p} />
           ))}
         </div>

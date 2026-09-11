@@ -38,4 +38,12 @@ export const projects: Project[] = [
     repo: "https://github.com/jainakshat30/job-orchestrator",
     image: "/job-orchestratorPreview.png",
   },
+  {
+    title: "Finzo",
+    desc: "Full-stack finance platform with Gemini + OCR insights, Clerk auth, and ArcJet rate limiting.",
+    tags: ["Next.js", "PostgreSQL", "Prisma", "Google Gemini", "Supabase", "Clerk"],
+    live: "https://finzo-two.vercel.app/",
+    repo: "https://github.com/jainakshat30/finzo",
+    image: "/finzoPreview.png",
+  },
 ];
