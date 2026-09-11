@@ -349,3 +349,23 @@ textarea::placeholder {
 .cat-sprite[data-state="excited"] .cat-scale {
   transform: scale(1.12);
 }
+
+.preview-zoom {
+  max-width: 92vw;
+  max-height: 92vh;
+  padding: 0;
+  border: 1px solid oklch(0.28 0.006 255);
+  border-radius: 8px;
+  background: oklch(0.13 0.004 255);
+  cursor: zoom-out;
+}
+.preview-zoom img {
+  display: block;
+  max-width: 92vw;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+}
+.preview-zoom::backdrop {
+  background: oklch(0.08 0.004 255 / 0.82);
+}
