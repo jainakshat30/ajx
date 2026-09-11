@@ -36,5 +36,6 @@ export const projects: Project[] = [
     desc: "Temporal-lite workflow engine: DAG jobs execute across a worker pool with leases, retries and a dead-letter queue. 100/100 killed-worker trials, 0 steps lost or duplicated.",
     tags: ["TypeScript", "Node.js", "PostgreSQL", "Express", "Zod", "Docker"],
     repo: "https://github.com/jainakshat30/job-orchestrator",
+    image: "/job-orchestratorPreview.png",
   },
 ];
