@@ -2,9 +2,9 @@ export type Project = {
   title: string;
   desc: string;
   tags: string[];
-  live: string;
+  live?: string;
   repo?: string;
-  image: string;
+  image?: string;
 };
 
 export const projects: Project[] = [
@@ -32,11 +32,9 @@ export const projects: Project[] = [
     image: "/stageLink.png",
   },
   {
-    title: "Finzo",
-    desc: "Full-stack finance platform with Gemini + OCR insights, Clerk auth, and ArcJet rate limiting.",
-    tags: ["Next.js", "PostgreSQL", "Prisma", "Google Gemini", "Supabase", "Clerk"],
-    live: "https://finzo-two.vercel.app/",
-    repo: "https://github.com/jainakshat30/finzo",
-    image: "/finzoPreview.png",
+    title: "Job Orchestrator",
+    desc: "Temporal-lite workflow engine: DAG jobs execute across a worker pool with leases, retries and a dead-letter queue. 100/100 killed-worker trials, 0 steps lost or duplicated.",
+    tags: ["TypeScript", "Node.js", "PostgreSQL", "Express", "Zod", "Docker"],
+    repo: "https://github.com/jainakshat30/job-orchestrator",
   },
 ];
