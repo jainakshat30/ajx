@@ -13,20 +13,11 @@ const work = [
   {
     hash: "a1f9c3d",
     company: "Qyupe",
-    role: "Platform Engineer",
-    period: "Jan 2026 – Present",
+    role: "Full Stack Developer Intern",
+    period: "Jan 2026 – Sept 2026",
     location: "Remote",
     summary:
-      "Built a petition wizard that renders form UIs from plain TOML config, cutting user form-fill time by 80%.",
-  },
-  {
-    hash: "7e2b81a",
-    company: "ConviSaaS Inc.",
-    role: "Platform Engineer",
-    period: "Jan 2026 – Present",
-    location: "Remote",
-    summary:
-      "Built a petition wizard that renders form UIs from plain TOML config, cutting user form-fill time by 80%.",
+      "Built the admin console, agency-listing and newsletter modules end-to-end on a production immigration platform: around 58 REST endpoints on Cloudflare Workers (Hono), backed by D1 and Drizzle.",
   },
   {
     hash: "3c04f6e",

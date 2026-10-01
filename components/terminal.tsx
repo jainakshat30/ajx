@@ -21,8 +21,7 @@ const COMMANDS: Record<string, string[]> = {
     "StageLink — SSR event platform (Next.js, Firebase)",
   ],
   experience: [
-    "Platform Engineer @ Qyupe — Jan 2026–Present",
-    "Platform Engineer @ ConviSaaS Inc. — Jan 2026–Present",
+    "Full Stack Developer Intern @ Qyupe — Jan 2026–Sept 2026",
     "Founding Backend Engineer @ BlissMet — Jun 2025–Dec 2025",
   ],
   achievements: [
