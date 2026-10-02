@@ -2,13 +2,13 @@ import Cloudflare from "@devicons-pack/react/original/cloudflare";
 import Cloudflareworkers from "@devicons-pack/react/original/cloudflareworkers";
 import Express from "@devicons-pack/react/original/express";
 import Github from "@devicons-pack/react/original/github";
-import Google from "@devicons-pack/react/original/google";
 import Prisma from "@devicons-pack/react/original/prisma";
 import Streamlit from "@devicons-pack/react/original/streamlit";
 import Zustand from "@devicons-pack/react/original/zustand";
 import SiClerk from "@icons-pack/react-simple-icons/icons/SiClerk";
 import SiCloudinary from "@icons-pack/react-simple-icons/icons/SiCloudinary";
 import SiDrizzle from "@icons-pack/react-simple-icons/icons/SiDrizzle";
+import SiGooglegemini from "@icons-pack/react-simple-icons/icons/SiGooglegemini";
 import SiHono from "@icons-pack/react-simple-icons/icons/SiHono";
 import SiZod from "@icons-pack/react-simple-icons/icons/SiZod";
 
@@ -19,7 +19,7 @@ export const TOOL_ICONS: Record<string, React.ComponentType<{ className?: string
   D1: Cloudflare,
   Express,
   "GitHub API": Github,
-  "Google Gemini": Google,
+  "Google Gemini": SiGooglegemini,
   Prisma,
   Streamlit,
   Zustand,
