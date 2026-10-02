@@ -270,7 +270,7 @@ export default async function Page() {
       <section id="build" className="stage" data-cat-section="oh — Akshat's skill set">
         <Stage id="build" cmd="ls node_modules/.toolbox" title="The toolchain that does the building." />
         <Reveal>
-          <Marquee rows={[toolbox.slice(0, Math.ceil(toolbox.length / 2)), toolbox.slice(Math.ceil(toolbox.length / 2))]} />
+          <Marquee rows={[skills, toolbox]} />
         </Reveal>
       </section>
 
