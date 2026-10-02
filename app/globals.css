@@ -1018,3 +1018,12 @@ p.boot-line {
 .cat-active .sheet :is(a, button) {
   cursor: pointer !important;
 }
+@media (max-width: 720px) {
+  .sheet-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  /* five stats in two columns: let the odd one out take the full row */
+  .sheet-stats div:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
