@@ -105,7 +105,7 @@ const BIO =
 function Stage({ id, cmd, title }: { id: (typeof STAGES)[number]["id"]; cmd: string; title: string }) {
   const n = STAGES.findIndex((s) => s.id === id);
   return (
-    <Reveal style={{ marginBottom: 26 }}>
+    <Reveal style={{ marginBottom: 20 }}>
       <p className="stage-tag">
         <span>stage {String(n).padStart(2, "0")}</span>
         <span className="stage-sep">/</span>
@@ -232,15 +232,12 @@ export default async function Page() {
           </figure>
         </Reveal>
 
-        <a href="#init" className="scroll-cue" aria-label="Start the pipeline">
-          scroll to run ↓
-        </a>
       </section>
 
       {/* stage 01 — init */}
       <section id="init" className="stage" data-cat-section="oh — Akshat's story">
         <Stage id="init" cmd="git init idea" title="Every project starts as a random idea." />
-        <WordReveal text={BIO} style={{ margin: 0, fontSize: "clamp(20px, 3vw, 30px)", lineHeight: 1.45, fontWeight: 500, color: "var(--hi)", maxWidth: "34ch" }} />
+        <WordReveal text={BIO} style={{ margin: 0, fontSize: "clamp(18px, 2.3vw, 23px)", lineHeight: 1.55, fontWeight: 500, color: "var(--hi)" }} />
       </section>
 
       {/* stage 02 — commit */}

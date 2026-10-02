@@ -423,8 +423,7 @@ textarea::placeholder {
   grid-template-columns: 1.25fr 1fr;
   gap: 48px;
   align-items: center;
-  min-height: calc(100dvh - 70px);
-  padding: 56px 0 80px;
+  padding: 48px 0 56px;
 }
 /* slate gradient fill (MotionSites "Portfolio About" heading) */
 .hero-name,
@@ -495,26 +494,6 @@ p.boot-line {
   border-bottom: 1px solid var(--line);
 }
 
-.scroll-cue {
-  position: absolute;
-  left: 0;
-  bottom: 22px;
-  font-size: 11px;
-  color: var(--muted);
-  animation: cue 2.4s ease-in-out infinite;
-}
-@keyframes cue {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.6;
-  }
-  50% {
-    transform: translateY(5px);
-    opacity: 1;
-  }
-}
-
 .btn-primary,
 .btn-ghost {
   font-size: 13px;
@@ -547,7 +526,7 @@ p.boot-line {
 }
 
 .stage {
-  padding: 96px 0 40px;
+  padding: 56px 0 28px;
   border-top: 1px solid var(--line);
 }
 .stage-tag {
@@ -568,12 +547,11 @@ p.boot-line {
 }
 .stage-title {
   margin: 0;
-  font-size: clamp(26px, 4.2vw, 42px);
+  font-size: clamp(24px, 3.6vw, 36px);
   line-height: 1.08;
   font-weight: 800;
   letter-spacing: -0.04em;
   color: var(--hi);
-  max-width: 22ch;
 }
 .file-label {
   margin: 0 0 14px;
@@ -782,12 +760,12 @@ p.boot-line {
 }
 
 .footer {
-  margin-top: 80px;
+  margin-top: 36px;
   border-top: 1px solid var(--line);
 }
 .deploy {
   margin: 0;
-  padding: 44px 0;
+  padding: 28px 0;
   font-size: clamp(14px, 2.2vw, 20px);
   color: var(--body);
 }
@@ -829,20 +807,16 @@ p.boot-line {
     padding-top: 36px;
   }
   .stage {
-    padding-top: 64px;
+    padding-top: 44px;
   }
   .stage-cmd {
     margin-left: 0;
     flex-basis: 100%;
   }
-  .scroll-cue {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .boot-line,
-  .scroll-cue,
   .skill-hit,
   .marquee-track {
     animation: none;
