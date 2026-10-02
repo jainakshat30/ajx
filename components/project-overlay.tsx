@@ -129,6 +129,23 @@ export function ProjectOverlay({
             </div>
           </div>
 
+          {repo && repo.commits.length > 0 && (
+            <div className="sheet-section">
+              <p className="file-label">$ git log --oneline -{repo.commits.length}</p>
+              <ol className="sheet-log">
+                {repo.commits.map((c) => (
+                  <li key={c.sha}>
+                    <a href={c.url} target="_blank" rel="noreferrer" className="sheet-sha">
+                      {c.sha}
+                    </a>
+                    <span className="sheet-msg">{c.message}</span>
+                    <span className="sheet-date">{c.date}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+
           <div className="sheet-links">
             {p.live && (
               <a href={p.live} target="_blank" rel="noreferrer" className="btn-primary">
