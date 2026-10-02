@@ -15,7 +15,7 @@ import { LlmSymbol, WebSocketsSymbol, YjsSymbol } from "@/components/tool-symbol
 
 // Toolbox name -> logo: devicons first, simple-icons (drawn in currentColor)
 // for what devicons lacks. Anything unmapped renders as text only.
-export const TOOL_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+export const TOOL_ICONS: Record<string, React.ComponentType<{ className?: string; title?: string }>> = {
   "Cloudflare Workers": Cloudflareworkers,
   D1: Cloudflare,
   Express,
