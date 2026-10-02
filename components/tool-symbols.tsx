@@ -29,3 +29,13 @@ export const LlmSymbol = ({ className }: { className?: string }) => (
     <path d="M18.5 3v4M16.5 5h4" />
   </Svg>
 );
+
+// two edits converging into one state: what a CRDT like Yjs does
+export const YjsSymbol = ({ className }: { className?: string }) => (
+  <Svg className={className}>
+    <circle cx="6" cy="5" r="2.2" />
+    <circle cx="18" cy="5" r="2.2" />
+    <circle cx="12" cy="19" r="2.2" />
+    <path d="M7.4 6.8 12 12l4.6-5.2M12 12v4.8" />
+  </Svg>
+);

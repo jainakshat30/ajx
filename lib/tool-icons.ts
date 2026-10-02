@@ -11,7 +11,7 @@ import SiDrizzle from "@icons-pack/react-simple-icons/icons/SiDrizzle";
 import SiGooglegemini from "@icons-pack/react-simple-icons/icons/SiGooglegemini";
 import SiHono from "@icons-pack/react-simple-icons/icons/SiHono";
 import SiZod from "@icons-pack/react-simple-icons/icons/SiZod";
-import { LlmSymbol, WebSocketsSymbol } from "@/components/tool-symbols";
+import { LlmSymbol, WebSocketsSymbol, YjsSymbol } from "@/components/tool-symbols";
 
 // Toolbox name -> logo: devicons first, simple-icons (drawn in currentColor)
 // for what devicons lacks. Anything unmapped renders as text only.
@@ -31,6 +31,7 @@ export const TOOL_ICONS: Record<string, React.ComponentType<{ className?: string
   Zod: SiZod,
   WebSockets: WebSocketsSymbol,
   LLM: LlmSymbol,
+  Yjs: YjsSymbol,
 };
 
 // Single-colour logos drawn near-black; tinted to the chip text so they show on the dark theme.
