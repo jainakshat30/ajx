@@ -21,3 +21,11 @@ export const WebSocketsSymbol = ({ className }: { className?: string }) => (
     <path d="M20 16H5l4 4" />
   </Svg>
 );
+
+// sparkle: the common shorthand for generated / AI output
+export const LlmSymbol = ({ className }: { className?: string }) => (
+  <Svg className={className}>
+    <path d="M10 3.5 11.9 9l5.6 1.9-5.6 1.9L10 18.4l-1.9-5.6L2.5 10.9 8.1 9z" />
+    <path d="M18.5 3v4M16.5 5h4" />
+  </Svg>
+);
