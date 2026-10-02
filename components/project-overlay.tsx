@@ -5,6 +5,18 @@ import type { RefObject } from "react";
 import type { Project } from "@/lib/projects";
 import type { RepoDetails } from "@/lib/github-repos";
 
+// GitHub linguist colours for the languages these repos actually use
+const LANG_COLORS: Record<string, string> = {
+  TypeScript: "#3178c6",
+  JavaScript: "#f1e05a",
+  Python: "#3572a5",
+  CSS: "#663399",
+  HTML: "#e34c26",
+  Shell: "#89e051",
+  Dockerfile: "#384d54",
+  PLpgSQL: "#336790",
+};
+
 // Project detail sheet: the curated copy from lib/projects plus live GitHub
 // data when the repo is public. Native <dialog> gives Esc, focus trap and backdrop.
 export function ProjectOverlay({
@@ -78,6 +90,25 @@ export function ProjectOverlay({
             </dl>
           ) : (
             <p className="sheet-note">{"// source isn't public — details from the portfolio"}</p>
+          )}
+
+          {repo && repo.languages.length > 0 && (
+            <div className="sheet-section">
+              <p className="file-label">languages</p>
+              <div className="lang-bar" role="img" aria-label={repo.languages.map((l) => `${l.name} ${l.pct.toFixed(1)}%`).join(", ")}>
+                {repo.languages.map((l) => (
+                  <span key={l.name} style={{ flexGrow: l.pct, background: LANG_COLORS[l.name] ?? "var(--accent)" }} />
+                ))}
+              </div>
+              <ul className="lang-legend">
+                {repo.languages.map((l) => (
+                  <li key={l.name}>
+                    <span className="lang-dot" style={{ background: LANG_COLORS[l.name] ?? "var(--accent)" }} />
+                    {l.name} <span style={{ color: "var(--muted)" }}>{l.pct.toFixed(1)}%</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
 
           <div className="sheet-section">

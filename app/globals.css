@@ -945,3 +945,33 @@ p.boot-line {
     animation: none;
   }
 }
+.lang-bar {
+  display: flex;
+  gap: 2px;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.lang-bar span {
+  min-width: 3px;
+}
+.lang-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  color: var(--body);
+}
+.lang-legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.lang-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
