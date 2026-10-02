@@ -1027,3 +1027,16 @@ p.boot-line {
     grid-column: 1 / -1;
   }
 }
+@media (max-width: 720px) {
+  /* phones: let the message wrap and drop the date under it */
+  .sheet-log li {
+    grid-template-columns: auto 1fr;
+    gap: 2px 12px;
+  }
+  .sheet-msg {
+    white-space: normal;
+  }
+  .sheet-date {
+    grid-column: 2;
+  }
+}

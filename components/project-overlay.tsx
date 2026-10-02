@@ -138,7 +138,9 @@ export function ProjectOverlay({
                     <a href={c.url} target="_blank" rel="noreferrer" className="sheet-sha">
                       {c.sha}
                     </a>
-                    <span className="sheet-msg">{c.message}</span>
+                    <span className="sheet-msg" title={c.message}>
+                      {c.message}
+                    </span>
                     <span className="sheet-date">{c.date}</span>
                   </li>
                 ))}
