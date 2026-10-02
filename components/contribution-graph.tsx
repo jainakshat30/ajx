@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useInView } from "motion/react";
 import { type Contributions, LEVEL_COLORS } from "@/lib/github-contributions";
 
 const GAP = 3;
@@ -23,10 +24,19 @@ function describe(day: { date: string; count: number }): string {
 
 export function ContributionGraph({ data }: { data: Contributions }) {
   const [tip, setTip] = useState<Tip | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  // the year sweeps in column by column the first time it scrolls into view
+  const inView = useInView(ref, { once: true, margin: "0px 0px -15% 0px" });
 
   return (
     <>
-      <div style={{ overflowX: "auto", paddingBottom: 4 }} onMouseLeave={() => setTip(null)}>
+      <div
+        ref={ref}
+        className="contrib"
+        data-inview={inView}
+        style={{ overflowX: "auto", paddingBottom: 4 }}
+        onMouseLeave={() => setTip(null)}
+      >
         <div style={{ display: "flex", gap: GAP, minWidth: 620, alignItems: "stretch" }}>
           <div
             style={{
@@ -60,11 +70,15 @@ export function ContributionGraph({ data }: { data: Contributions }) {
               onMouseMove={(e) => setTip((t) => (t ? { ...t, x: e.clientX, y: e.clientY } : t))}
             >
               {data.weeks.map((week, wi) => (
-                <div key={wi} style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: GAP }}>
+                <div
+                  key={wi}
+                  style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: GAP, "--w": wi } as React.CSSProperties}
+                >
                   {week.days.map((day, di) => (
                     <div
                       key={di}
                       data-date={day?.date}
+                      className="contrib-cell"
                       onMouseEnter={(e) =>
                         day && setTip({ x: e.clientX, y: e.clientY, text: describe(day) })
                       }

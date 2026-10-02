@@ -6,10 +6,14 @@ import { getContributions } from "@/lib/github-contributions";
 import { ContributionGraph } from "@/components/contribution-graph";
 import { ProjectCard } from "@/components/project-card";
 import { projects } from "@/lib/projects";
+import { Reveal } from "@/components/reveal";
+import { WordReveal } from "@/components/word-reveal";
+import { GitTimeline, type Commit } from "@/components/git-timeline";
+import { SkillMap } from "@/components/skill-map";
+import { STAGES } from "@/lib/stages";
+import { Pipeline } from "@/components/pipeline";
 
-const accent = "var(--accent)";
-
-const work = [
+const work: Commit[] = [
   {
     hash: "a1f9c3d",
     company: "Qyupe",
@@ -18,6 +22,7 @@ const work = [
     location: "Remote",
     summary:
       "Built the admin console, agency-listing and newsletter modules end-to-end on a production immigration platform: around 58 REST endpoints on Cloudflare Workers (Hono), backed by D1 and Drizzle.",
+    stack: ["Cloudflare Workers", "Hono", "D1", "Drizzle"],
   },
   {
     hash: "3c04f6e",
@@ -74,11 +79,11 @@ const education = [
 ];
 
 const navLinks = [
-  { href: "#about", label: "./about" },
-  { href: "#log", label: "./log" },
+  { href: "#init", label: "./about" },
+  { href: "#branch", label: "./work" },
   { href: "/projects", label: "./projects" },
-  { href: "#notes", label: "./notes" },
-  { href: "#contact", label: "./contact" },
+  { href: "#log", label: "./notes" },
+  { href: "#connect", label: "./contact" },
 ];
 
 const socialLinks = [
@@ -88,89 +93,103 @@ const socialLinks = [
   { href: "https://www.linkedin.com/in/jainakshat30/", label: "linkedin" },
 ];
 
-const sectionLabel: React.CSSProperties = {
-  margin: "0 0 16px 0",
-  fontSize: 13,
-  color: "oklch(0.55 0.006 255)",
-};
+const bootLog = [
+  ["ok", "mounting /home/akshat"],
+  ["ok", "loading curiosity.so"],
+  ["ok", "starting daemon (the cat)"],
+  ["..", "turning random ideas into shipped things"],
+];
 
-const sectionStyle: React.CSSProperties = {
-  padding: "30px 0",
-  borderTop: "1px solid oklch(0.28 0.006 255)",
-};
+const BIO =
+  "22-year-old developer from India who enjoys turning random ideas into things that actually work. Spent the last year building full-stack, AI-powered, and real-time systems — currently building, breaking, fixing, and occasionally wondering why the code worked five minutes ago.";
+
+// Each section is one stage of the run; the header carries its place in it.
+function Stage({ id, cmd, title }: { id: (typeof STAGES)[number]["id"]; cmd: string; title: string }) {
+  const n = STAGES.findIndex((s) => s.id === id);
+  return (
+    <Reveal style={{ marginBottom: 26 }}>
+      <p className="stage-tag">
+        <span>stage {String(n).padStart(2, "0")}</span>
+        <span className="stage-sep">/</span>
+        <span style={{ color: "var(--hi)" }}>{id}</span>
+        <span className="stage-cmd">$ {cmd}</span>
+      </p>
+      <h2 className="stage-title">{title}</h2>
+    </Reveal>
+  );
+}
+
+function Notes({ items }: { items: { title: string; date: string; description: string }[] }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+      {items.map((a, i) => (
+        <Reveal key={a.title} delay={i * 0.06}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 10 }}>
+            <h3 style={{ margin: 0, fontSize: 13, fontWeight: 600, color: "var(--hi)" }}>{a.title}</h3>
+            <span style={{ fontSize: 11, color: "var(--muted)", flexShrink: 0 }}>{a.date}</span>
+          </div>
+          <p style={{ margin: "6px 0 0 0", fontSize: 12, color: "var(--body)", lineHeight: 1.6 }}>{a.description}</p>
+        </Reveal>
+      ))}
+    </div>
+  );
+}
 
 export default async function Page() {
   const contrib = await getContributions();
 
   return (
     <>
-      {/* nav */}
-      <nav
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: 12,
-          padding: "24px 0 18px 0",
-          borderBottom: "1px solid oklch(0.28 0.006 255)",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, color: "oklch(0.85 0.006 255)" }}>
-          <span style={{ fontWeight: 700 }}>akshat@portfolio</span>
-          <span style={{ color: "oklch(0.5 0.006 255)" }}>~%</span>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 22, fontSize: 12, color: "oklch(0.6 0.006 255)" }}>
-          {navLinks.map((l, i) => {
-            const style =
-              i === 0
-                ? { borderBottom: `2px solid ${accent}`, color: "oklch(0.9 0.004 255)", paddingBottom: 2 }
-                : undefined;
-            return l.href.startsWith("/") ? (
-              <Link key={l.href} href={l.href} style={style} data-cat="navigation">
+      <Pipeline />
+      <nav className="topnav">
+        <a href="#boot" style={{ fontSize: 14, color: "var(--hi)", fontWeight: 700 }}>
+          akshat@portfolio <span style={{ color: "var(--dim)", fontWeight: 400 }}>~%</span>
+        </a>
+        <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 20, fontSize: 12 }}>
+          {navLinks.map((l) =>
+            l.href.startsWith("/") ? (
+              <Link key={l.href} href={l.href} className="navlink" data-cat="navigation">
                 {l.label}
               </Link>
             ) : (
-              <a key={l.href} href={l.href} style={style} data-cat="navigation">
+              <a key={l.href} href={l.href} className="navlink" data-cat="navigation">
                 {l.label}
               </a>
-            );
-          })}
+            ),
+          )}
         </div>
       </nav>
 
-      {/* about — $ whoami */}
-      <section
-        id="about"
-        className="tr-cols-about"
-        data-cat-section="oh — this is Akshat"
-        style={{ padding: "44px 0 36px 0" }}
-      >
+      {/* stage 00 — boot */}
+      <section id="boot" className="hero" data-cat-section="oh — this is Akshat">
         <div>
-          <p style={{ margin: "0 0 10px 0", fontSize: 13, color: "oklch(0.55 0.006 255)" }}>$ whoami</p>
-          <h1 style={{ margin: 0, fontSize: 44, fontWeight: 800, letterSpacing: "-0.02em", color: "oklch(0.96 0.004 255)" }}>
-            Akshat Jain
-            <span className="caret" style={{ color: accent }}>
-              _
-            </span>
-          </h1>
-          <p style={{ margin: "10px 0 0 0", fontSize: 14, color: "oklch(0.68 0.006 255)" }}>
-            22 · he/him · Full-Stack Developer, India
+          <div className="boot" aria-label="Boot log">
+            {bootLog.map(([s, line], i) => (
+              <p key={line} style={{ "--i": i } as React.CSSProperties}>
+                <span className={s === "ok" ? "boot-ok" : "boot-run"}>[ {s} ]</span> {line}
+              </p>
+            ))}
+          </div>
+          <p className="boot-line" style={{ "--i": bootLog.length } as React.CSSProperties}>
+            $ whoami
           </p>
-          <p style={{ margin: "18px 0 0 0", fontSize: 14, lineHeight: 1.75, color: "oklch(0.75 0.006 255)", maxWidth: "56ch" }}>
-            22-year-old developer from India who enjoys turning random ideas into things that
-            actually work. Spent the last year building full-stack, AI-powered, and real-time
-            systems &mdash; currently building, breaking, fixing, and occasionally wondering why the
-            code worked five minutes ago.
+          <h1 className="hero-name boot-line" style={{ "--i": bootLog.length + 1 } as React.CSSProperties}>
+            Akshat
+            <br />
+            Jain<span className="caret" style={{ color: "var(--accent)" }}>_</span>
+          </h1>
+          <p className="hero-sub boot-line" style={{ "--i": bootLog.length + 2 } as React.CSSProperties}>
+            Full-stack developer in India. This page is a pipeline: scroll, and watch an idea get
+            built, shipped, and deployed to you.
           </p>
 
-          <div style={{ marginTop: 26, display: "flex", flexWrap: "wrap", gap: 10 }}>
+          <div className="boot-line" style={{ "--i": bootLog.length + 3, marginTop: 28, display: "flex", flexWrap: "wrap", gap: 10 } as React.CSSProperties}>
             <a
               href="https://drive.google.com/file/d/1dx9-7m9U5smmfuV-ioSmGqJnnUKlT_1G/view?usp=sharing"
               target="_blank"
               rel="noreferrer"
               data-cat="primary"
-              style={{ fontSize: 13, fontWeight: 600, padding: "9px 18px", borderRadius: 4, background: accent, color: "oklch(0.14 0.006 255)" }}
+              className="btn-primary"
             >
               ./resume.pdf
             </a>
@@ -181,7 +200,7 @@ export default async function Page() {
                 target={l.href.startsWith("http") ? "_blank" : undefined}
                 rel={l.href.startsWith("http") ? "noreferrer" : undefined}
                 data-cat="social"
-                style={{ fontSize: 13, padding: "9px 16px", borderRadius: 4, border: "1px solid oklch(0.32 0.006 255)", color: "oklch(0.8 0.006 255)" }}
+                className="btn-ghost"
               >
                 {l.label}
               </a>
@@ -189,184 +208,117 @@ export default async function Page() {
           </div>
         </div>
 
-        <Image
-          src="/me-modified.png"
-          alt="Akshat Jain"
-          width={1130}
-          height={980}
-          priority
-          style={{ display: "block", width: "100%", height: "auto", borderRadius: 8 }}
-        />
+        <Reveal delay={0.3} y={30}>
+          <figure className="photo">
+            <figcaption>~/me.png</figcaption>
+            <Image
+              src="/me-modified.png"
+              alt="Akshat Jain"
+              width={1130}
+              height={980}
+              priority
+              style={{ display: "block", width: "100%", height: "auto" }}
+            />
+          </figure>
+        </Reveal>
+
+        <a href="#init" className="scroll-cue" aria-label="Start the pipeline">
+          scroll to run ↓
+        </a>
       </section>
 
-      {/* contributions heatmap */}
-      <section
-        data-cat-section="oh — Akshat's contribution graph"
-        data-cat-bubble="below"
-        style={{ ...sectionStyle, paddingTop: 30 }}
-      >
-        <p style={sectionLabel}>$ cat contributions.log</p>
-        {contrib ? (
-          <ContributionGraph data={contrib} />
-        ) : (
-          <p style={{ margin: 0, fontSize: 12, color: "oklch(0.55 0.006 255)" }}>
-            // contribution graph temporarily unavailable
-          </p>
-        )}
+      {/* stage 01 — init */}
+      <section id="init" className="stage" data-cat-section="oh — Akshat's story">
+        <Stage id="init" cmd="git init idea" title="Every project starts as a random idea." />
+        <WordReveal text={BIO} style={{ margin: 0, fontSize: "clamp(20px, 3vw, 30px)", lineHeight: 1.45, fontWeight: 500, color: "var(--hi)", maxWidth: "34ch" }} />
       </section>
 
-      {/* experience — git log */}
-      <section id="log" data-cat-section="oh — Akshat's experience" style={sectionStyle}>
-        <p style={{ ...sectionLabel, marginBottom: 18 }}>$ git log --oneline --graph experience</p>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          {work.map((w) => (
-            <div key={w.hash} style={{ display: "grid", gridTemplateColumns: "20px 1fr", gap: 14, padding: "16px 0", borderBottom: "1px solid oklch(0.24 0.006 255)" }}>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <span style={{ width: 9, height: 9, borderRadius: "50%", background: accent, flexShrink: 0, marginTop: 5 }} />
-                <span style={{ flex: 1, width: 1, background: "oklch(0.3 0.006 255)", marginTop: 4 }} />
-              </div>
-              <div>
-                <div style={{ display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: 10 }}>
-                  <span style={{ fontSize: 11, color: "oklch(0.6 0.006 255)", fontWeight: 600 }}>{w.hash}</span>
-                  <h4 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "oklch(0.94 0.004 255)" }}>
-                    {w.role} @ {w.company}
-                  </h4>
-                  <span style={{ fontSize: 11, color: "oklch(0.5 0.006 255)", marginLeft: "auto" }}>
-                    {w.period} · {w.location}
-                  </span>
-                </div>
-                <p style={{ margin: "8px 0 0 0", fontSize: 13, lineHeight: 1.65, color: "oklch(0.7 0.006 255)", maxWidth: "70ch" }}>
-                  {w.summary}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+      {/* stage 02 — commit */}
+      <section id="commit" className="stage" data-cat-section="oh — Akshat's contribution graph" data-cat-bubble="below">
+        <Stage id="commit" cmd="cat contributions.log" title="Then it's commits. Lots of them." />
+        <Reveal>
+          {contrib ? (
+            <ContributionGraph data={contrib} />
+          ) : (
+            <p style={{ margin: 0, fontSize: 12, color: "var(--muted)" }}>{"// contribution graph temporarily unavailable"}</p>
+          )}
+        </Reveal>
       </section>
 
-      {/* skills.json */}
-      <section data-cat-section="oh — Akshat's skill set" style={sectionStyle}>
-        <p style={sectionLabel}>$ cat skills.json</p>
-        <div style={{ border: "1px solid oklch(0.28 0.006 255)", borderRadius: 8, padding: "18px 20px", background: "oklch(0.17 0.004 255)", fontSize: 13, lineHeight: 1.9 }}>
-          <div>
-            <span style={{ color: "oklch(0.55 0.006 255)" }}>{"{"}</span>
-          </div>
-          <div style={{ paddingLeft: 20 }}>
-            <span style={{ color: "oklch(0.68 0.006 255)" }}>&quot;stack&quot;</span>
-            <span style={{ color: "oklch(0.55 0.006 255)" }}>: [</span>
-          </div>
-          <div style={{ paddingLeft: 40, display: "flex", flexWrap: "wrap" }}>
-            {skills.map((s) => (
-              <span key={s} style={{ color: accent, whiteSpace: "nowrap", display: "inline-block" }}>
-                &quot;{s}&quot;<span style={{ color: "oklch(0.55 0.006 255)" }}>,&nbsp;</span>
-              </span>
-            ))}
-          </div>
-          <div style={{ paddingLeft: 20 }}>
-            <span style={{ color: "oklch(0.55 0.006 255)" }}>]</span>
-          </div>
-          <div>
-            <span style={{ color: "oklch(0.55 0.006 255)" }}>{"}"}</span>
-          </div>
-        </div>
+      {/* stage 03 — branch */}
+      <section id="branch" className="stage" data-cat-section="oh — Akshat's experience">
+        <Stage id="branch" cmd="git log --graph experience" title="Branching into real teams and real users." />
+        <GitTimeline commits={work} />
       </section>
 
-      {/* projects — ls -la */}
-      <section id="projects" data-cat-section="oh — Akshat's projects" style={sectionStyle}>
-        <p style={{ ...sectionLabel, marginBottom: 18 }}>$ ls -la ./projects</p>
+      {/* stage 04 — build */}
+      <section id="build" className="stage" data-cat-section="oh — Akshat's skill set">
+        <Stage id="build" cmd="cat skills.json" title="The toolchain that does the building." />
+        <Reveal>
+          <SkillMap skills={skills} />
+        </Reveal>
+      </section>
+
+      {/* stage 05 — ship */}
+      <section id="ship" className="stage" data-cat-section="oh — Akshat's projects">
+        <Stage id="ship" cmd="ls -la ./projects" title="Shipped. Out of localhost and into the world." />
         <div className="tr-cols-projects">
-          {projects.slice(0, 4).map((p) => (
-            <ProjectCard key={p.title} project={p} />
+          {projects.slice(0, 4).map((p, i) => (
+            <Reveal key={p.title} delay={(i % 2) * 0.08} style={{ display: "flex" }}>
+              <ProjectCard project={p} />
+            </Reveal>
           ))}
         </div>
-        <Link
-          href="/projects"
-          style={{ display: "inline-block", marginTop: 16, fontSize: 12, color: accent }}
-        >
+        <Link href="/projects" className="link-accent" style={{ display: "inline-block", marginTop: 20, fontSize: 12 }}>
           $ ls ~/projects --all →
         </Link>
       </section>
 
-      {/* notes — achievements + education */}
-      <section
-        id="notes"
-        className="tr-cols-2"
-        data-cat-section="oh — Akshat's achievements & education"
-        style={sectionStyle}
-      >
-        <div>
-          <p style={sectionLabel}>$ cat achievements.log</p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {achievements.map((a) => (
-              <div key={a.title}>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 10 }}>
-                  <h5 style={{ margin: 0, fontSize: 13, fontWeight: 600, color: "oklch(0.9 0.004 255)" }}>{a.title}</h5>
-                  <span style={{ fontSize: 11, color: "oklch(0.5 0.006 255)", flexShrink: 0 }}>{a.date}</span>
-                </div>
-                <p style={{ margin: "6px 0 0 0", fontSize: 12, color: "oklch(0.65 0.006 255)", lineHeight: 1.6 }}>{a.description}</p>
-              </div>
-            ))}
+      {/* stage 06 — log */}
+      <section id="log" className="stage" data-cat-section="oh — Akshat's achievements & education">
+        <Stage id="log" cmd="tail achievements.log education.log" title="Logged along the way." />
+        <div className="tr-cols-2">
+          <div>
+            <p className="file-label">achievements.log</p>
+            <Notes items={achievements} />
           </div>
-        </div>
-        <div>
-          <p style={sectionLabel}>$ cat education.log</p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {education.map((e) => (
-              <div key={e.title}>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 10 }}>
-                  <h5 style={{ margin: 0, fontSize: 13, fontWeight: 600, color: "oklch(0.9 0.004 255)" }}>{e.title}</h5>
-                  <span style={{ fontSize: 11, color: "oklch(0.5 0.006 255)", flexShrink: 0 }}>{e.date}</span>
-                </div>
-                <p style={{ margin: "6px 0 0 0", fontSize: 12, color: "oklch(0.65 0.006 255)" }}>{e.description}</p>
-              </div>
-            ))}
+          <div>
+            <p className="file-label">education.log</p>
+            <Notes items={education} />
           </div>
         </div>
       </section>
 
-      {/* interactive terminal */}
-      <section id="terminal" data-cat-section="ooh — a real terminal, try it" style={sectionStyle}>
-        <p style={sectionLabel}>
-          $ open interactive-terminal &mdash; try:{" "}
-          <span style={{ color: "oklch(0.68 0.006 255)" }}>help</span>, whoami, skills, projects,
-          experience, contact, clear
-        </p>
-        <Terminal />
-      </section>
-
-      {/* contact */}
-      <section
-        id="contact"
-        data-cat-section="oh — say hi to Akshat here"
-        style={{ ...sectionStyle, padding: "34px 0" }}
-      >
-        <p style={{ ...sectionLabel, marginBottom: 18 }}>$ ./send-message --interactive</p>
-        <ContactForm />
-      </section>
-
-      {/* footer */}
-      <footer
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: 12,
-          padding: "16px 0",
-          borderTop: "1px solid oklch(0.28 0.006 255)",
-          color: "oklch(0.55 0.006 255)",
-          fontSize: 11,
-          fontWeight: 600,
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <span>⎇ main</span>
-          <span>UTF-8</span>
-          <span>Prettier</span>
+      {/* stage 07 — connect */}
+      <section id="connect" className="stage" data-cat-section="ooh — say hi to Akshat here">
+        <Stage id="connect" cmd="./send-message --interactive" title="Last stage needs your input." />
+        <div className="tr-cols-2" style={{ alignItems: "start" }}>
+          <Reveal>
+            <p className="file-label">
+              interactive terminal &mdash; try <span style={{ color: "var(--hi)" }}>help</span>
+            </p>
+            <Terminal />
+          </Reveal>
+          <Reveal delay={0.08}>
+            <p className="file-label">or just write</p>
+            <ContactForm />
+          </Reveal>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+      </section>
+
+      <footer className="footer">
+        <Reveal>
+          <p className="deploy">
+            <span style={{ color: "var(--ok)" }}>✓ pipeline passed</span> · {STAGES.length} stages · deployed to:{" "}
+            <span style={{ color: "var(--hi)" }}>you</span>
+          </p>
+        </Reveal>
+        <div className="statusbar">
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <span>⎇ main</span>
+            <span>UTF-8</span>
+          </div>
           <span>© 2026 Akshat Jain</span>
-          <span>Ln 1, Col 1</span>
         </div>
       </footer>
     </>

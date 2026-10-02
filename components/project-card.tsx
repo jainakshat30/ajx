@@ -4,41 +4,41 @@ import Image from "next/image";
 import { useRef } from "react";
 import type { Project } from "@/lib/projects";
 
+const MAX_TILT = 5; // deg
+
+// Tilt + cursor spotlight (the 21st.dev "Tilt Card" idea), driven by CSS vars
+// so the pointer never triggers a React render.
 export function ProjectCard({ project: p }: { project: Project }) {
   const zoom = useRef<HTMLDialogElement>(null);
 
+  const onMove = (e: React.PointerEvent<HTMLElement>) => {
+    if (e.pointerType !== "mouse") return;
+    const el = e.currentTarget;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width;
+    const y = (e.clientY - r.top) / r.height;
+    el.style.setProperty("--mx", `${x * 100}%`);
+    el.style.setProperty("--my", `${y * 100}%`);
+    el.style.setProperty("--ry", `${(x - 0.5) * 2 * MAX_TILT}deg`);
+    el.style.setProperty("--rx", `${(0.5 - y) * 2 * MAX_TILT}deg`);
+  };
+  const onLeave = (e: React.PointerEvent<HTMLElement>) => {
+    e.currentTarget.style.setProperty("--rx", "0deg");
+    e.currentTarget.style.setProperty("--ry", "0deg");
+  };
+
   return (
-    <div
-      data-cat="project"
-      style={{
-        border: "1px solid oklch(0.28 0.006 255)",
-        borderRadius: 8,
-        overflow: "hidden",
-        background: "oklch(0.17 0.004 255)",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <article className="card" data-cat="project" onPointerMove={onMove} onPointerLeave={onLeave}>
+      <div className="card-bar">
+        <span>~/projects/{p.title.toLowerCase().replace(/\s+/g, "-")}</span>
+        <span style={{ color: p.live ? "var(--ok)" : "var(--muted)" }}>{p.live ? "● live" : "○ source"}</span>
+      </div>
       <button
         type="button"
+        className="card-shot"
         onClick={() => zoom.current?.showModal()}
         disabled={!p.image}
         aria-label={p.image ? `Open full preview of ${p.title}` : undefined}
-        style={{
-          position: "relative",
-          width: "100%",
-          padding: 0,
-          font: "inherit",
-          cursor: p.image ? "zoom-in" : "default",
-          aspectRatio: "1536 / 1024",
-          background: "oklch(0.13 0.004 255)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          border: "none",
-          borderBottom: "1px solid oklch(0.28 0.006 255)",
-          overflow: "hidden",
-        }}
       >
         {p.image ? (
           <Image
@@ -49,7 +49,7 @@ export function ProjectCard({ project: p }: { project: Project }) {
             style={{ objectFit: "cover", objectPosition: "top" }}
           />
         ) : (
-          <span style={{ fontSize: 11, color: "oklch(0.45 0.006 255)" }}>no preview</span>
+          <span style={{ fontSize: 11, color: "var(--muted)" }}>no preview</span>
         )}
       </button>
 
@@ -59,32 +59,29 @@ export function ProjectCard({ project: p }: { project: Project }) {
           <img src={p.image} alt={`${p.title} preview, full size`} />
         </dialog>
       )}
-      <div style={{ padding: 16, display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
-        <h4 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "oklch(0.94 0.004 255)" }}>{p.title}</h4>
-        <p style={{ margin: 0, fontSize: 12, lineHeight: 1.6, color: "oklch(0.68 0.006 255)" }}>{p.desc}</p>
+      <div style={{ padding: 18, display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
+        <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: "var(--hi)" }}>{p.title}</h3>
+        <p style={{ margin: 0, fontSize: 12, lineHeight: 1.65, color: "var(--body)" }}>{p.desc}</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
           {p.tags.map((t) => (
-            <span
-              key={t}
-              style={{ fontSize: 10, padding: "2px 8px", borderRadius: 3, background: "oklch(0.24 0.006 255)", color: "oklch(0.72 0.01 240)" }}
-            >
+            <span key={t} className="chip">
               {t}
             </span>
           ))}
         </div>
-        <div style={{ marginTop: "auto", display: "flex", gap: 14, paddingTop: 8, borderTop: "1px solid oklch(0.26 0.006 255)" }}>
+        <div style={{ marginTop: "auto", display: "flex", gap: 16, paddingTop: 10, borderTop: "1px solid var(--line)" }}>
           {p.live && (
-            <a href={p.live} target="_blank" rel="noreferrer" style={{ fontSize: 11, color: "var(--accent)" }}>
-              --live
+            <a href={p.live} target="_blank" rel="noreferrer" className="link-accent">
+              --live ↗
             </a>
           )}
           {p.repo && (
-            <a href={p.repo} target="_blank" rel="noreferrer" style={{ fontSize: 11, color: "oklch(0.6 0.006 255)" }}>
-              --source
+            <a href={p.repo} target="_blank" rel="noreferrer" className="link-quiet">
+              --source ↗
             </a>
           )}
         </div>
       </div>
-    </div>
+    </article>
   );
 }

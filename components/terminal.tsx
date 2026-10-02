@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { projects } from "@/lib/projects";
 
 type HistoryEntry = { showPrompt: boolean; cmd?: string; lines: string[] };
 
@@ -15,11 +16,7 @@ const COMMANDS: Record<string, string[]> = {
   skills: [
     "JavaScript, TypeScript, React, Next.js, Node.js, Python, PostgreSQL, MongoDB, Docker, Git, Tailwind CSS, Firebase, Supabase",
   ],
-  projects: [
-    "SyncCanvas — real-time collaborative whiteboard (Next.js, Yjs, WebSockets)",
-    "AutoDocs — AI documentation generator (Python, Streamlit)",
-    "StageLink — SSR event platform (Next.js, Firebase)",
-  ],
+  projects: projects.map((p) => `${p.title} — ${p.tags.slice(0, 3).join(", ")}`),
   experience: [
     "Full Stack Developer Intern @ Qyupe — Jan 2026–Sept 2026",
     "Founding Backend Engineer @ BlissMet — Jun 2025–Dec 2025",
