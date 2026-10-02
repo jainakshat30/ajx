@@ -48,7 +48,6 @@ export function Pipeline() {
 
       {/* wide screens: the full rail in the left gutter */}
       <nav className="pipe-rail" aria-label="Page sections">
-        <span className="pipe-rail-title">ci / akshat</span>
         <ol>
           {STAGES.map((s, i) => {
             const state = done || i < current ? "passed" : i === current ? "running" : "queued";

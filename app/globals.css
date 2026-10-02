@@ -915,7 +915,6 @@ p.boot-line {
     box-shadow: 0 0 0 4px color-mix(in oklab, var(--signal) 18%, transparent);
     animation: running 1.4s ease-in-out infinite;
   }
-  .pipe-rail-title,
   .pipe-rail-status {
     font-size: 10px;
     color: var(--dim);
