@@ -9,7 +9,6 @@ import { projects } from "@/lib/projects";
 import { Reveal } from "@/components/reveal";
 import { WordReveal } from "@/components/word-reveal";
 import { GitTimeline, type Commit } from "@/components/git-timeline";
-import { SkillMap } from "@/components/skill-map";
 import { STAGES } from "@/lib/stages";
 import { BRAND_COLORS, MONO_ICONS, TOOL_ICONS } from "@/lib/tool-icons";
 import { Pipeline } from "@/components/pipeline";
@@ -269,12 +268,8 @@ export default async function Page() {
 
       {/* stage 04 — build */}
       <section id="build" className="stage" data-cat-section="oh — Akshat's skill set">
-        <Stage id="build" cmd="cat skills.json" title="The toolchain that does the building." />
+        <Stage id="build" cmd="ls node_modules/.toolbox" title="The toolchain that does the building." />
         <Reveal>
-          <SkillMap skills={skills} />
-        </Reveal>
-        <Reveal delay={0.1} style={{ marginTop: 18 }}>
-          <p className="file-label">$ ls node_modules/.toolbox</p>
           <Marquee rows={[toolbox.slice(0, Math.ceil(toolbox.length / 2)), toolbox.slice(Math.ceil(toolbox.length / 2))]} />
         </Reveal>
       </section>

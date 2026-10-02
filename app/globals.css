@@ -559,12 +559,6 @@ p.boot-line {
   color: var(--muted);
 }
 
-.panel {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--panel);
-}
-
 .chip {
   font-size: 10px;
   padding: 2px 8px;
@@ -667,29 +661,6 @@ p.boot-line {
   border-radius: 50%;
   background: var(--bg);
   border: 2px solid var(--accent);
-}
-
-/* skills.json */
-.skill {
-  padding: 0 1px;
-  border: none;
-  border-radius: 3px;
-  background: none;
-  font: inherit;
-  color: var(--accent);
-  cursor: pointer;
-  transition:
-    background 140ms ease,
-    color 140ms ease;
-}
-.skill:hover,
-.skill[aria-pressed="true"] {
-  background: color-mix(in oklab, var(--signal) 18%, transparent);
-  color: var(--signal);
-}
-.skill-hit {
-  color: var(--ok);
-  animation: boot-in 300ms ease both;
 }
 
 /* project cards: tilt + spotlight from pointer-set vars */
@@ -833,7 +804,6 @@ p.boot-line {
 
 @media (prefers-reduced-motion: reduce) {
   .boot-line,
-  .skill-hit,
   .marquee-track {
     animation: none;
   }
