@@ -11,7 +11,7 @@ import { WordReveal } from "@/components/word-reveal";
 import { GitTimeline, type Commit } from "@/components/git-timeline";
 import { SkillMap } from "@/components/skill-map";
 import { STAGES } from "@/lib/stages";
-import { TOOL_ICONS } from "@/lib/tool-icons";
+import { MONO_ICONS, TOOL_ICONS } from "@/lib/tool-icons";
 import { Pipeline } from "@/components/pipeline";
 
 const work: Commit[] = [
@@ -130,7 +130,7 @@ function Marquee({ rows }: { rows: string[][] }) {
             const Icon = TOOL_ICONS[t];
             return (
               <span key={j} className={j < row.length ? "chip marquee-chip" : "chip marquee-chip marquee-dup"}>
-                {Icon && <Icon className="marquee-icon" />}
+                {Icon && <Icon className="marquee-icon" data-mono={MONO_ICONS.has(t) || undefined} />}
                 {t}
               </span>
             );

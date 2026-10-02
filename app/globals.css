@@ -618,6 +618,10 @@ p.boot-line {
   height: 14px;
   flex-shrink: 0;
 }
+.marquee-icon[data-mono],
+.marquee-icon[data-mono] path {
+  fill: currentColor;
+}
 @keyframes marquee-left {
   to {
     transform: translateX(-50%);

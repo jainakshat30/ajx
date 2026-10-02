@@ -19,3 +19,6 @@ export const TOOL_ICONS: Record<string, typeof Express> = {
   Streamlit,
   Zustand,
 };
+
+// Single-colour logos drawn near-black; tinted to the chip text so they show on the dark theme.
+export const MONO_ICONS = new Set(["Express", "GitHub API", "Prisma"]);
