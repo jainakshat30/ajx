@@ -13,6 +13,7 @@ export const projects: Project[] = [
     desc: "Real-time collaborative whiteboard with sub-second CRDT sync over WebSockets, persisted to Postgres.",
     tags: ["Next.js", "Yjs", "WebSockets", "PostgreSQL", "Prisma"],
     live: "https://whiteboard-web-1.vercel.app/",
+    repo: "https://github.com/jainakshat30/whiteboard",
     image: "/whiteBoard.png",
   },
   {
