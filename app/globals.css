@@ -621,9 +621,10 @@ p.boot-line {
   height: 14px;
   flex-shrink: 0;
 }
+/* black-brand logos use their official on-dark (white) version */
 .marquee-icon[data-mono],
 .marquee-icon[data-mono] path {
-  fill: currentColor;
+  fill: var(--hi);
 }
 @keyframes marquee-left {
   to {

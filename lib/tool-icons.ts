@@ -34,7 +34,7 @@ export const TOOL_ICONS: Record<string, React.ComponentType<{ className?: string
   Yjs: YjsSymbol,
 };
 
-// Single-colour logos drawn near-black; tinted to the chip text so they show on the dark theme.
+// Black-brand logos; drawn in their white on-dark variant so they show on the dark theme.
 export const MONO_ICONS = new Set(["Express", "GitHub API", "Prisma"]);
 
 // Official brand colours, straight from simple-icons; applied as the logo's currentColor.
