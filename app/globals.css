@@ -454,19 +454,10 @@ textarea::placeholder {
   max-width: 46ch;
 }
 
-/* boot log: each line lands in turn, then the name */
-.boot {
-  margin-bottom: 18px;
-  font-size: 12px;
-  color: var(--muted);
-}
-.boot p,
+/* hero lines land in turn */
 .boot-line {
   animation: boot-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: calc(var(--i) * 170ms + 120ms);
-}
-.boot p {
-  margin: 0 0 3px;
 }
 p.boot-line {
   margin: 0;
@@ -477,12 +468,6 @@ p.boot-line {
   margin-top: 22px;
   font-size: 14px;
   color: var(--body);
-}
-.boot-ok {
-  color: var(--ok);
-}
-.boot-run {
-  color: var(--signal);
 }
 @keyframes boot-in {
   from {
@@ -948,7 +933,6 @@ p.boot-line {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .boot p,
   .boot-line,
   .scroll-cue,
   .skill-hit,

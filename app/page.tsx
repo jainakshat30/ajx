@@ -98,13 +98,6 @@ const socialLinks = [
   { href: "https://www.linkedin.com/in/jainakshat30/", label: "linkedin" },
 ];
 
-const bootLog = [
-  ["ok", "mounting /home/akshat"],
-  ["ok", "loading curiosity.so"],
-  ["ok", "starting daemon (the cat)"],
-  ["..", "turning random ideas into shipped things"],
-];
-
 const BIO =
   "22-year-old developer from India who enjoys turning random ideas into things that actually work. Spent the last year building full-stack, AI-powered, and real-time systems — currently building, breaking, fixing, and occasionally wondering why the code worked five minutes ago.";
 
@@ -187,27 +180,20 @@ export default async function Page() {
       {/* stage 00 — boot */}
       <section id="boot" className="hero" data-cat-section="oh — this is Akshat">
         <div>
-          <div className="boot" aria-label="Boot log">
-            {bootLog.map(([s, line], i) => (
-              <p key={line} style={{ "--i": i } as React.CSSProperties}>
-                <span className={s === "ok" ? "boot-ok" : "boot-run"}>[ {s} ]</span> {line}
-              </p>
-            ))}
-          </div>
-          <p className="boot-line" style={{ "--i": bootLog.length } as React.CSSProperties}>
+          <p className="boot-line" style={{ "--i": 0 } as React.CSSProperties}>
             $ whoami
           </p>
-          <h1 className="hero-name boot-line" style={{ "--i": bootLog.length + 1 } as React.CSSProperties}>
+          <h1 className="hero-name boot-line" style={{ "--i": 1 } as React.CSSProperties}>
             Akshat
             <br />
             Jain<span className="caret" style={{ color: "var(--accent)" }}>_</span>
           </h1>
-          <p className="hero-sub boot-line" style={{ "--i": bootLog.length + 2 } as React.CSSProperties}>
+          <p className="hero-sub boot-line" style={{ "--i": 2 } as React.CSSProperties}>
             Full-stack developer in India. This page is a pipeline: scroll, and watch an idea get
             built, shipped, and deployed to you.
           </p>
 
-          <div className="boot-line" style={{ "--i": bootLog.length + 3, marginTop: 28, display: "flex", flexWrap: "wrap", gap: 10 } as React.CSSProperties}>
+          <div className="boot-line" style={{ "--i": 3, marginTop: 28, display: "flex", flexWrap: "wrap", gap: 10 } as React.CSSProperties}>
             <a
               href="https://drive.google.com/file/d/1dx9-7m9U5smmfuV-ioSmGqJnnUKlT_1G/view?usp=sharing"
               target="_blank"
