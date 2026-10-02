@@ -426,6 +426,18 @@ textarea::placeholder {
   min-height: calc(100dvh - 70px);
   padding: 56px 0 80px;
 }
+/* slate gradient fill (MotionSites "Portfolio About" heading) */
+.hero-name,
+.stage-title {
+  background: linear-gradient(180deg, var(--hi) 30%, #bbccd7 70%, #646973 115%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-name .caret {
+  -webkit-text-fill-color: var(--accent);
+}
+
 .hero-name {
   margin: 4px 0 0;
   font-size: clamp(56px, 9vw, 104px);
@@ -605,6 +617,48 @@ p.boot-line {
 .link-quiet {
   font-size: 11px;
   color: oklch(0.6 0.006 255);
+}
+
+.marquee {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  gap: 8px;
+  width: max-content;
+  animation: marquee-left 70s linear infinite;
+}
+.marquee-track[data-dir="right"] {
+  animation-name: marquee-right;
+  animation-duration: 80s;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.marquee-chip {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  white-space: nowrap;
+}
+@keyframes marquee-left {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: none;
+  }
 }
 
 /* git graph: a dim branch line, and a beam that draws down it on scroll */
@@ -899,8 +953,16 @@ p.boot-line {
   .boot-line,
   .scroll-cue,
   .skill-hit,
-  .pipe-rail li[data-state="running"] .pipe-dot {
+  .pipe-rail li[data-state="running"] .pipe-dot,
+  .marquee-track {
     animation: none;
+  }
+  .marquee-track {
+    flex-wrap: wrap;
+    width: auto;
+  }
+  .marquee-dup {
+    display: none;
   }
   .card {
     transform: none;

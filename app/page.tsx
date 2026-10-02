@@ -51,6 +51,11 @@ const skills = [
   "Supabase",
 ];
 
+// everything else the projects and jobs actually run on
+const toolbox = [...new Set([...work.flatMap((w) => w.stack ?? []), ...projects.flatMap((p) => p.tags)])].filter(
+  (t) => !skills.includes(t),
+);
+
 const achievements = [
   {
     title: "SemiFinalist – HackWithMait 5.0, MAIT",
@@ -116,6 +121,25 @@ function Stage({ id, cmd, title }: { id: (typeof STAGES)[number]["id"]; cmd: str
       </p>
       <h2 className="stage-title">{title}</h2>
     </Reveal>
+  );
+}
+
+// Two rows drifting in opposite directions (MotionSites "Max Reed" marquee).
+// Decorative duplicate of real data, so hidden from assistive tech.
+function Marquee({ rows }: { rows: string[][] }) {
+  return (
+    <div className="marquee" aria-hidden="true">
+      {rows.map((row, i) => (
+        <div key={i} className="marquee-track" data-dir={i % 2 ? "right" : "left"}>
+          {/* 4 copies: each -50% half must out-span the column or the loop shows a gap */}
+          {[...row, ...row, ...row, ...row].map((t, j) => (
+            <span key={j} className={j < row.length ? "chip marquee-chip" : "chip marquee-chip marquee-dup"}>
+              {t}
+            </span>
+          ))}
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -256,6 +280,10 @@ export default async function Page() {
         <Stage id="build" cmd="cat skills.json" title="The toolchain that does the building." />
         <Reveal>
           <SkillMap skills={skills} />
+        </Reveal>
+        <Reveal delay={0.1} style={{ marginTop: 18 }}>
+          <p className="file-label">$ ls node_modules/.toolbox</p>
+          <Marquee rows={[toolbox.slice(0, Math.ceil(toolbox.length / 2)), toolbox.slice(Math.ceil(toolbox.length / 2))]} />
         </Reveal>
       </section>
 
