@@ -309,8 +309,8 @@ export default async function Page() {
       {/* stage 07 — connect */}
       <section id="connect" className="stage" data-cat-section="ooh — say hi to Akshat here">
         <Stage id="connect" cmd="./send-message --interactive" title="Last stage needs your input." />
-        <div className="tr-cols-2" style={{ alignItems: "start" }}>
-          <Reveal>
+        <div className="tr-cols-2">
+          <Reveal style={{ display: "flex", flexDirection: "column" }}>
             <p className="file-label">
               interactive terminal &mdash; try <span style={{ color: "var(--hi)" }}>help</span>
             </p>
