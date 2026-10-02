@@ -12,6 +12,7 @@
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
+    "@devicons-pack/react": "^2.1.0",
     "lottie-react": "^3.1.1",
     "motion": "^13.5.0",
     "next": "^16.1.4",
