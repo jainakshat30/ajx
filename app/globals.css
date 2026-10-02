@@ -804,7 +804,7 @@ p.boot-line {
   font-weight: 600;
 }
 
-/* ---- pipeline rail ---- */
+/* ---- scroll progress bar ---- */
 .pipe-bar {
   position: fixed;
   inset: 0 0 auto 0;
@@ -817,98 +817,6 @@ p.boot-line {
   height: 100%;
   transform-origin: left;
   background: linear-gradient(to right, var(--accent), var(--signal));
-}
-.pipe-bar-label {
-  display: none;
-}
-.pipe-rail {
-  display: none;
-}
-
-@media (min-width: 1320px) {
-  .pipe-bar {
-    display: none;
-  }
-  .pipe-rail {
-    position: fixed;
-    left: max(24px, calc((100vw - 1000px) / 2 - 170px));
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 20;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    width: 130px;
-    font-size: 11px;
-    color: var(--muted);
-  }
-  .pipe-rail ol {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .pipe-rail ol::before {
-    content: "";
-    position: absolute;
-    left: 7px;
-    top: 8px;
-    bottom: 8px;
-    width: 1px;
-    background: var(--line);
-  }
-  .pipe-rail a {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--dim);
-    transition: color 200ms ease;
-  }
-  .pipe-rail a:hover {
-    color: var(--hi);
-  }
-  .pipe-dot {
-    position: relative;
-    display: grid;
-    place-items: center;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    border: 1px solid var(--line);
-    background: var(--bg);
-    font-size: 9px;
-    line-height: 1;
-    transition:
-      background 240ms ease,
-      border-color 240ms ease;
-  }
-  .pipe-rail li[data-state="passed"] a {
-    color: var(--body);
-  }
-  .pipe-rail li[data-state="passed"] .pipe-dot {
-    border-color: var(--ok);
-    color: var(--ok);
-  }
-  .pipe-rail li[data-state="running"] a {
-    color: var(--hi);
-  }
-  .pipe-rail li[data-state="running"] .pipe-dot {
-    border-color: var(--signal);
-    box-shadow: 0 0 0 4px color-mix(in oklab, var(--signal) 18%, transparent);
-    animation: running 1.4s ease-in-out infinite;
-  }
-  .pipe-rail-status {
-    font-size: 10px;
-    color: var(--dim);
-  }
-}
-@keyframes running {
-  50% {
-    box-shadow: 0 0 0 7px color-mix(in oklab, var(--signal) 6%, transparent);
-  }
 }
 
 @media (max-width: 720px) {
@@ -936,7 +844,6 @@ p.boot-line {
   .boot-line,
   .scroll-cue,
   .skill-hit,
-  .pipe-rail li[data-state="running"] .pipe-dot,
   .marquee-track {
     animation: none;
   }
