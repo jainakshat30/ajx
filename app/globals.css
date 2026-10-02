@@ -1010,3 +1010,11 @@ p.boot-line {
   color: var(--muted);
   white-space: nowrap;
 }
+/* the cat's cursor layer can't reach the dialog top layer, so give the real cursor back */
+.cat-active .sheet,
+.cat-active .sheet * {
+  cursor: auto !important;
+}
+.cat-active .sheet :is(a, button) {
+  cursor: pointer !important;
+}
