@@ -95,7 +95,7 @@ export function ProjectOverlay({
           {repo && repo.languages.length > 0 && (
             <div className="sheet-section">
               <p className="file-label">languages</p>
-              <div className="lang-bar" role="img" aria-label={repo.languages.map((l) => `${l.name} ${l.pct.toFixed(1)}%`).join(", ")}>
+              <div className="lang-bar" aria-hidden="true">
                 {repo.languages.map((l) => (
                   <span key={l.name} style={{ flexGrow: l.pct, background: LANG_COLORS[l.name] ?? "var(--accent)" }} />
                 ))}
