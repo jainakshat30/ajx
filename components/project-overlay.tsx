@@ -89,7 +89,7 @@ export function ProjectOverlay({
               </div>
             </dl>
           ) : (
-            <p className="sheet-note">{"// source isn't public — details from the portfolio"}</p>
+            <p className="sheet-note">{"// no public GitHub repo to pull live details from"}</p>
           )}
 
           {repo && repo.languages.length > 0 && (
@@ -152,8 +152,9 @@ export function ProjectOverlay({
                 open live ↗
               </a>
             )}
-            {(repo?.url ?? p.repo) && (
-              <a href={repo?.url ?? p.repo} target="_blank" rel="noreferrer" className="btn-ghost">
+            {/* only when GitHub actually served the repo: a private one would 404 */}
+            {repo && (
+              <a href={repo.url} target="_blank" rel="noreferrer" className="btn-ghost">
                 view source ↗
               </a>
             )}
