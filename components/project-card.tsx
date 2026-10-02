@@ -3,12 +3,13 @@
 import Image from "next/image";
 import { useRef } from "react";
 import type { Project } from "@/lib/projects";
+import type { RepoDetails } from "@/lib/github-repos";
 
 const MAX_TILT = 5; // deg
 
 // Tilt + cursor spotlight (the 21st.dev "Tilt Card" idea), driven by CSS vars
 // so the pointer never triggers a React render.
-export function ProjectCard({ project: p }: { project: Project }) {
+export function ProjectCard({ project: p, repo }: { project: Project; repo?: RepoDetails }) {
   const zoom = useRef<HTMLDialogElement>(null);
 
   const onMove = (e: React.PointerEvent<HTMLElement>) => {

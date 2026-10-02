@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Terminal } from "@/components/terminal";
 import { ContactForm } from "@/components/contact-form";
 import { getContributions } from "@/lib/github-contributions";
+import { getRepoDetails } from "@/lib/github-repos";
 import { ContributionGraph } from "@/components/contribution-graph";
 import { ProjectCard } from "@/components/project-card";
 import { projects } from "@/lib/projects";
@@ -161,7 +162,8 @@ function Notes({ items }: { items: { title: string; date: string; description: s
 }
 
 export default async function Page() {
-  const contrib = await getContributions();
+  const featured = projects.slice(0, 4);
+  const [contrib, repos] = await Promise.all([getContributions(), getRepoDetails(featured)]);
 
   return (
     <>
@@ -278,9 +280,9 @@ export default async function Page() {
       <section id="ship" className="stage" data-cat-section="oh — Akshat's projects">
         <Stage id="ship" cmd="ls -la ./projects" title="Shipped. Out of localhost and into the world." />
         <div className="tr-cols-projects">
-          {projects.slice(0, 4).map((p, i) => (
+          {featured.map((p, i) => (
             <Reveal key={p.title} delay={(i % 2) * 0.08} style={{ display: "flex" }}>
-              <ProjectCard project={p} />
+              <ProjectCard project={p} repo={repos[p.title]} />
             </Reveal>
           ))}
         </div>

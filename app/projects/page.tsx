@@ -3,13 +3,16 @@ import Link from "next/link";
 import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
 import { projects } from "@/lib/projects";
+import { getRepoDetails } from "@/lib/github-repos";
 
 export const metadata: Metadata = {
   title: "projects — akshat@portfolio",
   description: "Things Akshat Jain has built.",
 };
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const repos = await getRepoDetails(projects);
+
   return (
     <>
       <nav className="topnav">
@@ -29,7 +32,7 @@ export default function ProjectsPage() {
         <div className="tr-cols-projects">
           {projects.map((p, i) => (
             <Reveal key={p.title} delay={(i % 2) * 0.08} style={{ display: "flex" }}>
-              <ProjectCard project={p} />
+              <ProjectCard project={p} repo={repos[p.title]} />
             </Reveal>
           ))}
         </div>
