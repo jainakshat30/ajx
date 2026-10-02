@@ -613,6 +613,9 @@ p.boot-line {
   background: var(--panel);
   white-space: nowrap;
 }
+.marquee-icon-wrap {
+  display: inline-flex;
+}
 .marquee-icon {
   width: 14px;
   height: 14px;
