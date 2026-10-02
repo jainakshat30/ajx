@@ -82,6 +82,10 @@ export function Terminal() {
         overflow: "hidden",
         background: "oklch(0.11 0.004 255)",
         cursor: "text",
+        // grows to fill a stretched parent (e.g. beside the contact form)
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <div
@@ -102,7 +106,7 @@ export function Terminal() {
       </div>
       <div
         ref={bodyRef}
-        style={{ padding: "14px 16px", height: 260, overflowY: "auto", fontSize: 13, lineHeight: 1.7 }}
+        style={{ padding: "14px 16px", flex: "1 1 0", minHeight: 260, overflowY: "auto", fontSize: 13, lineHeight: 1.7 }}
       >
         {history.map((h, i) => (
           <div key={i} style={{ marginBottom: 8 }}>
