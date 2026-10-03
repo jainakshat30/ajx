@@ -230,12 +230,12 @@ export default async function Page() {
 
         <Reveal delay={0.3} y={30}>
           <figure className="photo">
-            <figcaption>~/me.png</figcaption>
+            <figcaption>~/me.jpg</figcaption>
             <Image
-              src="/me-modified.png"
+              src="/me.jpg"
               alt="Akshat Jain"
-              width={1130}
-              height={980}
+              width={2000}
+              height={1500}
               priority
               style={{ display: "block", width: "100%", height: "auto" }}
             />
